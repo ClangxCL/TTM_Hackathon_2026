@@ -1,0 +1,10 @@
+﻿HOSPCODE,PID,CHRONIC_CODE,CHRONIC_NAME,D_DIAG
+11400,HN-DEMO-002,I48.9,"Atrial fibrillation, unspecified",2023-03-15
+11400,HN-DEMO-003,I10,Essential (primary) hypertension,2022-07-10
+11400,HN-DEMO-004,E11.9,Type 2 diabetes mellitus without complications,2021-11-04
+11400,HN-DEMO-005,J30.4,"Allergic rhinitis, unspecified",2024-02-11
+11400,HN-DEMO-006,E78.0,Pure hypercholesterolaemia,2023-09-19
+11400,HN-DEMO-008,I25.1,Atherosclerotic heart disease,2020-05-12
+11400,HN-DEMO-008,I63.9,"Cerebral infarction, unspecified",2023-08-30
+11400,HN-DEMO-010,I50.9,"Heart failure, unspecified",2021-04-18
+11400,HN-DEMO-010,I48,Atrial fibrillation and flutter,2021-04-18

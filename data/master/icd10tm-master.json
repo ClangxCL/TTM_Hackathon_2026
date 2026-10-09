@@ -1,0 +1,82 @@
+[
+  {
+    "icd10tm_code": "U56.19",
+    "thai_diagnosis_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+    "traditional_concept": "ไข้หวัดน้อย เกิดในคัมภีร์ตักกะศิลา อาการสะบัดร้อนสะบัดหนาว ปวดศีรษะ ไอ จาม น้ำมูกตก ศอเสมหะกำเริบ",
+    "icd10_conventional_code": "J00",
+    "icd10_conventional_name": "Acute nasopharyngitis [common cold]",
+    "typical_ttm_treatment": "ยาฟ้าทะลายโจร หรือ ยาประสะจันทน์แดง, ยาประสะมะแว้ง, ยาน้ำมะขามป้อมแก้ไอ",
+    "category": "โรคระบบทางเดินหายใจ (U56)",
+    "verification_status": "อิงคู่มือเปรียบเทียบโรคและอาการด้านการแพทย์แผนไทย (2568)"
+  },
+  {
+    "icd10tm_code": "U61.2",
+    "thai_diagnosis_name": "ลมปะกัง หรือ ลมตะกัง",
+    "traditional_concept": "ปวดศีรษะข้างเดียวหรือสองข้าง ลมอุทธังคมาวาตา (ลมเบื้องสูง) ติดขัด เลือดลมเดินไม่สะดวก ตาพร่ามัว คลื่นไส้",
+    "icd10_conventional_code": "G43.9",
+    "icd10_conventional_name": "Migraine, unspecified",
+    "typical_ttm_treatment": "นวดไทยเพื่อการบำบัดรักษา (นวดแก้อาการลมปะกัง), ยาหอมนวโกฐ, ยาปราบชมพูทวีป",
+    "category": "โรคระบบประสาทและศีรษะ (U61)",
+    "verification_status": "อิงคู่มือเปรียบเทียบโรคและอาการด้านการแพทย์แผนไทย (2568)"
+  },
+  {
+    "icd10tm_code": "U55.20",
+    "thai_diagnosis_name": "ลมปลายปัตฆาตสัญญาณ 4, 5 หลัง (ปวดหลังส่วนล่าง)",
+    "traditional_concept": "ลมติดขัดบริเวณเส้นเอ็นหลังส่วนล่างและสะโพก มังสังและนหารูตึงขัด กษัยเส้น",
+    "icd10_conventional_code": "M54.5",
+    "icd10_conventional_name": "Low back pain",
+    "typical_ttm_treatment": "นวดไทยเพื่อการบำบัดรักษา, ประคบสมุนไพร, ยาเถาวัลย์เปรียง, ครีมไพล",
+    "category": "โรคกล้ามเนื้อ กระดูก และข้อ (U55)",
+    "verification_status": "อิงคู่มือเปรียบเทียบโรคและอาการด้านการแพทย์แผนไทย (2568)"
+  },
+  {
+    "icd10tm_code": "U55.11",
+    "thai_diagnosis_name": "ลมจับโปงแห้งเข่า (ข้อเข่าเสื่อม)",
+    "traditional_concept": "ลสิกา (น้ำไขข้อ) หย่อน อัฐิและนหารูเสื่อมโทรม ลมกักขังในข้อเข่า ขัดข้อ มีเสียงดังกรอบแกรบ",
+    "icd10_conventional_code": "M17.9",
+    "icd10_conventional_name": "Osteoarthritis of knee, unspecified",
+    "typical_ttm_treatment": "พอกเข่าสมุนไพร, ประคบสมุนไพร, ยาน้ำมันไพล, ยาสหัศธารา",
+    "category": "โรคกล้ามเนื้อ กระดูก และข้อ (U55)",
+    "verification_status": "อิงคู่มือเปรียบเทียบโรคและอาการด้านการแพทย์แผนไทย (2568)"
+  },
+  {
+    "icd10tm_code": "U60.10",
+    "thai_diagnosis_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+    "traditional_concept": "โกฏฐาสยาวาตาและกุจฉิสยาวาตากำเริบ ไฟธาตุย่อยอาหาร (ปริณามัคคี) หย่อน ลมไม่พัดลงล่าง ตีขึ้นจุกแน่นยอดอก",
+    "icd10_conventional_code": "K30",
+    "icd10_conventional_name": "Functional dyspepsia",
+    "typical_ttm_treatment": "ยาขิง, ยาขมิ้นชัน, ยาธาตุอบเชย, ยาหอมนวโกฐ",
+    "category": "โรคระบบทางเดินอาหาร (U60)",
+    "verification_status": "อิงคู่มือเปรียบเทียบโรคและอาการด้านการแพทย์แผนไทย (2568)"
+  },
+  {
+    "icd10tm_code": "U70.10",
+    "thai_diagnosis_name": "ลมพิษ / ประดงเลือด",
+    "traditional_concept": "วาโยและโลหิตระส่ำระสาย เตโชกำเริบขึ้นผิวหนัง ทำให้เกิดเม็ดผื่นแดง คัน แสบร้อน ตะโจพิการชั่วคราว",
+    "icd10_conventional_code": "L50.9",
+    "icd10_conventional_name": "Urticaria, unspecified",
+    "typical_ttm_treatment": "ยารางจืด, ยาประสะจันทน์แดง, ยาบัวบก, ชโลมหรือพอกสมุนไพรฤทธิ์เย็น",
+    "category": "โรคผิวหนัง (U70)",
+    "verification_status": "อิงคู่มือเปรียบเทียบโรคและอาการด้านการแพทย์แผนไทย (2568)"
+  },
+  {
+    "icd10tm_code": "U65.10",
+    "thai_diagnosis_name": "โรคลมเพลิง (ความดันโลหิตสูงและลมตีขึ้น)",
+    "traditional_concept": "สุมนาวาตะและลมอุทธังคมาวาตากำเริบจัด ร่วมกับสันตัปปัคคีและหทัยวาตะกำเริบ หน้าแดง ตาแดง ตึงท้ายทอย",
+    "icd10_conventional_code": "I10",
+    "icd10_conventional_name": "Essential (primary) hypertension",
+    "typical_ttm_treatment": "ปรับพฤติกรรม, อาหารรสขมเย็น, ยาหอมเทพจิตร, ห้ามใช้ยาตำรับรสร้อนจัด",
+    "category": "โรคระบบไหลเวียนโลหิต (U65)",
+    "verification_status": "อิงคู่มือเปรียบเทียบโรคและอาการด้านการแพทย์แผนไทย (2568)"
+  },
+  {
+    "icd10tm_code": "U69.00",
+    "thai_diagnosis_name": "โรคมธุรส / เบาหวานแบบแพทย์แผนไทย",
+    "traditional_concept": "อาโปธาตุกำเริบ มุตตัง (ปัสสาวะ) หวาน กรีสังและมังสังทรุดโทรม ปริณามัคคีแปรปรวน อ่อนเพลีย กระหายน้ำ",
+    "icd10_conventional_code": "E11.9",
+    "icd10_conventional_name": "Type 2 diabetes mellitus without complications",
+    "typical_ttm_treatment": "ยามะระขี้นก, ชาใบหม่อน, ปรับพฤติกรรมบริโภคอาหารรสจืด-ขม",
+    "category": "โรคต่อมไร้ท่อและเมแทบอลิซึม (U69)",
+    "verification_status": "อิงคู่มือเปรียบเทียบโรคและอาการด้านการแพทย์แผนไทย (2568)"
+  }
+]

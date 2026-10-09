@@ -1,0 +1,96 @@
+# ความโปร่งใสและการอธิบายผลการคำนวณของ AI (AI Explainability & Human-in-the-Loop)
+**โครงการ:** TTM Smutthan Engine Platform — Hackathon 2026  
+**ข้อความปฏิเสธความรับผิดชอบ:** *เอกสารนี้ใช้สำหรับข้อมูลสังเคราะห์เพื่อการสาธิตการแข่งขัน Hackathon 2026 เท่านั้น มิใช่ข้อมูลผู้ป่วยจริง*
+
+---
+
+## 1. ปรัชญาการออกแบบ: หลีกเลี่ยง Black Box ในบริบทสุขภาพ (Explainable by Design)
+
+ในการแพทย์แผนไทย การวินิจฉัยโรคผูกพันกับความเชื่อมั่นทางวิชาชีพและกฎหมาย หากใช้โมเดล Deep Learning แบบ Black Box ที่บอกเพียงว่า "คนไข้ธาตุลมกำเริบ 85%" โดยไม่สามารถอธิบายได้ว่ามาจากปัจจัยใด แพทย์จะไม่กล้านำไปใช้ในเวชปฏิบัติจริง
+
+**TTM Smutthan Engine** จึงใช้สถาปัตยกรรม **Deterministic Rule-based Core + GenAI Narrative Layer**:
+1. **Rule-based Engine (แกนหลักคำนวณ):** คำนวณคะแนนด้วยสูตรทางคณิตศาสตร์ที่โปร่งใส 100% สามารถตรวจสอบย้อนหลังได้ทุกคะแนน (Audit Trail)
+2. **Explainability Breakdown (การแจกแจงเหตุผล):** แสดงรายการเงื่อนไขที่ตรงกับคนไข้ พร้อมค่าผลกระทบ (Delta) ในแต่ละธาตุ
+3. **GenAI Narrative Layer (การสังเคราะห์ข้อความ):** ใช้ LLM ในการแปลงคะแนนและกฎเกณฑ์ให้ออกมาเป็นภาษาการแพทย์ที่กระชับ เหมาะกับการบันทึกลงเวชระเบียน (Subjective/Objective Notes)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                       INPUT FACTORS                         │
+│  [สภาพอากาศ]  +  [กาลเวลา]  +  [อายุ]  +  [สัญญาณชีพ]  +  [อาการ] │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│             DETERMINISTIC RULE SCORING ENGINE               │
+│  สูตรคณิตศาสตร์คงที่ (Deterministic) : ตรวจสอบได้ 100%        │
+│  คะแนนแต่ละธาตุ = 25 (ฐาน) + ∑ Delta(Weather, Kala, Age, ...)  │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                 ┌─────────────┴─────────────┐
+                 ▼                           ▼
+┌─────────────────────────────────┐ ┌─────────────────────────────────┐
+│     TRANSPARENT BREAKDOWN       │ │      GENAI CLINICAL NOTE        │
+│ - แสดงตารางกฎที่ Trigger        │ │ - สังเคราะห์บันทึกเวชระเบียน    │
+│ - แสดงผลบวก/ลบ ต่อ ดิน-น้ำ-ลม-ไฟ│ │ - ภายใต้ Guardrails เคร่งครัด   │
+│ - ตรวจสอบย้อนหลังได้ทุกคะแนน    │ │ - มี Fallback Template 100%     │
+└─────────────────────────────────┘ └─────────────────────────────────┘
+```
+
+---
+
+## 2. โครงสร้างน้ำหนักและกฎการคำนวณ (Rule Weights & Equations)
+
+### 2.1 คะแนนฐานเริ่มต้น (Baseline Score)
+$$S_{\text{base}}(\text{Earth}) = 25.0, \quad S_{\text{base}}(\text{Water}) = 25.0, \quad S_{\text{base}}(\text{Wind}) = 25.0, \quad S_{\text{base}}(\text{Fire}) = 25.0$$
+
+### 2.2 กฎอุตุสมุฏฐาน (Environmental / Weather Factors)
+- หาก $T_{\text{ambient}} \ge 35.0^\circ\text{C}$:
+  $$\Delta(\text{Fire}) = +18, \quad \Delta(\text{Wind}) = +5, \quad \Delta(\text{Water}) = -10$$
+- หาก $T_{\text{ambient}} \le 22.0^\circ\text{C}$:
+  $$\Delta(\text{Water}) = +15, \quad \Delta(\text{Wind}) = +5, \quad \Delta(\text{Fire}) = -10$$
+- หาก $\text{RH} \ge 80\%$:
+  $$\Delta(\text{Water}) = +14, \quad \Delta(\text{Wind}) = +5, \quad \Delta(\text{Fire}) = -5$$
+
+### 2.3 กฎกาลสมุฏฐาน (Temporal / Kala Factors)
+- เวลา 06:00 - 10:00 น. หรือ 18:00 - 22:00 น. (เสมหะกาล):
+  $$\Delta(\text{Water}) = +10, \quad \Delta(\text{Fire}) = -3$$
+- เวลา 10:00 - 14:00 น. (ปิตตะกาล):
+  $$\Delta(\text{Fire}) = +12, \quad \Delta(\text{Water}) = -4$$
+- เวลา 14:00 - 18:00 น. หรือ 22:00 - 06:00 น. (วาตะกาล):
+  $$\Delta(\text{Wind}) = +12, \quad \Delta(\text{Water}) = -3$$
+
+### 2.4 กฎอายุสมุฏฐาน (Age Factors)
+- อายุ $\le 16$ ปี (ปฐมวัย): $\Delta(\text{Water}) = +15, \quad \Delta(\text{Wind}) = -5$
+- อายุ $17 - 32$ ปี (มัชฌิมวัย): $\Delta(\text{Fire}) = +14, \quad \Delta(\text{Water}) = -5$
+- อายุ $\ge 32$ ปี (ปัจฉิมวัย): $\Delta(\text{Wind}) = +15, \quad \Delta(\text{Earth}) = +5, \quad \Delta(\text{Fire}) = -4$
+
+### 2.5 กฎสัญญาณชีพและอาการ (Vitals & Symptoms)
+- อุณหภูมิกาย $T_{\text{body}} \ge 37.8^\circ\text{C}$: $\Delta(\text{Fire}) = +25, \quad \Delta(\text{Water}) = -8$
+- ความดันโลหิต $\text{SBP} \ge 140$ หรือ $\text{DBP} \ge 90$: $\Delta(\text{Wind}) = +16, \quad \Delta(\text{Fire}) = +12$
+- กลุ่มอาการปวดเมื่อย/ชา/ตึง: $\Delta(\text{Wind}) = +20, \quad \Delta(\text{Earth}) = +8$
+
+---
+
+## 3. การควบคุม LLM และมาตรการป้องกันความปลอดภัย (GenAI Guardrails)
+
+เพื่อให้แน่ใจว่า AI จะไม่แต่งข้อมูลขึ้นมาเอง (No Hallucination) ระบบมีข้อกำหนดในการป้อน Prompt อย่างเข้มงวด:
+1. **Grounding on Deterministic Scores:** LLM ต้องอ้างอิงคะแนนและปัจจัยที่ Rule Engine คำนวณได้เท่านั้น ห้ามคิดคะแนนขึ้นมาใหม่
+2. **Strict Medical Disclaimer:** ข้อความที่ส่งออกทุกครั้งต้องลงท้ายด้วยข้อความปฏิเสธความรับผิดชอบ
+3. **Template Fallback Guarantee:** หากเครือข่ายขัดข้อง หรือไม่มี API Key ระบบจะสลับไปใช้ Structured Template ทันทีโดยไม่มีอาการหน้าค้าง
+
+---
+
+## 4. กลไกแพทย์เป็นผู้ตัดสินใจขั้นสุดท้าย (Human-in-the-Loop & Clinician Override)
+
+ระบบเคารพดุลยพินิจของแพทย์ผู้ประกอบวิชาชีพ โดยจัดเตรียมฟังก์ชัน **Clinician Override**:
+- แพทย์สามารถคลิกปุ่ม **"ปรับแก้ผลการประเมินธาตุ"** หากดุลยพินิจทางคลินิกแตกต่างจากที่ระบบวิเคราะห์
+- แพทย์ต้องระบุเหตุผลทางคลินิก (เช่น "ตรวจพบชีพจรเต้นเบาเร็วและลิ้นมีฝ้าขาวหนา บ่งชี้เสมหะกระทบวาตะ")
+- ข้อมูลการ Override จะถูกบันทึกเพื่อใช้ประเมิน **Inter-rater Reliability (Cohen's Kappa)** เพื่อนำมาปรับปรุงกฎเกณฑ์ในอนาคต
+
+```mermaid
+graph LR
+    A["ผลการคำนวณจากระบบ<br/>(AI Suggestion)"] --> B{"แพทย์เห็นด้วยหรือไม่?"}
+    B -->|"เห็นด้วย"| C["บันทึกลงเวชระเบียน<br/>(Agreed: +1)"]
+    B -->|"เห็นต่าง (Override)"| D["บันทึกธาตุที่แพทย์เลือก<br/>+ บันทึกเหตุผลทางคลินิก"]
+    D --> E["คำนวณ Cohen's Kappa<br/>ปรับปรุง Rule Base"]
+```

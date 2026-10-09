@@ -1,0 +1,1967 @@
+[
+  {
+    "case_id": "C01",
+    "patient_info": {
+      "hn": "HN-DEMO-001",
+      "name": "นางมาลี มีสุข (ข้อมูลสังเคราะห์)",
+      "gender": "หญิง",
+      "sex_code": "2",
+      "age": 45,
+      "birth_date": "1981-04-12",
+      "province": "กรุงเทพมหานคร",
+      "province_code": "10",
+      "region": "กรุงเทพฯ และปริมณฑล",
+      "occupation": "พนักงานสำนักงาน",
+      "birth_element": "เตโชธาตุ (ราศีเมษ)"
+    },
+    "current_encounter": {
+      "vn": "VN25690412001",
+      "date": "2026-04-12",
+      "time": "10:30:00",
+      "season": "คิมหันตฤดู (ฤดูร้อน)",
+      "ambient_context": {
+        "location": "กรุงเทพมหานคร",
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "temperature_c": 36.5,
+        "relative_humidity": 55,
+        "weather_condition": "แดดจัด ร้อนระอุ",
+        "kala_period": "10:00 - 14:00 (เตโช/ปิตตะ)"
+      },
+      "chief_complaint": "ท้องอืด จุกเสียด แน่นท้องหลังอาหาร เรอบ่อย ไม่อยากอาหาร 2 วัน",
+      "vitals": {
+        "btemp": 36.8,
+        "sbp": 118,
+        "dbp": 76,
+        "pr": 74,
+        "rr": 18,
+        "weight_kg": 58.0,
+        "height_cm": 160.0,
+        "bmi": 22.7
+      },
+      "symptoms": [
+        "แน่นท้อง",
+        "จุกเสียด",
+        "เรอเปรี้ยว",
+        "ไฟธาตุย่อยอาหารหย่อน"
+      ]
+    },
+    "chronic_diseases": [],
+    "current_medications": [],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000102019150011401",
+      "herb_name": "ยาแคปซูลขิง",
+      "dose_per_admin": 2,
+      "unit": "แคปซูล (500 มก.)",
+      "frequency_per_day": 3,
+      "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+      "days": 5,
+      "total_dispensed": 30,
+      "calculated_daily_dose_units": 6,
+      "calculated_daily_dose_mg": 3000,
+      "instruction": "รับประทานครั้งละ 2 แคปซูล วันละ 3 ครั้ง หลังอาหาร (หมายเหตุ: เจตนาใส่ขนาดเกินเพื่อทดสอบ Dosage Warning)",
+      "is_overdose_demo": true
+    },
+    "planned_procedure": {
+      "code": "9007720",
+      "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+      "fee": 150.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "ไม่มีข้อมูล / ไม่พบปฏิกิริยา",
+      "interaction_count": 0,
+      "dosage_warning": "แจ้งเตือนขนาดเกิน: 3,000 มก./วัน เกินขนาดสูงสุดที่แนะนำ (2,000 มก./วัน หรือ 4 แคปซูล/วัน)",
+      "smutthan_dominant": "วาโยธาตุกำเริบ (ลมจุกแน่น) ร่วมกับปริณามัคคีหย่อนในฤดูร้อน"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20251009005",
+        "date": "2025-10-09",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20251113004",
+        "date": "2025-11-13",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20251218003",
+        "date": "2025-12-18",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260122002",
+        "date": "2026-01-22",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260226001",
+        "date": "2026-02-26",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      }
+    ]
+  },
+  {
+    "case_id": "C02",
+    "patient_info": {
+      "hn": "HN-DEMO-002",
+      "name": "นายบุญมี สุขสว่าง (ข้อมูลสังเคราะห์)",
+      "gender": "ชาย",
+      "sex_code": "1",
+      "age": 72,
+      "birth_date": "1954-08-20",
+      "province": "พระนครศรีอยุธยา",
+      "province_code": "14",
+      "region": "ภาคกลาง",
+      "occupation": "ข้าราชการบำนาญ",
+      "birth_element": "วาโยธาตุ (ราศีสิงห์)"
+    },
+    "current_encounter": {
+      "vn": "VN25690820002",
+      "date": "2026-08-20",
+      "time": "14:15:00",
+      "season": "วสันตฤดู (ฤดูฝน)",
+      "ambient_context": {
+        "location": "พระนครศรีอยุธยา",
+        "latitude": 14.3532,
+        "longitude": 100.5684,
+        "temperature_c": 29.0,
+        "relative_humidity": 88,
+        "weather_condition": "ฝนตกปรอยๆ ลมชื้น",
+        "kala_period": "14:00 - 18:00 (วาโย/วาตะ)"
+      },
+      "chief_complaint": "แน่นจุกเสียดท้อง แสบร้อนยอดอก ทานอาหารไม่ย่อย มีลมตีขึ้น 1 สัปดาห์",
+      "vitals": {
+        "btemp": 36.6,
+        "sbp": 132,
+        "dbp": 82,
+        "pr": 72,
+        "rr": 18,
+        "weight_kg": 64.0,
+        "height_cm": 168.0,
+        "bmi": 22.7
+      },
+      "symptoms": [
+        "แน่นยอดอก",
+        "แสบร้อน",
+        "ท้องอืด",
+        "อาหารไม่ย่อย"
+      ]
+    },
+    "chronic_diseases": [
+      {
+        "icd10": "I48.9",
+        "name": "Atrial fibrillation, unspecified",
+        "diag_date": "2023-03-15"
+      }
+    ],
+    "current_medications": [
+      {
+        "drug_id": "MED-CONV-001",
+        "generic_name": "Warfarin sodium",
+        "brand_name": "Orfarin",
+        "dosage_form": "Tablet",
+        "strength_mg": 3.0,
+        "dose_per_admin_mg": 3.0,
+        "frequency_per_day": 1,
+        "timing": "ก่อนนอน",
+        "days": 30,
+        "calculated_daily_dose_mg": 3.0,
+        "route": "Oral"
+      }
+    ],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000122019150011402",
+      "herb_name": "ยาแคปซูลขมิ้นชัน",
+      "dose_per_admin": 2,
+      "unit": "แคปซูล (500 มก.)",
+      "frequency_per_day": 3,
+      "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+      "days": 10,
+      "total_dispensed": 60,
+      "calculated_daily_dose_units": 6,
+      "calculated_daily_dose_mg": 3000,
+      "instruction": "รับประทานครั้งละ 2 แคปซูล วันละ 3 ครั้ง หลังอาหาร",
+      "is_overdose_demo": false
+    },
+    "planned_procedure": {
+      "code": "9007710",
+      "name": "นวดไทยเพื่อการบำบัดรักษา",
+      "fee": 250.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "สูง",
+      "interaction_count": 1,
+      "target_pair": "Warfarin sodium + ขมิ้นชัน",
+      "dosage_warning": "อยู่ในเกณฑ์ปกติ (3,000 มก./วัน <= Max 4,000 มก./วัน)",
+      "smutthan_dominant": "ปัจฉิมวัย (72 ปี) วาโยธาตุกำเริบในฤดูฝน ร่วมกับโกฏฐาสยาวาตาติดขัด"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20260112006",
+        "date": "2026-01-12",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260216005",
+        "date": "2026-02-16",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260323004",
+        "date": "2026-03-23",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260427003",
+        "date": "2026-04-27",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260601002",
+        "date": "2026-06-01",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260706001",
+        "date": "2026-07-06",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      }
+    ]
+  },
+  {
+    "case_id": "C03",
+    "patient_info": {
+      "hn": "HN-DEMO-003",
+      "name": "นางสมทรง เวียงพิงค์ (ข้อมูลสังเคราะห์)",
+      "gender": "หญิง",
+      "sex_code": "2",
+      "age": 60,
+      "birth_date": "1966-12-05",
+      "province": "เชียงใหม่",
+      "province_code": "50",
+      "region": "ภาคเหนือ",
+      "occupation": "ค้าขาย",
+      "birth_element": "อาโปธาตุ (ราศีธนู)"
+    },
+    "current_encounter": {
+      "vn": "VN25691205003",
+      "date": "2026-12-05",
+      "time": "09:00:00",
+      "season": "เหมันตฤดู (ฤดูหนาว)",
+      "ambient_context": {
+        "location": "เชียงใหม่",
+        "latitude": 18.7883,
+        "longitude": 98.9853,
+        "temperature_c": 17.5,
+        "relative_humidity": 72,
+        "weather_condition": "หนาวเย็น มีหมอกตอนเช้า",
+        "kala_period": "06:00 - 10:00 (อาโป/เสมหะ)"
+      },
+      "chief_complaint": "ไอแห้งๆ ระคายคอ คอแห้ง เจ็บคอ มีเสมหะเหนียวขาวตอนเช้า 4 วัน",
+      "vitals": {
+        "btemp": 37.0,
+        "sbp": 142,
+        "dbp": 88,
+        "pr": 78,
+        "rr": 20,
+        "weight_kg": 62.0,
+        "height_cm": 155.0,
+        "bmi": 25.8
+      },
+      "symptoms": [
+        "ไอระคายคอ",
+        "เสมหะเหนียว",
+        "คอแห้ง",
+        "ความดันโลหิตลอยสูงเล็กน้อย"
+      ]
+    },
+    "chronic_diseases": [
+      {
+        "icd10": "I10",
+        "name": "Essential (primary) hypertension",
+        "diag_date": "2022-07-10"
+      }
+    ],
+    "current_medications": [
+      {
+        "drug_id": "MED-CONV-002",
+        "generic_name": "Amlodipine besilate",
+        "brand_name": "Norvasc",
+        "dosage_form": "Tablet",
+        "strength_mg": 5.0,
+        "dose_per_admin_mg": 5.0,
+        "frequency_per_day": 1,
+        "timing": "หลังอาหารเช้า",
+        "days": 30,
+        "calculated_daily_dose_mg": 5.0,
+        "route": "Oral"
+      },
+      {
+        "drug_id": "MED-CONV-003",
+        "generic_name": "Losartan potassium",
+        "brand_name": "Cozaar",
+        "dosage_form": "Tablet",
+        "strength_mg": 50.0,
+        "dose_per_admin_mg": 50.0,
+        "frequency_per_day": 1,
+        "timing": "หลังอาหารเช้า",
+        "days": 30,
+        "calculated_daily_dose_mg": 50.0,
+        "route": "Oral"
+      }
+    ],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000154019125011403",
+      "herb_name": "ยาชะเอมเทศผง / แคปซูล",
+      "dose_per_admin": 1,
+      "unit": "แคปซูล (250 มก.)",
+      "frequency_per_day": 3,
+      "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+      "days": 7,
+      "total_dispensed": 21,
+      "calculated_daily_dose_units": 3,
+      "calculated_daily_dose_mg": 750,
+      "instruction": "รับประทานครั้งละ 1 แคปซูล วันละ 3 ครั้ง หลังอาหาร",
+      "is_overdose_demo": false
+    },
+    "planned_procedure": {
+      "code": "9007730",
+      "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+      "fee": 120.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "ปานกลาง",
+      "interaction_count": 2,
+      "target_pair": "Amlodipine + ชะเอมเทศ และ Losartan + ชะเอมเทศ",
+      "dosage_warning": "อยู่ในเกณฑ์ปกติ",
+      "smutthan_dominant": "อาโปธาตุกำเริบ (ศอเสมหะ) ในฤดูหนาวร่วมกับกาลยามเช้า และความดันโลหิตสูง"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20260603005",
+        "date": "2026-06-03",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260708004",
+        "date": "2026-07-08",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260812003",
+        "date": "2026-08-12",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260916002",
+        "date": "2026-09-16",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20261021001",
+        "date": "2026-10-21",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      }
+    ]
+  },
+  {
+    "case_id": "C04",
+    "patient_info": {
+      "hn": "HN-DEMO-004",
+      "name": "นายประสิทธิ์ ศรีแก่น (ข้อมูลสังเคราะห์)",
+      "gender": "ชาย",
+      "sex_code": "1",
+      "age": 55,
+      "birth_date": "1971-05-18",
+      "province": "ขอนแก่น",
+      "province_code": "40",
+      "region": "ภาคตะวันออกเฉียงเหนือ",
+      "occupation": "เกษตรกร",
+      "birth_element": "ปถวีธาตุ (ราศีพฤษภ)"
+    },
+    "current_encounter": {
+      "vn": "VN25690518004",
+      "date": "2026-05-18",
+      "time": "11:20:00",
+      "season": "คิมหันตฤดู (ฤดูร้อน)",
+      "ambient_context": {
+        "location": "ขอนแก่น",
+        "latitude": 16.4322,
+        "longitude": 102.8236,
+        "temperature_c": 37.8,
+        "relative_humidity": 42,
+        "weather_condition": "แดดร้อนระอุ แห้งแล้ง",
+        "kala_period": "10:00 - 14:00 (เตโช/ปิตตะ)"
+      },
+      "chief_complaint": "อ่อนเพลีย ร้อนใน กระหายน้ำ ทานจุ คอแห้ง อยากหาสมุนไพรช่วยคุมน้ำตาล 1 สัปดาห์",
+      "vitals": {
+        "btemp": 37.1,
+        "sbp": 128,
+        "dbp": 80,
+        "pr": 82,
+        "rr": 18,
+        "weight_kg": 75.0,
+        "height_cm": 170.0,
+        "bmi": 25.9
+      },
+      "symptoms": [
+        "ร้อนใน",
+        "กระหายน้ำ",
+        "คอแห้ง",
+        "อ่อนเพลีย"
+      ]
+    },
+    "chronic_diseases": [
+      {
+        "icd10": "E11.9",
+        "name": "Type 2 diabetes mellitus without complications",
+        "diag_date": "2021-11-04"
+      }
+    ],
+    "current_medications": [
+      {
+        "drug_id": "MED-CONV-004",
+        "generic_name": "Metformin hydrochloride",
+        "brand_name": "Glucophage",
+        "dosage_form": "Tablet",
+        "strength_mg": 500.0,
+        "dose_per_admin_mg": 500.0,
+        "frequency_per_day": 2,
+        "timing": "พร้อมอาหาร เช้า-เย็น",
+        "days": 30,
+        "calculated_daily_dose_mg": 1000.0,
+        "route": "Oral"
+      },
+      {
+        "drug_id": "MED-CONV-005",
+        "generic_name": "Glipizide",
+        "brand_name": "Minidiab",
+        "dosage_form": "Tablet",
+        "strength_mg": 5.0,
+        "dose_per_admin_mg": 5.0,
+        "frequency_per_day": 1,
+        "timing": "ก่อนอาหารเช้า 30 นาที",
+        "days": 30,
+        "calculated_daily_dose_mg": 5.0,
+        "route": "Oral"
+      }
+    ],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000182019150011404",
+      "herb_name": "ยาแคปซูลมะระขี้นก",
+      "dose_per_admin": 1,
+      "unit": "แคปซูล (500 มก.)",
+      "frequency_per_day": 2,
+      "timing": "ก่อนอาหาร เช้า-เย็น",
+      "days": 14,
+      "total_dispensed": 28,
+      "calculated_daily_dose_units": 2,
+      "calculated_daily_dose_mg": 1000,
+      "instruction": "รับประทานครั้งละ 1 แคปซูล วันละ 2 ครั้ง ก่อนอาหาร",
+      "is_overdose_demo": false
+    },
+    "planned_procedure": {
+      "code": "9007710",
+      "name": "นวดไทยเพื่อการบำบัดรักษา",
+      "fee": 250.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "ปานกลาง",
+      "interaction_count": 2,
+      "target_pair": "Metformin + มะระขี้นก และ Glipizide + มะระขี้นก",
+      "dosage_warning": "อยู่ในเกณฑ์ปกติ",
+      "smutthan_dominant": "เตโชธาตุกำเริบ (ปริทัยหัคคี) ร่วมกับอาโปธาตุหย่อนในสภาพอากาศร้อนจัดภาคอีสาน"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20251219004",
+        "date": "2025-12-19",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260123003",
+        "date": "2026-01-23",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260227002",
+        "date": "2026-02-27",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      },
+      {
+        "vn": "VN20260403001",
+        "date": "2026-04-03",
+        "icd10tm_code": "U60.10",
+        "icd10tm_name": "ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)",
+        "icd10_conventional": "K30",
+        "procedure": {
+          "code": "9007720",
+          "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 150.0
+        },
+        "drug": {
+          "code_24": "420000000489469118011411",
+          "name": "ยาธาตุอบเชย",
+          "quantity": 1,
+          "cost_thb": 35.0
+        },
+        "total_cost_thb": 235.0
+      }
+    ]
+  },
+  {
+    "case_id": "C05",
+    "patient_info": {
+      "hn": "HN-DEMO-005",
+      "name": "นางสาววิภาวรรณ ชลธี (ข้อมูลสังเคราะห์)",
+      "gender": "หญิง",
+      "sex_code": "2",
+      "age": 38,
+      "birth_date": "1988-09-14",
+      "province": "กรุงเทพมหานคร",
+      "province_code": "10",
+      "region": "กรุงเทพฯ และปริมณฑล",
+      "occupation": "ดีไซเนอร์",
+      "birth_element": "ปถวีธาตุ (ราศีกันย์)"
+    },
+    "current_encounter": {
+      "vn": "VN25690914005",
+      "date": "2026-09-14",
+      "time": "15:45:00",
+      "season": "วสันตฤดู (ฤดูฝน)",
+      "ambient_context": {
+        "location": "กรุงเทพมหานคร",
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "temperature_c": 31.0,
+        "relative_humidity": 82,
+        "weather_condition": "ฝนตกชุก อากาศอบอ้าว",
+        "kala_period": "14:00 - 18:00 (วาโย/วาตะ)"
+      },
+      "chief_complaint": "มีไข้ต่ำ ครั่นเนื้อครั่นตัว เจ็บคอ มีน้ำมูกใส จามบ่อย ปวดเมื่อยตามตัว 2 วัน",
+      "vitals": {
+        "btemp": 37.6,
+        "sbp": 115,
+        "dbp": 74,
+        "pr": 84,
+        "rr": 18,
+        "weight_kg": 52.0,
+        "height_cm": 162.0,
+        "bmi": 19.8
+      },
+      "symptoms": [
+        "ครั่นเนื้อครั่นตัว",
+        "เจ็บคอ",
+        "น้ำมูกใส",
+        "จาม"
+      ]
+    },
+    "chronic_diseases": [
+      {
+        "icd10": "J30.4",
+        "name": "Allergic rhinitis, unspecified",
+        "diag_date": "2024-02-11"
+      }
+    ],
+    "current_medications": [
+      {
+        "drug_id": "MED-CONV-006",
+        "generic_name": "Cetirizine hydrochloride",
+        "brand_name": "Zyrtec",
+        "dosage_form": "Tablet",
+        "strength_mg": 10.0,
+        "dose_per_admin_mg": 10.0,
+        "frequency_per_day": 1,
+        "timing": "ก่อนนอน",
+        "days": 10,
+        "calculated_daily_dose_mg": 10.0,
+        "route": "Oral"
+      }
+    ],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000212019135011405",
+      "herb_name": "ยาแคปซูลฟ้าทะลายโจร (ผงยา)",
+      "dose_per_admin": 3,
+      "unit": "แคปซูล (350 มก.)",
+      "frequency_per_day": 4,
+      "timing": "หลังอาหาร เช้า-กลางวัน-เย็น และก่อนนอน",
+      "days": 3,
+      "total_dispensed": 36,
+      "calculated_daily_dose_units": 12,
+      "calculated_daily_dose_mg": 4200,
+      "instruction": "รับประทานครั้งละ 3 แคปซูล วันละ 4 ครั้ง หลังอาหารและก่อนนอน ติดต่อกัน 3 วัน",
+      "is_overdose_demo": false
+    },
+    "planned_procedure": {
+      "code": "9007730",
+      "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+      "fee": 120.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "ต่ำ",
+      "interaction_count": 1,
+      "target_pair": "Cetirizine + ฟ้าทะลายโจร",
+      "dosage_warning": "ขนาดยาอยู่ในเกณฑ์สูงสุดที่ยอมรับได้ (4,200 มก./วัน) แนะนำห้ามใช้เกิน 5 วัน",
+      "smutthan_dominant": "อาโปธาตุกำเริบ (ศอเสมหะ) ร่วมกับเตโชธาตุระอุ (ไข้หวัดน้อย) ในฤดูฝน"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20260313005",
+        "date": "2026-03-13",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260417004",
+        "date": "2026-04-17",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260522003",
+        "date": "2026-05-22",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260626002",
+        "date": "2026-06-26",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260731001",
+        "date": "2026-07-31",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      }
+    ]
+  },
+  {
+    "case_id": "C06",
+    "patient_info": {
+      "hn": "HN-DEMO-006",
+      "name": "นายสมพร เกาะสมุย (ข้อมูลสังเคราะห์)",
+      "gender": "ชาย",
+      "sex_code": "1",
+      "age": 65,
+      "birth_date": "1961-11-28",
+      "province": "สงขลา",
+      "province_code": "90",
+      "region": "ภาคใต้",
+      "occupation": "ชาวประมงพื้นบ้าน",
+      "birth_element": "อาโปธาตุ (ราศีพิจิก)"
+    },
+    "current_encounter": {
+      "vn": "VN25691128006",
+      "date": "2026-11-28",
+      "time": "13:30:00",
+      "season": "วสันตฤดู (ฤดูฝนภาคใต้)",
+      "ambient_context": {
+        "location": "สงขลา",
+        "latitude": 7.1898,
+        "longitude": 100.5954,
+        "temperature_c": 28.5,
+        "relative_humidity": 90,
+        "weather_condition": "มรสุม ฝนตกหนัก ลมทะเลแรง",
+        "kala_period": "10:00 - 14:00 (เตโช/ปิตตะ)"
+      },
+      "chief_complaint": "มึนงงศีรษะ แน่นท้อง อึดอัดตัว ลมตีขึ้นบ่อย อยากใช้กระเทียมช่วยลดไขมัน 5 วัน",
+      "vitals": {
+        "btemp": 36.5,
+        "sbp": 130,
+        "dbp": 84,
+        "pr": 70,
+        "rr": 18,
+        "weight_kg": 70.0,
+        "height_cm": 165.0,
+        "bmi": 25.7
+      },
+      "symptoms": [
+        "มึนงงศีรษะ",
+        "แน่นท้อง",
+        "ลมตีขึ้น",
+        "อึดอัดตัว"
+      ]
+    },
+    "chronic_diseases": [
+      {
+        "icd10": "E78.0",
+        "name": "Pure hypercholesterolaemia",
+        "diag_date": "2023-09-19"
+      }
+    ],
+    "current_medications": [
+      {
+        "drug_id": "MED-CONV-007",
+        "generic_name": "Simvastatin",
+        "brand_name": "Zocor",
+        "dosage_form": "Tablet",
+        "strength_mg": 20.0,
+        "dose_per_admin_mg": 20.0,
+        "frequency_per_day": 1,
+        "timing": "ก่อนนอน",
+        "days": 30,
+        "calculated_daily_dose_mg": 20.0,
+        "route": "Oral"
+      }
+    ],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000252019150011406",
+      "herb_name": "ยาแคปซูลกระเทียมสกัด",
+      "dose_per_admin": 1,
+      "unit": "แคปซูล (500 มก.)",
+      "frequency_per_day": 2,
+      "timing": "หลังอาหาร เช้า-เย็น",
+      "days": 30,
+      "total_dispensed": 60,
+      "calculated_daily_dose_units": 2,
+      "calculated_daily_dose_mg": 1000,
+      "instruction": "รับประทานครั้งละ 1 แคปซูล วันละ 2 ครั้ง หลังอาหาร เช้า-เย็น",
+      "is_overdose_demo": false
+    },
+    "planned_procedure": {
+      "code": "9007710",
+      "name": "นวดไทยเพื่อการบำบัดรักษา",
+      "fee": 250.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "ไม่มีข้อมูล / ไม่มีข้อมูลชัดเจน",
+      "interaction_count": 1,
+      "target_pair": "Simvastatin + กระเทียมสกัด",
+      "dosage_warning": "อยู่ในเกณฑ์ปกติ",
+      "smutthan_dominant": "ปัจฉิมวัย วาโยธาตุกำเริบในสภาพอากาศฝนชุกและลมทะเลแรง"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20260701004",
+        "date": "2026-07-01",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20260805003",
+        "date": "2026-08-05",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20260909002",
+        "date": "2026-09-09",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20261014001",
+        "date": "2026-10-14",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      }
+    ]
+  },
+  {
+    "case_id": "C07",
+    "patient_info": {
+      "hn": "HN-DEMO-007",
+      "name": "นายธนกร รัตนวงศ์ (ข้อมูลสังเคราะห์)",
+      "gender": "ชาย",
+      "sex_code": "1",
+      "age": 28,
+      "birth_date": "1998-03-25",
+      "province": "กรุงเทพมหานคร",
+      "province_code": "10",
+      "region": "กรุงเทพฯ และปริมณฑล",
+      "occupation": "พนักงานขนส่งสินค้า",
+      "birth_element": "เตโชธาตุ (ราศีมีน)"
+    },
+    "current_encounter": {
+      "vn": "VN25690325007",
+      "date": "2026-03-25",
+      "time": "16:20:00",
+      "season": "คิมหันตฤดู (ฤดูร้อน)",
+      "ambient_context": {
+        "location": "กรุงเทพมหานคร",
+        "latitude": 13.7563,
+        "longitude": 100.5018,
+        "temperature_c": 35.2,
+        "relative_humidity": 58,
+        "weather_condition": "อากาศร้อน ลมเอื่อย",
+        "kala_period": "14:00 - 18:00 (วาโย/วาตะ)"
+      },
+      "chief_complaint": "ปวดเมื่อยกล้ามเนื้อน่องและหลังส่วนล่าง กล้ามเนื้อตึงยึดหลังยกของหนัก 2 วัน",
+      "vitals": {
+        "btemp": 36.7,
+        "sbp": 122,
+        "dbp": 78,
+        "pr": 76,
+        "rr": 16,
+        "weight_kg": 68.0,
+        "height_cm": 175.0,
+        "bmi": 22.2
+      },
+      "symptoms": [
+        "ปวดกล้ามเนื้อหลัง",
+        "กล้ามเนื้อน่องตึงยึด",
+        "ขัดยอก",
+        "เคลื่อนไหวลำบาก"
+      ]
+    },
+    "chronic_diseases": [],
+    "current_medications": [
+      {
+        "drug_id": "MED-CONV-008",
+        "generic_name": "Ibuprofen",
+        "brand_name": "Brufen",
+        "dosage_form": "Tablet",
+        "strength_mg": 400.0,
+        "dose_per_admin_mg": 400.0,
+        "frequency_per_day": 3,
+        "timing": "หลังอาหารทันที เช้า-กลางวัน-เย็น",
+        "days": 5,
+        "calculated_daily_dose_mg": 1200.0,
+        "route": "Oral"
+      }
+    ],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000299429114011407",
+      "herb_name": "ยาน้ำมันไพล / ครีมไพล",
+      "dose_per_admin": 1,
+      "unit": "หลอด (30 กรัม)",
+      "frequency_per_day": 3,
+      "timing": "ทาและถูนวดเบาๆ เช้า-กลางวัน-เย็น",
+      "days": 7,
+      "total_dispensed": 1,
+      "calculated_daily_dose_units": 1,
+      "calculated_daily_dose_mg": 0,
+      "instruction": "ทาและถูนวดบริเวณหลังและน่องที่มีอาการปวด วันละ 3 ครั้ง",
+      "is_overdose_demo": false
+    },
+    "planned_procedure": {
+      "code": "9007710",
+      "name": "นวดไทยเพื่อการบำบัดรักษา",
+      "fee": 250.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "ต่ำ",
+      "interaction_count": 1,
+      "target_pair": "Ibuprofen + น้ำมันไพล (ยาทาภายนอก)",
+      "dosage_warning": "อยู่ในเกณฑ์ปกติ (ยาใช้ภายนอก ปลอดภัยสูง)",
+      "smutthan_dominant": "มัชฌิมวัย มังสังพิการและนหารูพิการจากพฤติกรรมยกของหนัก ลมปลายปัตฆาตขัดยอก"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20250921005",
+        "date": "2025-09-21",
+        "icd10tm_code": "U55.20",
+        "icd10tm_name": "ลมปลายปัตฆาตสัญญาณ 4, 5 หลัง",
+        "icd10_conventional": "M54.5",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "410000000299429114011407",
+          "name": "ยาน้ำมันไพล",
+          "quantity": 1,
+          "cost_thb": 45.0
+        },
+        "total_cost_thb": 345.0
+      },
+      {
+        "vn": "VN20251026004",
+        "date": "2025-10-26",
+        "icd10tm_code": "U55.20",
+        "icd10tm_name": "ลมปลายปัตฆาตสัญญาณ 4, 5 หลัง",
+        "icd10_conventional": "M54.5",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "410000000299429114011407",
+          "name": "ยาน้ำมันไพล",
+          "quantity": 1,
+          "cost_thb": 45.0
+        },
+        "total_cost_thb": 345.0
+      },
+      {
+        "vn": "VN20251130003",
+        "date": "2025-11-30",
+        "icd10tm_code": "U55.20",
+        "icd10tm_name": "ลมปลายปัตฆาตสัญญาณ 4, 5 หลัง",
+        "icd10_conventional": "M54.5",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "410000000299429114011407",
+          "name": "ยาน้ำมันไพล",
+          "quantity": 1,
+          "cost_thb": 45.0
+        },
+        "total_cost_thb": 345.0
+      },
+      {
+        "vn": "VN20260104002",
+        "date": "2026-01-04",
+        "icd10tm_code": "U55.20",
+        "icd10tm_name": "ลมปลายปัตฆาตสัญญาณ 4, 5 หลัง",
+        "icd10_conventional": "M54.5",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "410000000299429114011407",
+          "name": "ยาน้ำมันไพล",
+          "quantity": 1,
+          "cost_thb": 45.0
+        },
+        "total_cost_thb": 345.0
+      },
+      {
+        "vn": "VN20260208001",
+        "date": "2026-02-08",
+        "icd10tm_code": "U55.20",
+        "icd10tm_name": "ลมปลายปัตฆาตสัญญาณ 4, 5 หลัง",
+        "icd10_conventional": "M54.5",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "410000000299429114011407",
+          "name": "ยาน้ำมันไพล",
+          "quantity": 1,
+          "cost_thb": 45.0
+        },
+        "total_cost_thb": 345.0
+      }
+    ]
+  },
+  {
+    "case_id": "C08",
+    "patient_info": {
+      "hn": "HN-DEMO-008",
+      "name": "นางพวงเพ็ญ จันทร์แจ่ม (ข้อมูลสังเคราะห์)",
+      "gender": "หญิง",
+      "sex_code": "2",
+      "age": 70,
+      "birth_date": "1956-01-15",
+      "province": "เชียงใหม่",
+      "province_code": "50",
+      "region": "ภาคเหนือ",
+      "occupation": "แม่บ้าน",
+      "birth_element": "อาโปธาตุ (ราศีมังกร)"
+    },
+    "current_encounter": {
+      "vn": "VN25690115008",
+      "date": "2026-01-15",
+      "time": "14:40:00",
+      "season": "เหมันตฤดู (ฤดูหนาว)",
+      "ambient_context": {
+        "location": "เชียงใหม่",
+        "latitude": 18.7883,
+        "longitude": 98.9853,
+        "temperature_c": 19.0,
+        "relative_humidity": 65,
+        "weather_condition": "หนาวแห้ง ลมพัดเย็น",
+        "kala_period": "14:00 - 18:00 (วาโย/วาตะ)"
+      },
+      "chief_complaint": "ท้องอืด ลมในท้อง แน่นลิ้นปี่ หนาวในตัว แขนขาเย็น มือชา 3 วัน",
+      "vitals": {
+        "btemp": 36.4,
+        "sbp": 135,
+        "dbp": 82,
+        "pr": 68,
+        "rr": 18,
+        "weight_kg": 54.0,
+        "height_cm": 152.0,
+        "bmi": 23.4
+      },
+      "symptoms": [
+        "แน่นท้อง",
+        "ลมในท้อง",
+        "มือเท้าเย็น",
+        "หนาวในตัว"
+      ]
+    },
+    "chronic_diseases": [
+      {
+        "icd10": "I25.1",
+        "name": "Atherosclerotic heart disease",
+        "diag_date": "2020-05-12"
+      },
+      {
+        "icd10": "I63.9",
+        "name": "Cerebral infarction, unspecified",
+        "diag_date": "2023-08-30"
+      }
+    ],
+    "current_medications": [
+      {
+        "drug_id": "MED-CONV-009",
+        "generic_name": "Clopidogrel bisulfate",
+        "brand_name": "Plavix",
+        "dosage_form": "Tablet",
+        "strength_mg": 75.0,
+        "dose_per_admin_mg": 75.0,
+        "frequency_per_day": 1,
+        "timing": "หลังอาหารเช้า",
+        "days": 30,
+        "calculated_daily_dose_mg": 75.0,
+        "route": "Oral"
+      },
+      {
+        "drug_id": "MED-CONV-010",
+        "generic_name": "Aspirin (Acetylsalicylic acid)",
+        "brand_name": "Aspent",
+        "dosage_form": "Tablet",
+        "strength_mg": 81.0,
+        "dose_per_admin_mg": 81.0,
+        "frequency_per_day": 1,
+        "timing": "หลังอาหารเช้าทันที",
+        "days": 30,
+        "calculated_daily_dose_mg": 81.0,
+        "route": "Oral"
+      }
+    ],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000102019150011401",
+      "herb_name": "ยาแคปซูลขิง",
+      "dose_per_admin": 2,
+      "unit": "แคปซูล (500 มก.)",
+      "frequency_per_day": 3,
+      "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+      "days": 7,
+      "total_dispensed": 42,
+      "calculated_daily_dose_units": 6,
+      "calculated_daily_dose_mg": 3000,
+      "instruction": "รับประทานครั้งละ 2 แคปซูล วันละ 3 ครั้ง หลังอาหาร (ขนาดเกิน max แนะนำ)",
+      "is_overdose_demo": true
+    },
+    "planned_procedure": {
+      "code": "9007720",
+      "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา",
+      "fee": 150.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "สูง",
+      "interaction_count": 2,
+      "target_pair": "Clopidogrel + ขิง และ Aspirin + ขิง (Dual antiplatelet + Ginger)",
+      "dosage_warning": "แจ้งเตือนขนาดเกิน: 3,000 มก./วัน เกินขนาดสูงสุดที่แนะนำ (2,000 มก./วัน)",
+      "smutthan_dominant": "ปัจฉิมวัย ไฟย่อยอาหารหย่อน วาโยธาตุกำเริบในฤดูหนาว อังคมังคานุสารีวาตาไหลเวียนช้า"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20250609006",
+        "date": "2025-06-09",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20250714005",
+        "date": "2025-07-14",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20250818004",
+        "date": "2025-08-18",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20250922003",
+        "date": "2025-09-22",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20251027002",
+        "date": "2025-10-27",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20251201001",
+        "date": "2025-12-01",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      }
+    ]
+  },
+  {
+    "case_id": "C09",
+    "patient_info": {
+      "hn": "HN-DEMO-009",
+      "name": "เด็กชายกิตติศักดิ์ เจริญดี (ข้อมูลสังเคราะห์)",
+      "gender": "ชาย",
+      "sex_code": "1",
+      "age": 8,
+      "birth_date": "2018-07-10",
+      "province": "นครปฐม",
+      "province_code": "73",
+      "region": "ภาคกลาง",
+      "occupation": "นักเรียนประถมศึกษา",
+      "birth_element": "อาโปธาตุ (ราศีกรกฎ)"
+    },
+    "current_encounter": {
+      "vn": "VN25690710009",
+      "date": "2026-07-10",
+      "time": "08:30:00",
+      "season": "วสันตฤดู (ฤดูฝน)",
+      "ambient_context": {
+        "location": "นครปฐม",
+        "latitude": 13.8196,
+        "longitude": 100.0601,
+        "temperature_c": 27.2,
+        "relative_humidity": 86,
+        "weather_condition": "ฝนตกพรำๆ อากาศชื้นเย็น",
+        "kala_period": "06:00 - 10:00 (อาโป/เสมหะ)"
+      },
+      "chief_complaint": "ตัวร้อน ร้องงอแง เจ็บคอ มีน้ำมูกใส ปวดเมื่อยตามตัว 1 วัน",
+      "vitals": {
+        "btemp": 38.2,
+        "sbp": 102,
+        "dbp": 64,
+        "pr": 108,
+        "rr": 24,
+        "weight_kg": 24.0,
+        "height_cm": 125.0,
+        "bmi": 15.4
+      },
+      "symptoms": [
+        "ไข้สูง 38.2C",
+        "เจ็บคอ",
+        "น้ำมูกใส",
+        "ชีพจรเร็ว 108 bpm"
+      ]
+    },
+    "chronic_diseases": [],
+    "current_medications": [
+      {
+        "drug_id": "MED-CONV-011",
+        "generic_name": "Paracetamol (Acetaminophen)",
+        "brand_name": "Sara Syrup 120mg/5ml",
+        "dosage_form": "Syrup",
+        "strength_mg": 120.0,
+        "dose_per_admin_mg": 240.0,
+        "frequency_per_day": 4,
+        "timing": "ทุก 4-6 ชั่วโมง เมื่อมีไข้",
+        "days": 3,
+        "calculated_daily_dose_mg": 960.0,
+        "route": "Oral"
+      }
+    ],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000212019135011405",
+      "herb_name": "ยาแคปซูลฟ้าทะลายโจร (ผงยา)",
+      "dose_per_admin": 1,
+      "unit": "แคปซูล (350 มก.)",
+      "frequency_per_day": 3,
+      "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+      "days": 3,
+      "total_dispensed": 9,
+      "calculated_daily_dose_units": 3,
+      "calculated_daily_dose_mg": 1050,
+      "instruction": "รับประทานครั้งละ 1 แคปซูล วันละ 3 ครั้ง หลังอาหาร ติดต่อกันไม่เกิน 3 วัน",
+      "is_overdose_demo": false
+    },
+    "planned_procedure": {
+      "code": "9007740",
+      "name": "พอกยาหรือทายาสมุนไพรเฉพาะที่",
+      "fee": 80.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "ต่ำ",
+      "interaction_count": 1,
+      "target_pair": "Paracetamol + ฟ้าทะลายโจร ในผู้ป่วยเด็ก",
+      "dosage_warning": "อยู่ในเกณฑ์ปลอดภัยสำหรับเด็ก 8 ขวบ (1,050 มก./วัน <= Max เด็ก 1,400 มก./วัน)",
+      "smutthan_dominant": "อายุสมุฏฐานปฐมวัย (8 ขวบ: อาโปธาตุเป็นเจ้าเรือน) ร่วมกับเตโชธาตุกำเริบเฉียบพลันจากพิษไข้ในฤดูฝน"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20260106005",
+        "date": "2026-01-06",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260210004",
+        "date": "2026-02-10",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260317003",
+        "date": "2026-03-17",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260421002",
+        "date": "2026-04-21",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      },
+      {
+        "vn": "VN20260526001",
+        "date": "2026-05-26",
+        "icd10tm_code": "U56.19",
+        "icd10tm_name": "ไข้หวัด, ไม่ระบุรายละเอียด",
+        "icd10_conventional": "J00",
+        "procedure": {
+          "code": "9007730",
+          "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา",
+          "fee_thb": 120.0
+        },
+        "drug": {
+          "code_24": "420000000452159102011410",
+          "name": "ยาประสะมะแว้ง",
+          "quantity": 20,
+          "cost_thb": 20.0
+        },
+        "total_cost_thb": 190.0
+      }
+    ]
+  },
+  {
+    "case_id": "C10",
+    "patient_info": {
+      "hn": "HN-DEMO-010",
+      "name": "นายสมศักดิ์ วารินชำราบ (ข้อมูลสังเคราะห์)",
+      "gender": "ชาย",
+      "sex_code": "1",
+      "age": 58,
+      "birth_date": "1968-10-10",
+      "province": "อุบลราชธานี",
+      "province_code": "34",
+      "region": "ภาคตะวันออกเฉียงเหนือ",
+      "occupation": "ค้าขายของชำ",
+      "birth_element": "วาโยธาตุ (ราศีตุล)"
+    },
+    "current_encounter": {
+      "vn": "VN25691010010",
+      "date": "2026-10-10",
+      "time": "10:15:00",
+      "season": "เหมันตฤดู (ปลายฝนต้นหนาว)",
+      "ambient_context": {
+        "location": "อุบลราชธานี",
+        "latitude": 15.2449,
+        "longitude": 104.8473,
+        "temperature_c": 21.5,
+        "relative_humidity": 68,
+        "weather_condition": "ลมหนาวเริ่มพัด อากาศแห้งเย็น",
+        "kala_period": "10:00 - 14:00 (เตโช/ปิตตะ)"
+      },
+      "chief_complaint": "ไอแห้งๆ คอแห้ง เจ็บคอ อ่อนเพลีย แน่นหน้าอกเล็กน้อย อยากได้ยาสมุนไพรชุ่มคอ 3 วัน",
+      "vitals": {
+        "btemp": 36.9,
+        "sbp": 126,
+        "dbp": 80,
+        "pr": 64,
+        "rr": 18,
+        "weight_kg": 65.0,
+        "height_cm": 167.0,
+        "bmi": 23.3
+      },
+      "symptoms": [
+        "ไอแห้ง",
+        "คอแห้ง",
+        "เจ็บคอ",
+        "เหนื่อยเพลีย"
+      ]
+    },
+    "chronic_diseases": [
+      {
+        "icd10": "I50.9",
+        "name": "Heart failure, unspecified",
+        "diag_date": "2021-04-18"
+      },
+      {
+        "icd10": "I48",
+        "name": "Atrial fibrillation and flutter",
+        "diag_date": "2021-04-18"
+      }
+    ],
+    "current_medications": [
+      {
+        "drug_id": "MED-CONV-012",
+        "generic_name": "Digoxin",
+        "brand_name": "Lanoxin",
+        "dosage_form": "Tablet",
+        "strength_mg": 0.25,
+        "dose_per_admin_mg": 0.25,
+        "frequency_per_day": 1,
+        "timing": "หลังอาหารเช้า",
+        "days": 30,
+        "calculated_daily_dose_mg": 0.25,
+        "route": "Oral"
+      }
+    ],
+    "intended_ttm_prescription": {
+      "drug_code_24": "410000000154019125011403",
+      "herb_name": "ยาชะเอมเทศผง / แคปซูล",
+      "dose_per_admin": 1,
+      "unit": "แคปซูล (250 มก.)",
+      "frequency_per_day": 3,
+      "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+      "days": 7,
+      "total_dispensed": 21,
+      "calculated_daily_dose_units": 3,
+      "calculated_daily_dose_mg": 750,
+      "instruction": "รับประทานครั้งละ 1 แคปซูล วันละ 3 ครั้ง หลังอาหาร",
+      "is_overdose_demo": false
+    },
+    "planned_procedure": {
+      "code": "9007710",
+      "name": "นวดไทยเพื่อการบำบัดรักษา",
+      "fee": 250.0
+    },
+    "expected_demo_outcome": {
+      "interaction_level": "สูง",
+      "interaction_count": 1,
+      "target_pair": "Digoxin + ชะเอมเทศ (Severe Contraindication)",
+      "dosage_warning": "อยู่ในเกณฑ์ปกติ แต่มีข้อห้ามใช้เด็ดขาด (Contraindicated) เนื่องจากเสี่ยงต่อ Digoxin Toxicity จากภาวะโพแทสเซียมในเลือดต่ำ",
+      "smutthan_dominant": "ปัจฉิมวัย หทัยวาตะอ่อนแรง ร่วมกับอาโปธาตุ (ศอเสมหะ) ระคายเคืองในลมหนาว"
+    },
+    "history_episodes": [
+      {
+        "vn": "VN20260304006",
+        "date": "2026-03-04",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20260408005",
+        "date": "2026-04-08",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20260513004",
+        "date": "2026-05-13",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20260617003",
+        "date": "2026-06-17",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20260722002",
+        "date": "2026-07-22",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      },
+      {
+        "vn": "VN20260826001",
+        "date": "2026-08-26",
+        "icd10tm_code": "U61.2",
+        "icd10tm_name": "ลมปะกัง หรือ ลมตะกัง",
+        "icd10_conventional": "G43.9",
+        "procedure": {
+          "code": "9007710",
+          "name": "นวดไทยเพื่อการบำบัดรักษา",
+          "fee_thb": 250.0
+        },
+        "drug": {
+          "code_24": "420000000414019120011409",
+          "name": "ยาหอมนวโกฐ",
+          "quantity": 10,
+          "cost_thb": 50.0
+        },
+        "total_cost_thb": 350.0
+      }
+    ]
+  }
+]

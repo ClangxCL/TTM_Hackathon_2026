@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MOPH 43-Folders Config Mapping for TTM Smutthan Engine",
+  "description": "ไฟล์กำหนดโครงสร้างฟิลด์มาตรฐาน 43 แฟ้มกระทรวงสาธารณสุข และการแปลงข้อมูลกับระบบ TTM Smutthan Engine",
+  "version": "1.0.0",
+  "last_updated": "2026-10-09",
+  "data_disclaimer": "ข้อมูลสังเคราะห์เพื่อการสาธิต (Synthetic Demonstration Data) - ต้องตรวจสอบกับ Data Dictionary ฉบับทางการของกระทรวงสาธารณสุขก่อนเชื่อมต่อระบบจริง",
+  "files": {
+    "PERSON": {
+      "table_name": "PERSON",
+      "description": "แฟ้มข้อมูลประชากร/ผู้รับบริการ (ข้อมูลพื้นฐาน)",
+      "fields": {
+        "HOSPCODE": { "type": "string", "length": 5, "description": "รหัสสถานพยาบาล 5 หลัก", "required": true },
+        "PID": { "type": "string", "length": 15, "description": "รหัสประจำตัวผู้ป่วย (HN / Person ID)", "required": true },
+        "CID_HASH": { "type": "string", "length": 64, "description": "Hash ของเลขบัตรประชาชน (ห้ามเก็บเลขดิบ)", "required": false },
+        "NAME": { "type": "string", "length": 100, "description": "ชื่อ-นามสกุล (สังเคราะห์)", "required": true },
+        "SEX": { "type": "string", "length": 1, "description": "เพศ (1=ชาย, 2=หญิง)", "required": true },
+        "BIRTH": { "type": "string", "format": "YYYY-MM-DD", "description": "วันเดือนปีเกิด", "required": true },
+        "AGE_Y": { "type": "integer", "description": "อายุเป็นปี ณ วันรับบริการ", "required": true },
+        "PROVINCE": { "type": "string", "length": 2, "description": "รหัสจังหวัดตามมาตรฐาน DOPA", "required": true },
+        "DISTRICT": { "type": "string", "length": 2, "description": "รหัสอำเภอ", "required": false }
+      }
+    },
+    "SERVICE": {
+      "table_name": "SERVICE",
+      "description": "แฟ้มการให้บริการผู้ป่วยนอก (OPD Encounter)",
+      "fields": {
+        "HOSPCODE": { "type": "string", "length": 5, "description": "รหัสสถานพยาบาล", "required": true },
+        "PID": { "type": "string", "length": 15, "description": "รหัสผู้ป่วย", "required": true },
+        "SEQ": { "type": "string", "length": 16, "description": "ลำดับการรับบริการ (Visit Number / VN)", "required": true },
+        "DATE_SERV": { "type": "string", "format": "YYYY-MM-DD", "description": "วันที่รับบริการ", "required": true },
+        "TIME_SERV": { "type": "string", "format": "HH:MM:SS", "description": "เวลารับบริการ", "required": true },
+        "CHIEFCOMP": { "type": "string", "length": 255, "description": "อาการสำคัญ (Chief Complaint)", "required": true },
+        "BTEMP": { "type": "number", "description": "อุณหภูมิร่างกาย (องศาเซลเซียส)", "required": true },
+        "SBP": { "type": "integer", "description": "ความดันโลหิต Systolic (mmHg)", "required": true },
+        "DBP": { "type": "integer", "description": "ความดันโลหิต Diastolic (mmHg)", "required": true },
+        "PR": { "type": "integer", "description": "อัตราชีพจร (ครั้ง/นาที)", "required": true },
+        "RR": { "type": "integer", "description": "อัตราการหายใจ (ครั้ง/นาที)", "required": true },
+        "WEIGHT": { "type": "number", "description": "น้ำหนักตัว (กิโลกรัม)", "required": false },
+        "HEIGHT": { "type": "number", "description": "ส่วนสูง (เซนติเมตร)", "required": false }
+      }
+    },
+    "DIAGNOSIS_OPD": {
+      "table_name": "DIAGNOSIS_OPD",
+      "description": "แฟ้มการวินิจฉัยโรคผู้ป่วยนอก",
+      "fields": {
+        "HOSPCODE": { "type": "string", "length": 5, "description": "รหัสสถานพยาบาล", "required": true },
+        "PID": { "type": "string", "length": 15, "description": "รหัสผู้ป่วย", "required": true },
+        "SEQ": { "type": "string", "length": 16, "description": "ลำดับการรับบริการ", "required": true },
+        "DIAGCODE": { "type": "string", "length": 7, "description": "รหัสการวินิจฉัย (ICD-10 หรือ ICD-10-TM U-Code)", "required": true },
+        "DIAGTYPE": { "type": "string", "length": 1, "description": "ประเภทการวินิจฉัย (1=Principal, 2=Comorbidity, 3=Complication, 4=Other)", "required": true },
+        "CLINIC": { "type": "string", "length": 5, "description": "รหัสคลินิก (เช่น 01100=คลินิกแพทย์แผนไทย)", "required": true },
+        "PROVIDER": { "type": "string", "length": 15, "description": "รหัสผู้ให้บริการ / เลขใบประกอบวิชาชีพ", "required": true }
+      }
+    },
+    "CHRONIC": {
+      "table_name": "CHRONIC",
+      "description": "แฟ้มทะเบียนผู้ป่วยโรคเรื้อรัง",
+      "fields": {
+        "HOSPCODE": { "type": "string", "length": 5, "description": "รหัสสถานพยาบาล", "required": true },
+        "PID": { "type": "string", "length": 15, "description": "รหัสผู้ป่วย", "required": true },
+        "CHRONIC_CODE": { "type": "string", "length": 6, "description": "รหัสโรคเรื้อรัง (ICD-10 เช่น I10, E11.9, I48)", "required": true },
+        "CHRONIC_NAME": { "type": "string", "length": 100, "description": "ชื่อโรคเรื้อรัง", "required": true },
+        "D_DIAG": { "type": "string", "format": "YYYY-MM-DD", "description": "วันที่ได้รับการวินิจฉัยครั้งแรก", "required": true }
+      }
+    },
+    "DRUG_OPD": {
+      "table_name": "DRUG_OPD",
+      "description": "แฟ้มการจ่ายยาและเวชภัณฑ์ผู้ป่วยนอก",
+      "fields": {
+        "HOSPCODE": { "type": "string", "length": 5, "description": "รหัสสถานพยาบาล", "required": true },
+        "PID": { "type": "string", "length": 15, "description": "รหัสผู้ป่วย", "required": true },
+        "SEQ": { "type": "string", "length": 16, "description": "ลำดับการรับบริการ", "required": true },
+        "DCODE": { "type": "string", "length": 24, "description": "รหัสยา 24 หลัก (TMT / TTMT)", "required": true },
+        "DNAME": { "type": "string", "length": 255, "description": "ชื่อยาและรูปแบบ", "required": true },
+        "AMOUNT": { "type": "number", "description": "จำนวนที่จ่าย", "required": true },
+        "UNIT": { "type": "string", "length": 20, "description": "หน่วยนับ (เม็ด, แคปซูล, ซอง, ขวด)", "required": true },
+        "UNIT_PRICE": { "type": "number", "description": "ราคาขายต่อหน่วย (บาท)", "required": true },
+        "TOTAL_PRICE": { "type": "number", "description": "ราคารวม (บาท)", "required": true },
+        "COST_PRICE": { "type": "number", "description": "ต้นทุนต่อหน่วย (บาท)", "required": false },
+        "DRUG_TYPE": { "type": "string", "length": 1, "description": "ประเภทยา (1=แผนปัจจุบัน, 2=แผนไทย)", "required": true },
+        "USAGE_INSTRUCTION": { "type": "string", "length": 255, "description": "วิธีใช้ยา", "required": false }
+      }
+    },
+    "PROCEDURE_OPD": {
+      "table_name": "PROCEDURE_OPD",
+      "description": "แฟ้มการทำหัตถการผู้ป่วยนอก (รวมหัตถการแพทย์แผนไทย)",
+      "fields": {
+        "HOSPCODE": { "type": "string", "length": 5, "description": "รหัสสถานพยาบาล", "required": true },
+        "PID": { "type": "string", "length": 15, "description": "รหัสผู้ป่วย", "required": true },
+        "SEQ": { "type": "string", "length": 16, "description": "ลำดับการรับบริการ", "required": true },
+        "PROCEDCODE": { "type": "string", "length": 7, "description": "รหัสหัตถการ (ICD-9-CM หรือ รหัสมาตรฐานกรมการแพทย์แผนไทย)", "required": true },
+        "PROCEDNAME": { "type": "string", "length": 255, "description": "ชื่อหัตถการ", "required": true },
+        "SERVICEPRICE": { "type": "number", "description": "ค่าบริการหัตถการ (บาท)", "required": true },
+        "CLINIC": { "type": "string", "length": 5, "description": "รหัสคลินิก (01100)", "required": true },
+        "PROVIDER": { "type": "string", "length": 15, "description": "รหัสผู้ทำหัตถการ", "required": true }
+      }
+    },
+    "PROVIDER": {
+      "table_name": "PROVIDER",
+      "description": "แฟ้มข้อมูลผู้ประกอบวิชาชีพและบุคลากรสาธารณสุข",
+      "fields": {
+        "HOSPCODE": { "type": "string", "length": 5, "description": "รหัสสถานพยาบาล", "required": true },
+        "PROVIDER": { "type": "string", "length": 15, "description": "รหัสบุคลากร", "required": true },
+        "NAME": { "type": "string", "length": 100, "description": "ชื่อ-สกุลบุคลากร", "required": true },
+        "PROVIDERTYPE": { "type": "string", "length": 2, "description": "ประเภทวิชาชีพ (06=แพทย์แผนไทย, 07=แพทย์แผนไทยประยุกต์, 01=แพทย์เวชปฏิบัติ)", "required": true },
+        "REGISTERNO": { "type": "string", "length": 20, "description": "เลขที่ใบอนุญาตประกอบวิชาชีพ", "required": false }
+      }
+    }
+  },
+  "thai_drug_code_structure_24digits": {
+    "source_reference": "คู่มือรหัสยาแผนไทย 24 หลัก สำหรับหน่วยบริการสาธารณสุขของรัฐ กรมการแพทย์แผนไทยและการแพทย์ทางเลือก พ.ศ. 2568",
+    "segments": [
+      { "name": "group_type", "start": 1, "length": 1, "example": "4", "description": "กลุ่มยา (4=ยาแผนไทย)" },
+      { "name": "subgroup", "start": 2, "length": 1, "example": "1", "description": "ประเภทย่อย (1=ยาเดี่ยว, 2=ยาตำรับ)" },
+      { "name": "active_substance", "start": 3, "length": 9, "example": "000000023", "description": "รหัสตัวยาสลับ/สำคัญ (9 หลัก)" },
+      { "name": "dosage_form", "start": 12, "length": 3, "example": "201", "description": "รหัสรูปแบบยา (เช่น 201=แคปซูล, 215=ลูกกลอน, 401=ยาผง, 946=ยาน้ำ)" },
+      { "name": "strength_code", "start": 15, "length": 5, "example": "91400", "description": "รหัสขนาดความแรง (เช่น 91400 = 400 mg/cap)" },
+      { "name": "manufacturer_code", "start": 20, "length": 3, "example": "114", "description": "รหัสผู้ผลิตมาตรฐาน (เช่น 114=รพ.สมเด็จพระยุพราช)" },
+      { "name": "working_code", "start": 23, "length": 2, "example": "11", "description": "รหัสทำงาน/ล็อตผลิต" }
+    ]
+  },
+  "procedure_codes_ttm": {
+    "9007710": { "name": "นวดไทยเพื่อการบำบัดรักษา", "standard_fee": 250, "unit": "ครั้ง (45-60 นาที)" },
+    "9007711": { "name": "นวดไทยเพื่อฟื้นฟูสมรรถภาพ", "standard_fee": 300, "unit": "ครั้ง (60 นาที)" },
+    "9007720": { "name": "ประคบสมุนไพรเพื่อการบำบัดรักษา", "standard_fee": 150, "unit": "ครั้ง (30 นาที)" },
+    "9007730": { "name": "อบไอน้ำสมุนไพรเพื่อการบำบัดรักษา", "standard_fee": 120, "unit": "ครั้ง (20-30 นาที)" },
+    "9007740": { "name": "พอกยาหรือทายาสมุนไพรเฉพาะที่", "standard_fee": 80, "unit": "ครั้ง" }
+  }
+}

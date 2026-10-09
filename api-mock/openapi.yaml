@@ -1,0 +1,192 @@
+openapi: 3.0.3
+info:
+  title: TTM Smutthan Engine & Centralized HDI Platform API
+  description: >
+    มาตรฐาน API กลางสำหรับระบบโรงพยาบาล (HIS: HOSxP, EHP, SSB, Himpro)
+    เพื่อตรวจสอบอันตรกิริยาระหว่างยาแผนปัจจุบันกับสมุนไพรไทย (HDI),
+    ประเมินสมุฏฐานวินิจฉัย และส่งข้อมูล 43 แฟ้ม/FHIR R4 เข้าสู่ระบบสาธารณสุข
+  version: 1.0.0
+  contact:
+    name: กองวิชาการและแผนงาน กรมการแพทย์แผนไทยและการแพทย์ทางเลือก
+    url: https://dtam.moph.go.th
+servers:
+  - url: https://api.ttm-smutthan.moph.go.th/v1
+    description: Production Cloud Gateway
+  - url: http://localhost:4000/v1
+    description: Local Mock Server
+
+security:
+  - ApiKeyAuth: []
+  - OAuth2: [write:prescriptions, read:interactions]
+
+paths:
+  /interactions/check:
+    post:
+      summary: ตรวจสอบอันตรกิริยาระหว่างยาแผนปัจจุบันกับยาสมุนไพร (Real-time HDI Check)
+      description: รับรายการยาแผนปัจจุบันที่ผู้ป่วยใช้อยู่ พร้อมรายการยาสมุนไพรที่จะสั่งจ่าย และส่งกลับผลการตรวจความเสี่ยง
+      operationId: checkInteractions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [active_medications, intended_herbs]
+              properties:
+                patient_hn:
+                  type: string
+                  example: "HN-DEMO-002"
+                patient_age:
+                  type: integer
+                  example: 72
+                active_medications:
+                  type: array
+                  items:
+                    type: object
+                    required: [generic_name, strength_mg]
+                    properties:
+                      drug_id: { type: string, example: "MED-CONV-001" }
+                      generic_name: { type: string, example: "Warfarin sodium" }
+                      strength_mg: { type: number, example: 3.0 }
+                      dose_per_admin_mg: { type: number, example: 3.0 }
+                      frequency_per_day: { type: integer, example: 1 }
+                intended_herbs:
+                  type: array
+                  items:
+                    type: object
+                    required: [drug_code_24, herb_name, dose_per_admin, frequency_per_day, days]
+                    properties:
+                      drug_code_24: { type: string, example: "410000000122019150011402" }
+                      herb_name: { type: string, example: "ยาแคปซูลขมิ้นชัน" }
+                      dose_per_admin: { type: integer, example: 2 }
+                      frequency_per_day: { type: integer, example: 3 }
+                      days: { type: integer, example: 10 }
+      responses:
+        '200':
+          description: ผลการตรวจสอบอันตรกิริยาและขนาดยา
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  has_high_risk: { type: boolean, example: true }
+                  alerts_count: { type: integer, example: 1 }
+                  interactions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/InteractionResult'
+                  dosage_warnings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title: { type: string }
+                        message: { type: string }
+                        severity: { type: string, enum: [HIGH, MODERATE, LOW] }
+
+  /formulary:
+    get:
+      summary: ดึงรายการบัญชียาสมุนไพรและยาแผนไทย (Formulary Catalog)
+      operationId: getFormulary
+      parameters:
+        - name: herb_type
+          in: query
+          schema:
+            type: string
+            enum: [ALL, SINGLE, FORMULA, EXTRACT]
+      responses:
+        '200':
+          description: รายการยาสมุนไพร 24 หลัก
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FormularyItem'
+
+  /interactions:
+    get:
+      summary: ดึงฐานข้อมูลกลางอันตรกิริยาทั้งหมด (Central HDI DB)
+      operationId: getInteractions
+      responses:
+        '200':
+          description: ฐานข้อมูลอันตรกิริยา
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InteractionRule'
+
+  /prescriptions:
+    post:
+      summary: บันทึกยืนยันใบสั่งยาเข้าสู่ระบบ HIS (Save Prescription)
+      operationId: savePrescription
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [patient_hn, prescription_items]
+              properties:
+                patient_hn: { type: string }
+                visit_number: { type: string }
+                prescription_items: { type: array, items: { type: object } }
+      responses:
+        '201':
+          description: บันทึกสำเร็จ ส่งกลับ Transaction ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean, example: true }
+                  transaction_id: { type: string, example: "TXN-20261009-8812" }
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://api.ttm-smutthan.moph.go.th/oauth/token
+          scopes:
+            read:interactions: อ่านข้อมูลอันตรกิริยา
+            write:prescriptions: ส่งใบสั่งยา
+
+  schemas:
+    InteractionResult:
+      type: object
+      properties:
+        interaction_id: { type: string, example: "HDI-001" }
+        severity: { type: string, enum: [สูง, ปานกลาง, ต่ำ, ไม่มีข้อมูล], example: "สูง" }
+        drug_name: { type: string, example: "Warfarin sodium" }
+        herb_name: { type: string, example: "ขมิ้นชัน" }
+        mechanism: { type: string }
+        clinical_effects: { type: string }
+        recommendation: { type: string }
+        evidence_level: { type: string, enum: [A, B, C, D] }
+
+    FormularyItem:
+      type: object
+      properties:
+        drug_code_24: { type: string }
+        ttmt_id: { type: string }
+        thai_name: { type: string }
+        dosage_form: { type: string }
+        strength_per_unit: { type: string }
+        nlem_status: { type: string }
+
+    InteractionRule:
+      type: object
+      properties:
+        interaction_id: { type: string }
+        herb_name: { type: string }
+        drug_name: { type: string }
+        severity: { type: string }
+        mechanism: { type: string }

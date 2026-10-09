@@ -1,0 +1,1161 @@
+[
+  {
+    "drug_code_24": "410000000102019150011401",
+    "ttmt_id": "T11401-100010",
+    "thai_name": "ยาแคปซูลขิง",
+    "common_name": "Ginger Capsule",
+    "scientific_name": "Zingiber officinale Roscoe",
+    "herb_type": "ยาเดี่ยว",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "500 มก./แคปซูล",
+    "unit_amount_mg": 500,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.50,
+    "taste": "เผ็ดร้อน",
+    "primary_element": "วาโย / เตโช",
+    "indications": [
+      "บรรเทาอาการท้องอืด ท้องเฟ้อ แน่นจุกเสียด ขับลม",
+      "ป้องกันและบรรเทาอาการคลื่นไส้ อาเจียน เมารถ เมาเรือ"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ป่วยที่มีท่อน้ำดีอุดตัน",
+      "ห้ามใช้ในผู้ที่มีประวัติแพ้ขิง"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ควรระวังการใช้ในหญิงตั้งครรภ์ระยะแรก (ไม่ควรเกิน 1,000 มก./วัน)",
+      "pediatric": "เด็กอายุต่ำกว่า 6 ขวบ ควรปรึกษาแพทย์แผนไทย",
+      "elderly": "ใช้ได้ตามปกติ แต่ระวังอาการแสบร้อนยอดอก",
+      "hepatic_renal": "ระวังในผู้ป่วยไตเสื่อมขั้นรุนแรง",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาต้านการแข็งตัวของเลือดและยาต้านเกล็ดเลือด (Warfarin, Aspirin, Clopidogrel) เนื่องจากอาจเสริมฤทธิ์ต้านการเกาะกลุ่มของเกล็ดเลือด"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (500 มก.)",
+        "frequency_per_day": 3,
+        "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 4,
+        "max_daily_dose_mg": 2000,
+        "max_duration_days": 14
+      },
+      "child": {
+        "eligible_age_min": 6,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (250-500 มก.)",
+        "frequency_per_day": 2,
+        "timing": "หลังอาหาร เช้า-เย็น",
+        "max_daily_dose_units": 2,
+        "max_daily_dose_mg": 1000,
+        "max_duration_days": 7
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ (รายการยาสมุนไพร)",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "คู่มือรหัสยาแผนไทย 24 หลัก (2568) / ประกาศบัญชียาหลักแห่งชาติด้านสมุนไพร พ.ศ. 2566"
+  },
+  {
+    "drug_code_24": "410000000122019150011402",
+    "ttmt_id": "T11402-100012",
+    "thai_name": "ยาแคปซูลขมิ้นชัน",
+    "common_name": "Curcuma Longa Capsule / Turmeric",
+    "scientific_name": "Curcuma longa L.",
+    "herb_type": "ยาเดี่ยว",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "500 มก./แคปซูล",
+    "unit_amount_mg": 500,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.00,
+    "taste": "ฝาด เผ็ดร้อน เอียน",
+    "primary_element": "เตโช / ปถวี",
+    "indications": [
+      "บรรเทาอาการท้องอืด ท้องเฟ้อ จุกเสียด แน่นท้อง",
+      "สมานแผลในกระเพาะอาหาร ขับน้ำดี"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ป่วยที่มีการอุดตันของท่อน้ำดี (Biliary Obstruction)",
+      "ห้ามใช้ในผู้ที่มีนิ่วในถุงน้ำดีที่มีอาการเฉียบพลัน",
+      "ห้ามใช้ในหญิงตั้งครรภ์เนื่องจากอาจกระตุ้นการบีบตัวของมดลูก"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้ในหญิงตั้งครรภ์ หญิงให้นมบุตรควรระวัง",
+      "pediatric": "ไม่แนะนำในเด็กอายุต่ำกว่า 12 ปี",
+      "elderly": "ใช้ได้ แต่ควรเฝ้าระวังระบบทางเดินอาหาร",
+      "hepatic_renal": "ระวังในผู้ป่วยตับอักเสบเฉียบพลัน",
+      "drug_interactions": "ระวังอย่างสูงเมื่อใช้ร่วมกับยาวาร์ฟาริน (Warfarin) เสี่ยงต่อภาวะเลือดออกผิดปกติ และยาลดน้ำตาลในเลือดเพราะอาจเสริมฤทธิ์ลดน้ำตาล"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 2,
+        "dose_unit": "แคปซูล (1,000 มก.)",
+        "frequency_per_day": 4,
+        "timing": "หลังอาหาร เช้า-กลางวัน-เย็น และก่อนนอน",
+        "max_daily_dose_units": 8,
+        "max_daily_dose_mg": 4000,
+        "max_duration_days": 30
+      },
+      "child": {
+        "eligible_age_min": 12,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (500 มก.)",
+        "frequency_per_day": 3,
+        "timing": "หลังอาหาร",
+        "max_daily_dose_units": 3,
+        "max_daily_dose_mg": 1500,
+        "max_duration_days": 14
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการรักษาอาการเจ็บป่วยด้วยยาสมุนไพรในระบบบริการปฐมภูมิ (2568)"
+  },
+  {
+    "drug_code_24": "410000000154019125011403",
+    "ttmt_id": "T11403-100015",
+    "thai_name": "ยาชะเอมเทศผง / สารสกัดชะเอมเทศ",
+    "common_name": "Licorice Extract / Powder",
+    "scientific_name": "Glycyrrhiza glabra L.",
+    "herb_type": "ยาเดี่ยว",
+    "dosage_form": "ผงชง / แคปซูล",
+    "strength_per_unit": "250 มก./แคปซูล",
+    "unit_amount_mg": 250,
+    "unit": "แคปซูล",
+    "unit_price_thb": 3.00,
+    "taste": "หวาน ชุ่มคอ",
+    "primary_element": "อาโป / ปถวี",
+    "indications": [
+      "แก้ไอ ขับเสมหะ ชุ่มคอ",
+      "บรรเทาอาการระคายเคืองทางเดินอาหาร แผลในเยื่อบุช่องปาก"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ป่วยโรคตับแข็ง (Cirrhosis) หรือโรคตับเรื้อรังรุนแรง",
+      "ห้ามใช้ในผู้ป่วยที่มีภาวะโพแทสเซียมในเลือดต่ำ (Hypokalemia)",
+      "ห้ามใช้ในผู้ป่วยโรคไตวายเรื้อรังขั้นรุนแรง"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "หลีกเลี่ยงการใช้ในสตรีมีครรภ์เนื่องจากอาจส่งผลต่อฮอร์โมน",
+      "pediatric": "ใช้ขนาดต่ำตามคำแนะนำของแพทย์แผนไทย",
+      "elderly": "ระวังความดันโลหิตสูงและบวมน้ำ",
+      "hepatic_renal": "ห้ามใช้ในไตวายหรือตับแข็ง",
+      "drug_interactions": "อันตรกิริยารุนแรงกับ Digoxin (เสี่ยงหัวใจเต้นผิดจังหวะจาก Hypokalemia) และต้านฤทธิ์ยาลดความดัน (Amlodipine, Losartan) เนื่องจากเกิด Pseudoaldosteronism"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (250 มก.)",
+        "frequency_per_day": 3,
+        "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 4,
+        "max_daily_dose_mg": 1000,
+        "max_duration_days": 14
+      },
+      "child": {
+        "eligible_age_min": 6,
+        "dose_per_admin": 0.5,
+        "dose_unit": "แคปซูล (125 มก. ละลายน้ำอุ่น)",
+        "frequency_per_day": 2,
+        "timing": "หลังอาหาร",
+        "max_daily_dose_units": 1,
+        "max_daily_dose_mg": 250,
+        "max_duration_days": 5
+      }
+    },
+    "nlem_status": "ยังไม่ตรวจสอบ",
+    "nlem_category": "สมุนไพรใช้เฉพาะที่หรือเข้าตำรับ (ตัวอย่าง)",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "ตำราอ้างอิงด้านการแพทย์แผนไทย / Monographs on Selected Medicinal Plants (WHO)"
+  },
+  {
+    "drug_code_24": "410000000182019150011404",
+    "ttmt_id": "T11404-100018",
+    "thai_name": "ยาแคปซูลมะระขี้นก",
+    "common_name": "Bitter Melon Capsule",
+    "scientific_name": "Momordica charantia L.",
+    "herb_type": "ยาเดี่ยว",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "500 มก./แคปซูล",
+    "unit_amount_mg": 500,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.50,
+    "taste": "ขม",
+    "primary_element": "วาโย / อาโป",
+    "indications": [
+      "แก้ไข้ เจริญอาหาร บรรเทาอาการร้อนใน",
+      "ช่วยลดระดับน้ำตาลในเลือด (เป็นทางเลือกเสริม)"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในสตรีมีครรภ์เนื่องจากมีรายงานฤทธิ์กระตุ้นการบีบตัวของมดลูกและการแท้ง",
+      "ห้ามใช้ในผู้ป่วยที่มีภาวะพร่องเอนไซม์ G6PD (เสี่ยงต่อเม็ดเลือดแดงแตกจากสาร vicine)"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้เด็ดขาดในสตรีมีครรภ์และสตรีให้นมบุตร",
+      "pediatric": "ไม่แนะนำในเด็กเล็ก",
+      "elderly": "เฝ้าระวังภาวะน้ำตาลในเลือดต่ำ",
+      "hepatic_renal": "ระวังการใช้ติดต่อกันเป็นเวลานานเกิน 1 เดือน",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาลดระดับน้ำตาลในเลือดแผนปัจจุบัน (Metformin, Glipizide, Insulin) เสี่ยงเกิดภาวะ Hypoglycemia รุนแรง"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (500 มก.)",
+        "frequency_per_day": 2,
+        "timing": "ก่อนอาหาร เช้า-เย็น",
+        "max_daily_dose_units": 3,
+        "max_daily_dose_mg": 1500,
+        "max_duration_days": 30
+      },
+      "child": {
+        "eligible_age_min": 15,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (500 มก.)",
+        "frequency_per_day": 1,
+        "timing": "ก่อนอาหารเช้า",
+        "max_daily_dose_units": 1,
+        "max_daily_dose_mg": 500,
+        "max_duration_days": 14
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการรักษาอาการเจ็บป่วยด้วยยาสมุนไพรในระบบบริการปฐมภูมิ (2568)"
+  },
+  {
+    "drug_code_24": "410000000212019135011405",
+    "ttmt_id": "T11405-100021",
+    "thai_name": "ยาแคปซูลฟ้าทะลายโจร (ผงยา)",
+    "common_name": "Andrographis Paniculata Capsule",
+    "scientific_name": "Andrographis paniculata (Burm.f.) Nees",
+    "herb_type": "ยาเดี่ยว",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "350 มก./แคปซูล (Andrographolide ~12 มก./แคปซูล)",
+    "unit_amount_mg": 350,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.00,
+    "taste": "ขมจัด เย็น",
+    "primary_element": "เตโชระงับ / อาโป",
+    "indications": [
+      "บรรเทาอาการไข้หวัด (Common Cold) เช่น เจ็บคอ มีไข้ ปวดเมื่อยกล้ามเนื้อ",
+      "บรรเทาอาการท้องเสียที่ไม่ติดเชื้อเฉียบพลัน"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในสตรีมีครรภ์และสตรีให้นมบุตร (อาจส่งผลต่อทารก)",
+      "ห้ามใช้ในผู้ที่มีประวัติแพ้ฟ้าทะลายโจร หรือมีอาการผื่นคัน แน่นหน้าอก หายใจลำบากหลังรับประทาน",
+      "ห้ามใช้ในผู้ที่มีอาการเจ็บคอเนื่องจากการติดเชื้อแบคทีเรีย Streptococcus group A (คอเป็นหนอง)"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้เด็ดขาด",
+      "pediatric": "เด็ก 4-12 ปี ต้องปรับขนาดยาตามน้ำหนักตัวและจำกัดไม่เกิน 3-5 วัน",
+      "elderly": "ระวังความดันโลหิตต่ำและอาการชาปลายมือปลายเท้าจากการใช้ติดต่อกันนาน",
+      "hepatic_renal": "หากใช้ติดต่อกันเกิน 3 วันแล้วอาการไม่ดีขึ้น หรืออาการรุนแรงขึ้น ควรหยุดใช้และพบแพทย์แผนปัจจุบัน",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาลดความดันโลหิต (เสริมฤทธิ์ลดความดัน), ยาต้านการแข็งตัวของเลือด (Warfarin), ยาแก้แพ้ (Cetirizine)"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 3,
+        "dose_unit": "แคปซูล (1,050 มก. หรือ Andrographolide 36 มก.)",
+        "frequency_per_day": 4,
+        "timing": "หลังอาหาร เช้า-กลางวัน-เย็น และก่อนนอน",
+        "max_daily_dose_units": 12,
+        "max_daily_dose_mg": 4200,
+        "max_duration_days": 5
+      },
+      "child": {
+        "eligible_age_min": 6,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (350 มก. หรือ Andrographolide 12 มก.)",
+        "frequency_per_day": 3,
+        "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 4,
+        "max_daily_dose_mg": 1400,
+        "max_duration_days": 3
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการใช้ยาสมุนไพรในการดูแลอาการเจ็บป่วยเบื้องต้น (2568) / บัญชียาหลักแห่งชาติด้านสมุนไพร"
+  },
+  {
+    "drug_code_24": "410000000252019150011406",
+    "ttmt_id": "T11406-100025",
+    "thai_name": "ยาแคปซูลกระเทียมสกัด",
+    "common_name": "Garlic Extract Capsule",
+    "scientific_name": "Allium sativum L.",
+    "herb_type": "ยาเดี่ยว / สารสกัด",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "500 มก./แคปซูล (Allicin standardized)",
+    "unit_amount_mg": 500,
+    "unit": "แคปซูล",
+    "unit_price_thb": 3.50,
+    "taste": "เผ็ดร้อน ฉุน",
+    "primary_element": "วาโย / เตโช",
+    "indications": [
+      "ช่วยลดระดับไขมันในเลือด บรรเทาอาการท้องอืด จุกเสียด",
+      "ส่งเสริมการไหลเวียนของโลหิต"
+    ],
+    "contraindications": [
+      "ห้ามใช้ก่อนการผ่าตัดอย่างน้อย 7-10 วัน",
+      "ห้ามใช้ในผู้ที่มีประวัติเลือดออกผิดปกติรุนแรง"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ใช้ขนาดปกติทางอาหารได้ แต่ไม่ควรรับประทานสารสกัดเข้มข้นปริมาณสูง",
+      "pediatric": "ไม่แนะนำสารสกัดเข้มข้นในเด็กเล็ก",
+      "elderly": "ระวังอาการแสบร้อนทางเดินอาหาร",
+      "hepatic_renal": "ระวังในผู้ป่วยโรคตับ",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาต้านการแข็งตัวของเลือดและยาลดไขมันกลุ่ม Statin (Simvastatin) เนื่องจากอาจมีผลต่อ CYP3A4 แม้หลักฐานยังไม่มีข้อสรุปชัดเจน"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (500 มก.)",
+        "frequency_per_day": 2,
+        "timing": "หลังอาหาร เช้า-เย็น",
+        "max_daily_dose_units": 3,
+        "max_daily_dose_mg": 1500,
+        "max_duration_days": 30
+      },
+      "child": {
+        "eligible_age_min": 12,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (250 มก.)",
+        "frequency_per_day": 1,
+        "timing": "หลังอาหาร",
+        "max_daily_dose_units": 1,
+        "max_daily_dose_mg": 250,
+        "max_duration_days": 14
+      }
+    },
+    "nlem_status": "ยังไม่ตรวจสอบ",
+    "nlem_category": "ยาสมุนไพรทางเลือกเสริมสุขภาพ (ตัวอย่าง)",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "ตำราอ้างอิงด้านการแพทย์แผนไทย / German Commission E Monographs"
+  },
+  {
+    "drug_code_24": "410000000299429114011407",
+    "ttmt_id": "T11407-100029",
+    "thai_name": "ยาน้ำมันไพล / ครีมไพล",
+    "common_name": "Plai Oil / Cream",
+    "scientific_name": "Zingiber montanum (J.König) Link ex A.Dietr.",
+    "herb_type": "ยาเดี่ยว (ยาใช้ภายนอก)",
+    "dosage_form": "ครีม / น้ำมันใช้ภายนอก",
+    "strength_per_unit": "14% w/w สารสกัดไพล",
+    "unit_amount_mg": 30000,
+    "unit": "หลอด (30 กรัม)",
+    "unit_price_thb": 45.00,
+    "taste": "ฝาด ขม เผ็ดร้อน เล็กน้อย",
+    "primary_element": "วาโยระงับ / ปถวี",
+    "indications": [
+      "บรรเทาอาการปวดเมื่อยกล้ามเนื้อ เคล็ดขัดยอก ฟกช้ำ บวม",
+      "บรรเทาอาการข้ออักเสบและเส้นเอ็นตึงขัด"
+    ],
+    "contraindications": [
+      "ห้ามทาบริเวณผิวหนังที่มีบาดแผลเปิด แผลไฟไหม้ หรือเยื่อบุอ่อน",
+      "ห้ามใช้ในผู้ที่แพ้สารสกัดไพล"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ใช้ภายนอกได้ แต่หลีกเลี่ยงการทาบริเวณหน้าท้องหรือเต้านม",
+      "pediatric": "เด็กอายุ 3 ปีขึ้นไปใช้ได้ ระวังอย่าให้เข้าตาหรือปาก",
+      "elderly": "ใช้ได้ดี ช่วยลดความจำเป็นในการรับประทานยาแก้ปวดกลุ่ม NSAIDs",
+      "hepatic_renal": "ปลอดภัยเนื่องจากเป็นการดูดซึมเฉพาะที่ระดับต่ำ",
+      "drug_interactions": "อันตรกิริยาระดับต่ำมากกับยาแก้ปวดรับประทาน (Ibuprofen) สามารถใช้เสริมเพื่อลดขนาดยากลุ่ม NSAIDs ได้"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "ทาและถูนวดเบาๆ บริเวณที่มีอาการ",
+        "frequency_per_day": 3,
+        "timing": "เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 4,
+        "max_daily_dose_mg": 0,
+        "max_duration_days": 30
+      },
+      "child": {
+        "eligible_age_min": 3,
+        "dose_per_admin": 1,
+        "dose_unit": "ทาบางๆ บริเวณที่มีอาการ",
+        "frequency_per_day": 2,
+        "timing": "เช้า-เย็น",
+        "max_daily_dose_units": 2,
+        "max_daily_dose_mg": 0,
+        "max_duration_days": 7
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ (ยาใช้ภายนอก)",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "คู่มือรหัสยาแผนไทย 24 หลัก (2568) / บัญชียาหลักแห่งชาติด้านสมุนไพร"
+  },
+  {
+    "drug_code_24": "420000000352019150011408",
+    "ttmt_id": "T11408-200035",
+    "thai_name": "ยาแคปซูลตรีผลา",
+    "common_name": "Triphala Capsule",
+    "scientific_name": "Terminalia chebula, Terminalia bellirica, Phyllanthus emblica",
+    "herb_type": "ยาตำรับ",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "500 มก./แคปซูล",
+    "unit_amount_mg": 500,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.50,
+    "taste": "เปรี้ยว ฝาด ขม หวาน",
+    "primary_element": "คุมธาตุทั้ง 4 (ปรับสมดุลตรีโทษะ)",
+    "indications": [
+      "ปรับสมดุลธาตุ บรรเทาอาการหวัด ไอ ขับเสมหะ",
+      "ระบายอุจจาระ ล้างพิษในทางเดินอาหาร ต้านอนุมูลอิสระ"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ที่มีอาการถ่ายอุจจาระเหลวหรือท้องเสียรุนแรง",
+      "ห้ามใช้ในหญิงตั้งครรภ์ระยะแรก"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ระวังในหญิงตั้งครรภ์เนื่องจากมีฤทธิ์ระบาย",
+      "pediatric": "เด็กอายุ 6 ปีขึ้นไปใช้ขนาดครึ่งหนึ่งของผู้ใหญ่",
+      "elderly": "ระวังภาวะขาดน้ำหากมีอาการถ่ายบ่อย",
+      "hepatic_renal": "ปลอดภัยสำหรับการใช้ระยะสั้นถึงปานกลาง",
+      "drug_interactions": "อาจลดการดูดซึมยาแผนปัจจุบันบางชนิดเนื่องจากฤทธิ์กระตุ้นการขับถ่าย ควรเว้นระยะห่าง 2 ชั่วโมง"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 2,
+        "dose_unit": "แคปซูล (1,000 มก.)",
+        "frequency_per_day": 2,
+        "timing": "ก่อนอาหารเช้า และก่อนนอน",
+        "max_daily_dose_units": 6,
+        "max_daily_dose_mg": 3000,
+        "max_duration_days": 30
+      },
+      "child": {
+        "eligible_age_min": 6,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (500 มก.)",
+        "frequency_per_day": 1,
+        "timing": "ก่อนนอน",
+        "max_daily_dose_units": 2,
+        "max_daily_dose_mg": 1000,
+        "max_duration_days": 14
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการรักษาอาการเจ็บป่วยด้วยยาสมุนไพรในระบบบริการปฐมภูมิ (2568)"
+  },
+  {
+    "drug_code_24": "420000000414019120011409",
+    "ttmt_id": "T11409-200041",
+    "thai_name": "ยาหอมนวโกฐ",
+    "common_name": "Navakot Herbal Powder Formula",
+    "scientific_name": "Traditional polyherbal 9-kot formula",
+    "herb_type": "ยาตำรับ",
+    "dosage_form": "ผงชง / เม็ด",
+    "strength_per_unit": "2 กรัม/ซอง",
+    "unit_amount_mg": 2000,
+    "unit": "ซอง",
+    "unit_price_thb": 5.00,
+    "taste": "สุขุม หอม ร้อนเล็กน้อย",
+    "primary_element": "วาโยระงับ / หทัยวาตะ",
+    "indications": [
+      "แก้ลมวิงเวียน หน้ามืด ตาลาย ใจสั่น",
+      "แก้ลมจุกแน่นในอก แน่นท้อง คลื่นเหียน คลื่นไส้"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ที่มีไข้สูง",
+      "ห้ามใช้ในสตรีมีครรภ์"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้ในหญิงตั้งครรภ์",
+      "pediatric": "ไม่แนะนำในเด็กอายุต่ำกว่า 12 ปี",
+      "elderly": "เหมาะสำหรับผู้สูงอายุที่มีอาการลมกองละเอียดอ่อนแรง",
+      "hepatic_renal": "ระวังการใช้ร่วมกับยาต้านการแข็งตัวของเลือดเนื่องจากมีตัวยารสร้อนหลายชนิด",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาวาร์ฟารินและแอสไพริน เนื่องจากมีส่วนประกอบของโกฐและสมุนไพรกระตุ้นการไหลเวียนเลือด"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "ซอง (1-2 กรัม ละลายน้ำอุ่นหรือกระสายน้ำดอกไม้)",
+        "frequency_per_day": 3,
+        "timing": "ก่อนอาหาร หรือเมื่อมีอาการ ทุก 3-4 ชั่วโมง",
+        "max_daily_dose_units": 4,
+        "max_daily_dose_mg": 8000,
+        "max_duration_days": 14
+      },
+      "child": {
+        "eligible_age_min": 12,
+        "dose_per_admin": 0.5,
+        "dose_unit": "ซอง (1 กรัม)",
+        "frequency_per_day": 2,
+        "timing": "เมื่อมีอาการ",
+        "max_daily_dose_units": 2,
+        "max_daily_dose_mg": 4000,
+        "max_duration_days": 5
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ (ยาแผนไทยตำรับ)",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "คู่มือรหัสยาแผนไทย 24 หลัก (2568) / ตำรับยาแผนไทยในบัญชียาหลักแห่งชาติ"
+  },
+  {
+    "drug_code_24": "420000000452159102011410",
+    "ttmt_id": "T11410-200045",
+    "thai_name": "ยาประสะมะแว้ง",
+    "common_name": "Prasa Mawaeng Tablet / Lozenge",
+    "scientific_name": "Solanum trilobatum, Solanum indicum compound",
+    "herb_type": "ยาตำรับ",
+    "dosage_form": "เม็ดอม / ลูกกลอน",
+    "strength_per_unit": "200 มก./เม็ด",
+    "unit_amount_mg": 200,
+    "unit": "เม็ด",
+    "unit_price_thb": 1.00,
+    "taste": "ขม เปรี้ยว ชุ่มคอ",
+    "primary_element": "อาโป / ศอเสมหะ",
+    "indications": [
+      "บรรเทาอาการไอ ขับเสมหะ กัดเสมหะในลำคอ",
+      "ช่วยให้ชุ่มคอ บรรเทาอาการระคายคอ"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ที่มีประวัติแพ้สมุนไพรในตำรับ",
+      "ระวังในผู้ป่วยเบาหวานหากเป็นสูตรยาน้ำเชื่อมที่มีน้ำตาลสูง"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ใช้ได้ภายใต้คำแนะนำของแพทย์แผนไทย",
+      "pediatric": "เด็ก 3 ปีขึ้นไปอมได้ ระวังการสำลักเม็ดยา",
+      "elderly": "ใช้ได้ปลอดภัย",
+      "hepatic_renal": "ปลอดภัยสูงเนื่องจากขนาดยาต่ำ",
+      "drug_interactions": "ไม่มีรายงานอันตรกิริยารุนแรงกับยาแผนปัจจุบัน"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 3,
+        "dose_unit": "เม็ด (อมครั้งละ 2-3 เม็ด)",
+        "frequency_per_day": 4,
+        "timing": "อมเมื่อมีอาการไอ หรือทุก 2-3 ชั่วโมง",
+        "max_daily_dose_units": 15,
+        "max_daily_dose_mg": 3000,
+        "max_duration_days": 14
+      },
+      "child": {
+        "eligible_age_min": 3,
+        "dose_per_admin": 1,
+        "dose_unit": "เม็ด (ละลายน้ำอุ่นหรืออมช้าๆ)",
+        "frequency_per_day": 3,
+        "timing": "เมื่อมีอาการไอ",
+        "max_daily_dose_units": 6,
+        "max_daily_dose_mg": 1200,
+        "max_duration_days": 7
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการรักษาอาการเจ็บป่วยด้วยยาสมุนไพรในระบบบริการปฐมภูมิ (2568)"
+  },
+  {
+    "drug_code_24": "420000000489469118011411",
+    "ttmt_id": "T11411-200048",
+    "thai_name": "ยาธาตุอบเชย",
+    "common_name": "That Cinnamon Mixture",
+    "scientific_name": "Cinnamomum verum compound mixture",
+    "herb_type": "ยาตำรับ",
+    "dosage_form": "ยาน้ำ",
+    "strength_per_unit": "180 มล./ขวด",
+    "unit_amount_mg": 180000,
+    "unit": "ขวด",
+    "unit_price_thb": 35.00,
+    "taste": "เผ็ด หวาน ร้อน หอม",
+    "primary_element": "เตโช / วาโย",
+    "indications": [
+      "ขับลมในลำไส้ แก้จุกแน่น ท้องอืด ท้องเฟ้อ",
+      "เจริญอาหาร บำรุงธาตุไฟย่อยอาหาร"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ป่วยที่มีไข้สูง หรือมีอาการอักเสบร้อนในกระเพาะอาหารอย่างรุนแรง",
+      "ห้ามใช้ในสตรีมีครรภ์"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้ในสตรีมีครรภ์",
+      "pediatric": "เด็กอายุ 6 ปีขึ้นไปรับประทานขนาด 1 ช้อนชา",
+      "elderly": "ใช้ได้ดีในผู้สูงอายุที่มีไฟธาตุย่อยอาหารหย่อน",
+      "hepatic_renal": "ระวังในผู้ป่วยไตวายเรื้อรัง",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาต้านการแข็งตัวของเลือดเนื่องจากอบเชยมีสารคูมารินตามธรรมชาติ"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 15,
+        "dose_unit": "มล. (1 ช้อนโต๊ะ)",
+        "frequency_per_day": 3,
+        "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 60,
+        "max_daily_dose_mg": 0,
+        "max_duration_days": 14
+      },
+      "child": {
+        "eligible_age_min": 6,
+        "dose_per_admin": 5,
+        "dose_unit": "มล. (1 ช้อนชา)",
+        "frequency_per_day": 2,
+        "timing": "หลังอาหาร เช้า-เย็น",
+        "max_daily_dose_units": 20,
+        "max_daily_dose_mg": 0,
+        "max_duration_days": 7
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการรักษาอาการเจ็บป่วยด้วยยาสมุนไพรในระบบบริการปฐมภูมิ (2568)"
+  },
+  {
+    "drug_code_24": "420000000524019115011412",
+    "ttmt_id": "T11412-200052",
+    "thai_name": "ยาหอมเทพจิตร",
+    "common_name": "Thepjitr Herbal Powder Formula",
+    "scientific_name": "Traditional Thai aromatic flower polyherbal formula",
+    "herb_type": "ยาตำรับ",
+    "dosage_form": "ผงชง / เม็ด",
+    "strength_per_unit": "1.5 กรัม/ซอง",
+    "unit_amount_mg": 1500,
+    "unit": "ซอง",
+    "unit_price_thb": 4.50,
+    "taste": "หอม เย็น สุขุม",
+    "primary_element": "อาโป / หทัยวาตะสงบ",
+    "indications": [
+      "แก้ลมวิงเวียน อ่อนเพลีย หน้ามืด ตาลาย",
+      "บำรุงหัวใจ ช่วยให้นอนหลับ จิตใจสงบ คลายกังวล"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ที่แพ้เกสรดอกไม้ที่เป็นส่วนประกอบในตำรับ",
+      "ห้ามใช้ในผู้ที่มีประวัติแพ้ยาหอม"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "หญิงตั้งครรภ์ควรปรึกษาแพทย์แผนไทยก่อนใช้",
+      "pediatric": "เด็กอายุ 6 ปีขึ้นไปใช้ได้ขนาดต่ำ",
+      "elderly": "เหมาะมากสำหรับผู้สูงอายุที่มีโรคลมวิงเวียนและนอนไม่หลับ",
+      "hepatic_renal": "ปลอดภัย ไม่มีภาระต่อไตสูง",
+      "drug_interactions": "ระวังการเสริมฤทธิ์ยานอนหลับหรือยากล่อมประสาทแผนปัจจุบัน"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "ซอง (1-1.5 กรัม ละลายน้ำอุ่น)",
+        "frequency_per_day": 3,
+        "timing": "ก่อนอาหาร หรือเมื่อมีอาการ และก่อนนอน",
+        "max_daily_dose_units": 4,
+        "max_daily_dose_mg": 6000,
+        "max_duration_days": 30
+      },
+      "child": {
+        "eligible_age_min": 6,
+        "dose_per_admin": 0.5,
+        "dose_unit": "ซอง (0.75 กรัม)",
+        "frequency_per_day": 2,
+        "timing": "เมื่อมีอาการ",
+        "max_daily_dose_units": 2,
+        "max_daily_dose_mg": 3000,
+        "max_duration_days": 7
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "ตำรับยาแผนไทยในบัญชียาหลักแห่งชาติ พ.ศ. 2566"
+  },
+  {
+    "drug_code_24": "420000000552019140011413",
+    "ttmt_id": "T11413-200055",
+    "thai_name": "ยาปราบชมพูทวีป",
+    "common_name": "Prabchompoothaweep Capsule",
+    "scientific_name": "Traditional polyherbal formula for cold and allergic rhinitis",
+    "herb_type": "ยาตำรับ",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "400 มก./แคปซูล",
+    "unit_amount_mg": 400,
+    "unit": "แคปซูล",
+    "unit_price_thb": 3.00,
+    "taste": "เผ็ดร้อน สุขุม",
+    "primary_element": "เตโชขับวาโย / สลายเสมหะ",
+    "indications": [
+      "บรรเทาอาการหวัดเรื้อรัง แพ้อากาศ คัดจมูก น้ำมูกไหล",
+      "แก้ลมอุทธังคมาวาตาพิการ อาการปวดศีรษะข้างเดียว (ลมปะกัง)"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ที่มีไข้สูง ตัวร้อนจัด",
+      "ห้ามใช้ในหญิงตั้งครรภ์และให้นมบุตร",
+      "ห้ามใช้ในผู้ป่วยโรคแผลในทางเดินอาหารกำเริบ"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้เด็ดขาด",
+      "pediatric": "ไม่แนะนำในเด็กอายุต่ำกว่า 12 ปี",
+      "elderly": "ระวังความดันโลหิตสูงกำเริบเนื่องจากตำรับมีฤทธิ์ร้อน",
+      "hepatic_renal": "ระวังในผู้ป่วยไตเสื่อม",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาต้านการแข็งตัวของเลือด (Warfarin) และยาต้านเกล็ดเลือด"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 2,
+        "dose_unit": "แคปซูล (800 มก.)",
+        "frequency_per_day": 3,
+        "timing": "ก่อนอาหาร เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 8,
+        "max_daily_dose_mg": 3200,
+        "max_duration_days": 14
+      },
+      "child": {
+        "eligible_age_min": 12,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (400 มก.)",
+        "frequency_per_day": 2,
+        "timing": "ก่อนอาหาร เช้า-เย็น",
+        "max_daily_dose_units": 3,
+        "max_daily_dose_mg": 1200,
+        "max_duration_days": 7
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางปฏิบัติเวชกรรมดูแลผู้ป่วยปฐมภูมิ / บัญชียาหลักแห่งชาติด้านสมุนไพร"
+  },
+  {
+    "drug_code_24": "420000004919130021511411",
+    "ttmt_id": "T11411-210902",
+    "thai_name": "ยาสหัศธารา",
+    "common_name": "Sahasthara Pill / Capsule",
+    "scientific_name": "Polyherbal formula for neuro-muscular and joint wind disorders",
+    "herb_type": "ยาตำรับ",
+    "dosage_form": "ยาลูกกลอน / แคปซูล",
+    "strength_per_unit": "300 มก./เม็ด",
+    "unit_amount_mg": 300,
+    "unit": "เม็ด",
+    "unit_price_thb": 2.50,
+    "taste": "เผ็ดร้อน สุขุม",
+    "primary_element": "วาโยระงับ / เตโชกระตุ้นการไหลเวียน",
+    "indications": [
+      "ขับลมในเส้น แก้โรคลมกองหยาบ มือชา เท้าชา ปวดเมื่อยตามร่างกาย",
+      "แก้อังคมังคานุสารีวาตาพิการ และสุมนาวาตะพิการ แก้มังสังพิการ (กล้ามเนื้อตึงยึด)"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในหญิงตั้งครรภ์และผู้ที่มีไข้สูง",
+      "ห้ามใช้ในผู้ที่มีประวัติเลือดออกในทางเดินอาหาร"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้เด็ดขาด",
+      "pediatric": "ไม่แนะนำในเด็กอายุต่ำกว่า 15 ปี",
+      "elderly": "ระวังอาการระคายเคืองกระเพาะอาหาร",
+      "hepatic_renal": "ระวังในผู้ป่วยตับและไต",
+      "drug_interactions": "ระวังอย่างสูงเมื่อใช้ร่วมกับยาต้านการแข็งตัวของเลือด (Warfarin) และยากลุ่ม NSAIDs"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 3,
+        "dose_unit": "เม็ด (900 มก.)",
+        "frequency_per_day": 3,
+        "timing": "ก่อนอาหาร เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 12,
+        "max_daily_dose_mg": 3600,
+        "max_duration_days": 14
+      },
+      "child": {
+        "eligible_age_min": 15,
+        "dose_per_admin": 1,
+        "dose_unit": "เม็ด (300 มก.)",
+        "frequency_per_day": 2,
+        "timing": "ก่อนอาหาร เช้า-เย็น",
+        "max_daily_dose_units": 3,
+        "max_daily_dose_mg": 900,
+        "max_duration_days": 7
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "คู่มือรหัสยาแผนไทย 24 หลัก หน้า 28 (พ.ศ. 2568)"
+  },
+  {
+    "drug_code_24": "410000000239140020111460",
+    "ttmt_id": "T11460-104401",
+    "thai_name": "ยาแคปซูลเถาวัลย์เปรียง",
+    "common_name": "Thao Wan Priang Capsule",
+    "scientific_name": "Derris scandens (Roxb.) Benth.",
+    "herb_type": "ยาเดี่ยว",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "400 มก./แคปซูล",
+    "unit_amount_mg": 400,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.50,
+    "taste": "เอียน เผ็ดร้อนเล็กน้อย",
+    "primary_element": "วาโยระงับ / ปถวีซ่อมแซม",
+    "indications": [
+      "บรรเทาอาการปวดกล้ามเนื้อ ลดอาการอักเสบของกล้ามเนื้อและข้อ",
+      "แก้มังสังพิการ นหารูพิการ สุมนาวาตะพิการ และกษัยลสิกาพิการ"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในสตรีมีครรภ์",
+      "ห้ามใช้ในผู้ป่วยโรคหัวใจเต้นผิดจังหวะหรือผู้ที่ไวต่อสารเคมีกลุ่มไอโซฟลาโวน"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้ในหญิงตั้งครรภ์",
+      "pediatric": "ไม่แนะนำในเด็กอายุต่ำกว่า 12 ปี",
+      "elderly": "ระวังอาการระคายเคืองกระเพาะอาหารและอาการคลื่นไส้",
+      "hepatic_renal": "ระวังในผู้ป่วยไตเสื่อม",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาต้านการแข็งตัวของเลือดและยาลดการอักเสบกลุ่ม NSAIDs"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (400 มก.)",
+        "frequency_per_day": 3,
+        "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 4,
+        "max_daily_dose_mg": 1600,
+        "max_duration_days": 14
+      },
+      "child": {
+        "eligible_age_min": 12,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (400 มก.)",
+        "frequency_per_day": 1,
+        "timing": "หลังอาหาร",
+        "max_daily_dose_units": 2,
+        "max_daily_dose_mg": 800,
+        "max_duration_days": 7
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "คู่มือรหัสยาแผนไทย 24 หลัก หน้า 27 (พ.ศ. 2568)"
+  },
+  {
+    "drug_code_24": "410000000612019140011414",
+    "ttmt_id": "T11414-100061",
+    "thai_name": "ยาแคปซูลบัวบก",
+    "common_name": "Gotu Kola Capsule / Centella",
+    "scientific_name": "Centella asiatica (L.) Urb.",
+    "herb_type": "ยาเดี่ยว",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "400 มก./แคปซูล",
+    "unit_amount_mg": 400,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.50,
+    "taste": "ขม หวาน เย็น",
+    "primary_element": "เตโชระงับ / อาโป",
+    "indications": [
+      "แก้ช้ำใน แก้อาการร้อนใน กระหายน้ำ",
+      "สมานแผล ส่งเสริมการไหลเวียนของหลอดเลือดดำ บำรุงความจำ"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ที่มีประวัติแพ้บัวบก หรือพืชตระกูลผักชี (Apiaceae)",
+      "ห้ามใช้ในหญิงตั้งครรภ์"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้ในหญิงตั้งครรภ์ หญิงให้นมบุตรควรระวัง",
+      "pediatric": "เด็ก 6 ปีขึ้นไปใช้ได้ขนาดต่ำ",
+      "elderly": "ใช้ได้ปลอดภัย",
+      "hepatic_renal": "หลีกเลี่ยงการใช้ติดต่อกันนานเกิน 6 สัปดาห์เพราะอาจมีผลต่อเอนไซม์ตับ",
+      "drug_interactions": "ระวังการใช้ร่วมกับยานอนหลับหรือยาลดความวิตกกังวล (อาจเสริมฤทธิ์ง่วงซึม)"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (400 มก.)",
+        "frequency_per_day": 3,
+        "timing": "หลังอาหาร เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 3,
+        "max_daily_dose_mg": 1200,
+        "max_duration_days": 30
+      },
+      "child": {
+        "eligible_age_min": 6,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (200 มก.)",
+        "frequency_per_day": 1,
+        "timing": "หลังอาหาร",
+        "max_daily_dose_units": 1,
+        "max_daily_dose_mg": 200,
+        "max_duration_days": 14
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการรักษาอาการเจ็บป่วยด้วยยาสมุนไพรในระบบบริการปฐมภูมิ (2568)"
+  },
+  {
+    "drug_code_24": "410000000652019150011415",
+    "ttmt_id": "T11415-100065",
+    "thai_name": "ยาแคปซูลชุมเห็ดเทศ",
+    "common_name": "Senna Alata Capsule / Candle Bush",
+    "scientific_name": "Senna alata (L.) Roxb.",
+    "herb_type": "ยาเดี่ยว",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "500 มก./แคปซูล",
+    "unit_amount_mg": 500,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.00,
+    "taste": "เอียน ขม",
+    "primary_element": "วาโยระบาย / กรีสังพิการ",
+    "indications": [
+      "บรรเทาอาการท้องผูก (เป็นยาระบาย)",
+      "ขับลมและระบายความร้อนตกค้างในลำไส้"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ป่วยที่มีภาวะทางเดินอาหารอุดตัน ลำไส้อุดตัน หรือปวดท้องไม่ทราบสาเหตุ",
+      "ห้ามใช้ในสตรีมีครรภ์และให้นมบุตร"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้เด็ดขาด",
+      "pediatric": "ไม่แนะนำในเด็กอายุต่ำกว่า 12 ปี",
+      "elderly": "ระวังภาวะขาดน้ำและการสูญเสียโพแทสเซียม",
+      "hepatic_renal": "ไม่ควรใช้ติดต่อกันเกิน 7 วัน เพราะอาจทำให้ลำไส้ดื้อยา",
+      "drug_interactions": "ระวังการใช้ร่วมกับ Digoxin และยาขับปัสสาวะ เสี่ยงต่อภาวะ Hypokalemia"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 2,
+        "dose_unit": "แคปซูล (1,000 มก.)",
+        "frequency_per_day": 1,
+        "timing": "ก่อนนอน หรือเมื่อมีอาการท้องผูก",
+        "max_daily_dose_units": 3,
+        "max_daily_dose_mg": 1500,
+        "max_duration_days": 7
+      },
+      "child": {
+        "eligible_age_min": 12,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (500 มก.)",
+        "frequency_per_day": 1,
+        "timing": "ก่อนนอน",
+        "max_daily_dose_units": 1,
+        "max_daily_dose_mg": 500,
+        "max_duration_days": 3
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการรักษาอาการเจ็บป่วยด้วยยาสมุนไพรในระบบบริการปฐมภูมิ (2568)"
+  },
+  {
+    "drug_code_24": "420000000704019120011416",
+    "ttmt_id": "T11416-200070",
+    "thai_name": "ยาประสะจันทน์แดง",
+    "common_name": "Prasa Chan Daeng Formula",
+    "scientific_name": "Traditional polyherbal antipyretic formula",
+    "herb_type": "ยาตำรับ",
+    "dosage_form": "ผงชง / แคปซูล",
+    "strength_per_unit": "500 มก./แคปซูล",
+    "unit_amount_mg": 500,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.50,
+    "taste": "ขม เย็น สุขุม",
+    "primary_element": "เตโชระงับ (ดับพิษไข้กาฬ พิษร้อน)",
+    "indications": [
+      "แก้ไข้ตัวร้อน ไข้พิษ ไข้กาฬ",
+      "บรรเทาอาการกระหายน้ำ ร้อนใน ดับพิษร้อนในร่างกาย"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ที่มีอาการไข้หนาวสั่นจากธาตุลมหรือไข้จับสั่นเรื้อรัง",
+      "ห้ามใช้ในสตรีมีครรภ์"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้ในหญิงตั้งครรภ์",
+      "pediatric": "เด็ก 6 ปีขึ้นไปใช้ได้ขนาดต่ำ",
+      "elderly": "ระวังอาการหนาวสั่นหากใช้ติดต่อกันเกิน 3 วัน",
+      "hepatic_renal": "ปลอดภัยสำหรับการใช้ระยะสั้น",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาลดไข้พาราเซตามอล ไม่ควรใช้ซ้ำซ้อนเป็นเวลานาน"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 2,
+        "dose_unit": "แคปซูล (1,000 มก.)",
+        "frequency_per_day": 3,
+        "timing": "ก่อนอาหาร เช้า-กลางวัน-เย็น หรือเมื่อมีไข้",
+        "max_daily_dose_units": 6,
+        "max_daily_dose_mg": 3000,
+        "max_duration_days": 5
+      },
+      "child": {
+        "eligible_age_min": 6,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (500 มก.)",
+        "frequency_per_day": 2,
+        "timing": "ก่อนอาหาร เช้า-เย็น",
+        "max_daily_dose_units": 2,
+        "max_daily_dose_mg": 1000,
+        "max_duration_days": 3
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางปฏิบัติเวชกรรมดูแลผู้ป่วยปฐมภูมิ / ตำรับยาแผนไทยบัญชียาหลักแห่งชาติ"
+  },
+  {
+    "drug_code_24": "410000000759469112011417",
+    "ttmt_id": "T11417-100075",
+    "thai_name": "ยาน้ำมะขามป้อมแก้ไอ",
+    "common_name": "Indian Gooseberry Cough Syrup / Makham Pom",
+    "scientific_name": "Phyllanthus emblica L. compound syrup",
+    "herb_type": "ยาเดี่ยว / ยาน้ำเชื่อม",
+    "dosage_form": "ยาน้ำ",
+    "strength_per_unit": "120 มล./ขวด",
+    "unit_amount_mg": 120000,
+    "unit": "ขวด",
+    "unit_price_thb": 30.00,
+    "taste": "เปรี้ยว ฝาด หวาน ชุ่มคอ",
+    "primary_element": "อาโป / ศอเสมหะ",
+    "indications": [
+      "บรรเทาอาการไอ ขับเสมหะ ทำให้ชุ่มคอ",
+      "บรรเทาอาการระคายเคืองในลำคอจากไข้หวัด"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในผู้ที่มีประวัติแพ้มะขามป้อม",
+      "ระวังในผู้ป่วยเบาหวานที่มีระดับน้ำตาลสูงควบคุมไม่ได้ (เนื่องจากมีสารให้ความหวาน)"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ใช้ได้ปลอดภัย",
+      "pediatric": "เด็ก 2 ขวบขึ้นไปรับประทานได้ขนาดครึ่งช้อนชา",
+      "elderly": "ใช้ได้ปลอดภัยมาก",
+      "hepatic_renal": "ปลอดภัย ไม่มีพิษสะสม",
+      "drug_interactions": "ไม่มีรายงานอันตรกิริยารุนแรงกับยาแผนปัจจุบัน"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 10,
+        "dose_unit": "มล. (2 ช้อนชา จิบช้าๆ)",
+        "frequency_per_day": 4,
+        "timing": "จิบเมื่อมีอาการไอ ทุก 3-4 ชั่วโมง",
+        "max_daily_dose_units": 60,
+        "max_daily_dose_mg": 0,
+        "max_duration_days": 14
+      },
+      "child": {
+        "eligible_age_min": 2,
+        "dose_per_admin": 2.5,
+        "dose_unit": "มล. (ครึ่งช้อนชา)",
+        "frequency_per_day": 3,
+        "timing": "จิบเมื่อมีอาการไอ",
+        "max_daily_dose_units": 15,
+        "max_daily_dose_mg": 0,
+        "max_duration_days": 7
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการใช้ยาสมุนไพรในการดูแลอาการเจ็บป่วยเบื้องต้น (2568)"
+  },
+  {
+    "drug_code_24": "410000000802019140011418",
+    "ttmt_id": "T11418-100080",
+    "thai_name": "ยาแคปซูลรางจืด",
+    "common_name": "Rang Chuet Capsule / Thunbergia Laurifolia",
+    "scientific_name": "Thunbergia laurifolia Lindl.",
+    "herb_type": "ยาเดี่ยว",
+    "dosage_form": "แคปซูล / ชาชง",
+    "strength_per_unit": "400 มก./แคปซูล",
+    "unit_amount_mg": 400,
+    "unit": "แคปซูล",
+    "unit_price_thb": 2.50,
+    "taste": "จืด เย็น",
+    "primary_element": "เตโชระงับ / ถอนพิษไข้",
+    "indications": [
+      "ถอนพิษไข้ แก้ร้อนใน กระหายน้ำ",
+      "บรรเทาอาการแพ้ ผื่นคัน ล้างสารพิษตกค้างเบื้องต้น"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในสตรีมีครรภ์และสตรีให้นมบุตร",
+      "ห้ามใช้ในผู้ป่วยที่มีภาวะตับวายหรือไตวายเฉียบพลัน"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้",
+      "pediatric": "ไม่แนะนำในเด็กอายุต่ำกว่า 12 ปี",
+      "elderly": "ระวังความดันโลหิตต่ำและระดับน้ำตาลลดลง",
+      "hepatic_renal": "ไม่ควรรับประทานติดต่อกันเกิน 7 วัน",
+      "drug_interactions": "อาจเร่งการขับถ่ายหรือลดระดับยาแผนปัจจุบันในกระแสเลือดเนื่องจากมีคุณสมบัติกระตุ้นเอนไซม์ล้างพิษในตับ (CYP450) ควรเว้นระยะห่างจากการรับประทานยาแผนปัจจุบันอย่างน้อย 2 ชั่วโมง"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 2,
+        "dose_unit": "แคปซูล (800 มก.)",
+        "frequency_per_day": 3,
+        "timing": "ก่อนอาหาร เช้า-กลางวัน-เย็น",
+        "max_daily_dose_units": 6,
+        "max_daily_dose_mg": 2400,
+        "max_duration_days": 7
+      },
+      "child": {
+        "eligible_age_min": 12,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (400 มก.)",
+        "frequency_per_day": 2,
+        "timing": "ก่อนอาหาร",
+        "max_daily_dose_units": 2,
+        "max_daily_dose_mg": 800,
+        "max_duration_days": 3
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางการรักษาอาการเจ็บป่วยด้วยยาสมุนไพรในระบบบริการปฐมภูมิ (2568)"
+  },
+  {
+    "drug_code_24": "410000000852019110011419",
+    "ttmt_id": "T11419-100085",
+    "thai_name": "ยาแคปซูลสารสกัดฟ้าทะลายโจรเข้มข้น",
+    "common_name": "Standardized Andrographis Extract Capsule",
+    "scientific_name": "Andrographis paniculata standardized extract",
+    "herb_type": "ยาสมุนไพรสกัด",
+    "dosage_form": "แคปซูล",
+    "strength_per_unit": "100 มก./แคปซูล (Andrographolide 20 มก./แคปซูล)",
+    "unit_amount_mg": 100,
+    "unit": "แคปซูล",
+    "unit_price_thb": 4.50,
+    "taste": "ขมจัด เย็น",
+    "primary_element": "เตโชระงับ / ปถวี",
+    "indications": [
+      "บรรเทาอาการโรคหวัดและอาการติดเชื้อทางเดินหายใจส่วนบน",
+      "เจ็บคอ มีไข้ คัดจมูก และลดความรุนแรงของอาการไอ"
+    ],
+    "contraindications": [
+      "ห้ามใช้ในสตรีมีครรภ์และสตรีให้นมบุตร",
+      "ห้ามใช้ในผู้ที่มีประวัติแพ้ฟ้าทะลายโจรหรือมีภาวะ Angioedema"
+    ],
+    "precautions": {
+      "pregnancy_lactation": "ห้ามใช้เด็ดขาด",
+      "pediatric": "เด็กอายุ 12 ปีขึ้นไปใช้ได้",
+      "elderly": "ระวังอาการแขนขาชา อ่อนแรง หรือความดันโลหิตลดต่ำ",
+      "hepatic_renal": "ห้ามใช้ติดต่อกันเกิน 5 วัน",
+      "drug_interactions": "ระวังการใช้ร่วมกับยาลดความดันโลหิตและยาวาร์ฟาริน"
+    },
+    "standard_dosing": {
+      "adult": {
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (Andrographolide 20 มก.)",
+        "frequency_per_day": 3,
+        "timing": "หลังอาหาร เช้า-กลางวัน-เย็น (รวม 60 มก./วัน)",
+        "max_daily_dose_units": 3,
+        "max_daily_dose_mg": 300,
+        "max_duration_days": 5
+      },
+      "child": {
+        "eligible_age_min": 12,
+        "dose_per_admin": 1,
+        "dose_unit": "แคปซูล (Andrographolide 20 มก.)",
+        "frequency_per_day": 2,
+        "timing": "หลังอาหาร เช้า-เย็น (รวม 40 มก./วัน)",
+        "max_daily_dose_units": 2,
+        "max_daily_dose_mg": 200,
+        "max_duration_days": 3
+      }
+    },
+    "nlem_status": "ใช่",
+    "nlem_category": "ยาสมุนไพรในบัญชียาหลักแห่งชาติ (รายการสารสกัด)",
+    "verification_status": "ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ",
+    "source_reference": "แนวทางเวชปฏิบัติการรักษาโควิดและไข้หวัดด้วยฟ้าทะลายโจร กรมการแพทย์แผนไทยฯ (2565-2568)"
+  }
+]
