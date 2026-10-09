@@ -19,28 +19,36 @@ export class MockDataService {
   private static formulary: ThaiHerbFormularyItem[] = [];
   private static interactions: HerbDrugInteraction[] = [];
 
+  private static isStorageAvailable(): boolean {
+    return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+  }
+
   public static initialize(): void {
     // 1. Load cases from localStorage or fallback to bundled JSON
-    const storedCases = localStorage.getItem(STORAGE_KEY_CASES);
-    if (storedCases) {
-      try {
-        const parsed = JSON.parse(storedCases);
-        if (Array.isArray(parsed) && parsed.length >= (rawCases as any[]).length) {
-          this.cases = parsed;
-        } else {
-          // Keep custom added cases and ensure all bundled 30 cases are present
-          const customOnly = Array.isArray(parsed)
-            ? parsed.filter((c: any) => c.case_id.startsWith('CUSTOM') || !c.case_id.match(/^C(?:0[1-9]|[12][0-9]|30)$/))
-            : [];
-          this.cases = [...customOnly, ...(rawCases as SyntheticCase[])];
-          this.saveCases();
+    if (this.isStorageAvailable()) {
+      const storedCases = localStorage.getItem(STORAGE_KEY_CASES);
+      if (storedCases) {
+        try {
+          const parsed = JSON.parse(storedCases);
+          if (Array.isArray(parsed) && parsed.length >= (rawCases as any[]).length) {
+            this.cases = parsed;
+          } else {
+            // Keep custom added cases and ensure all bundled 30 cases are present
+            const customOnly = Array.isArray(parsed)
+              ? parsed.filter((c: any) => c.case_id.startsWith('CUSTOM') || !c.case_id.match(/^C(?:0[1-9]|[12][0-9]|30)$/))
+              : [];
+            this.cases = [...customOnly, ...(rawCases as SyntheticCase[])];
+            this.saveCases();
+          }
+        } catch {
+          this.cases = rawCases as SyntheticCase[];
         }
-      } catch {
+      } else {
         this.cases = rawCases as SyntheticCase[];
+        this.saveCases();
       }
     } else {
       this.cases = rawCases as SyntheticCase[];
-      this.saveCases();
     }
 
     this.formulary = rawFormulary as ThaiHerbFormularyItem[];
@@ -120,6 +128,7 @@ export class MockDataService {
 
   // Prescriptions Persistence
   public static savePrescription(caseId: string, items: PrescribedItem[]): void {
+    if (!this.isStorageAvailable()) return;
     const existingStr = localStorage.getItem(STORAGE_KEY_PRESCRIPTIONS);
     const existing: { [caseId: string]: PrescribedItem[] } = existingStr ? JSON.parse(existingStr) : {};
     existing[caseId] = items;
@@ -127,6 +136,7 @@ export class MockDataService {
   }
 
   public static getPrescriptions(caseId: string): PrescribedItem[] {
+    if (!this.isStorageAvailable()) return [];
     const existingStr = localStorage.getItem(STORAGE_KEY_PRESCRIPTIONS);
     if (!existingStr) return [];
     const existing = JSON.parse(existingStr);
@@ -135,38 +145,46 @@ export class MockDataService {
 
   // Clinician Overrides Persistence
   public static saveOverride(record: ClinicianOverride): void {
+    if (!this.isStorageAvailable()) return;
     const list = this.getOverrides();
     list.push(record);
     localStorage.setItem(STORAGE_KEY_OVERRIDES, JSON.stringify(list));
   }
 
   public static getOverrides(): ClinicianOverride[] {
+    if (!this.isStorageAvailable()) return [];
     const stored = localStorage.getItem(STORAGE_KEY_OVERRIDES);
     return stored ? JSON.parse(stored) : [];
   }
 
   // Feedbacks Persistence
   public static saveFeedback(feedback: FeedbackRecord): void {
+    if (!this.isStorageAvailable()) return;
     const list = this.getFeedbacks();
     list.push(feedback);
     localStorage.setItem(STORAGE_KEY_FEEDBACKS, JSON.stringify(list));
   }
 
   public static getFeedbacks(): FeedbackRecord[] {
+    if (!this.isStorageAvailable()) return [];
     const stored = localStorage.getItem(STORAGE_KEY_FEEDBACKS);
     return stored ? JSON.parse(stored) : [];
   }
 
   public static resetToFactoryDefaults(): void {
-    localStorage.removeItem(STORAGE_KEY_CASES);
-    localStorage.removeItem(STORAGE_KEY_PRESCRIPTIONS);
-    localStorage.removeItem(STORAGE_KEY_FEEDBACKS);
-    localStorage.removeItem(STORAGE_KEY_OVERRIDES);
+    if (this.isStorageAvailable()) {
+      localStorage.removeItem(STORAGE_KEY_CASES);
+      localStorage.removeItem(STORAGE_KEY_PRESCRIPTIONS);
+      localStorage.removeItem(STORAGE_KEY_FEEDBACKS);
+      localStorage.removeItem(STORAGE_KEY_OVERRIDES);
+    }
     this.cases = rawCases as SyntheticCase[];
     this.saveCases();
   }
 
   private static saveCases(): void {
-    localStorage.setItem(STORAGE_KEY_CASES, JSON.stringify(this.cases));
+    if (this.isStorageAvailable()) {
+      localStorage.setItem(STORAGE_KEY_CASES, JSON.stringify(this.cases));
+    }
   }
 }

@@ -13,6 +13,7 @@ import { PatientSelectPage } from './pages/PatientSelectPage';
 import { SmutthanPage } from './pages/SmutthanPage';
 import { PrescribePage } from './pages/PrescribePage';
 import { PrescriptionPrintPage } from './pages/PrescriptionPrintPage';
+import { CarePlanPage } from './pages/CarePlanPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { InterRaterPage } from './pages/InterRaterPage';
 import { AdminHdiPage } from './pages/AdminHdiPage';
@@ -114,6 +115,10 @@ export const App: React.FC = () => {
               <Route
                 path="/prescription-print"
                 element={<PrescriptionPrintPage currentCase={currentCase} />}
+              />
+              <Route
+                path="/care-plan"
+                element={<CarePlanPage currentCase={currentCase} />}
               />
               <Route
                 path="/analytics"

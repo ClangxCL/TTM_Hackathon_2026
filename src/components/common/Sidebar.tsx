@@ -13,6 +13,8 @@ import {
   ChevronRight,
   UserPlus,
   ShieldCheck,
+  CalendarClock,
+  FileText,
 } from 'lucide-react';
 import teamLogo from '@/assets/team-logo.png';
 
@@ -34,7 +36,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { to: '/patients', label: `เคสผู้ป่วย (${casesCount} เคส)`, icon: Users, badge: `${casesCount}` },
     { to: '/smutthan', label: '1. Smutthan Engine', icon: Compass, badge: 'AI' },
     { to: '/prescribe', label: '2. สั่งยาแผนไทย & ตรวจ HDI', icon: Pill, badge: 'Core' },
-    { to: '/analytics', label: '3. ICD-10-TM Analytics', icon: BarChart3, badge: 'Real-time' },
+    { to: '/prescription-print', label: 'ใบสั่งยา & ฉลากยา', icon: FileText, badge: 'Print' },
+    { to: '/care-plan', label: '3. แผนการรักษา & ติดตามผล', icon: CalendarClock, badge: 'Final' },
+    { to: '/analytics', label: '4. ICD-10-TM Analytics', icon: BarChart3, badge: 'Real-time' },
     { to: '/inter-rater', label: 'ความสอดคล้องแพทย์', icon: GitCompare, badge: '' },
     { to: '/admin-hdi', label: 'ฐานข้อมูลกลาง HDI', icon: Database, badge: 'MOPH' },
     { to: '/status', label: 'สถานะระบบต้นแบบ', icon: Info, badge: 'MVP' },

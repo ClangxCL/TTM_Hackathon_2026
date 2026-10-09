@@ -198,37 +198,44 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenIntake }) => {
             </p>
           </div>
           <span className="text-xs font-semibold text-brand-800 bg-brand-50 border border-brand-200 px-3 py-1 rounded-full self-start sm:self-auto">
-            4-Step Smart Workflow
+            5-Step Complete Smart Workflow
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 hover:border-brand-300 transition">
-            <span className="font-bold text-brand-800 text-sm block mb-1">ขั้นตอนที่ 1</span>
-            <div className="font-bold text-slate-900">เลือกเคสหรือคีย์ผู้ป่วยใหม่</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 text-xs">
+          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 hover:border-brand-300 transition">
+            <span className="font-bold text-brand-800 text-xs block mb-1">ขั้นตอนที่ 1</span>
+            <div className="font-bold text-slate-900">เลือกเคส / คีย์ใหม่</div>
             <p className="text-slate-500 mt-1 text-[11px] leading-relaxed">
-              เลือกจาก 30 เคสจำลอง หรือลงทะเบียนผู้ป่วยใหม่ ตรวจสอบประวัติยาแผนปัจจุบัน โรคเรื้อรัง และสัญญาณชีพ
+              30 เคสจำลอง หรือลงทะเบียนผู้ป่วยใหม่ ตรวจสอบประวัติยาและโรคประจำตัว
             </p>
           </div>
-          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 hover:border-brand-300 transition">
-            <span className="font-bold text-brand-800 text-sm block mb-1">ขั้นตอนที่ 2</span>
+          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 hover:border-brand-300 transition">
+            <span className="font-bold text-brand-800 text-xs block mb-1">ขั้นตอนที่ 2</span>
             <div className="font-bold text-slate-900">ประเมินสมุฏฐาน 4 มิติ</div>
             <p className="text-slate-500 mt-1 text-[11px] leading-relaxed">
-              Engine คำนวณสมุฏฐาน 4 ธาตุจากสภาพอากาศสด กาล อายุ สัญญาณชีพ แสดง Radar Chart พร้อมเปิดให้แพทย์ Override ได้
+              วิเคราะห์ 4 ธาตุจากสภาพอากาศสด กาล อายุ สัญญาณชีพ แสดง Radar Chart
             </p>
           </div>
-          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 hover:border-brand-300 transition">
-            <span className="font-bold text-brand-800 text-sm block mb-1">ขั้นตอนที่ 3</span>
-            <div className="font-bold text-slate-900">สั่งยาแผนไทย & ตรวจ HDI</div>
+          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 hover:border-brand-300 transition">
+            <span className="font-bold text-brand-800 text-xs block mb-1">ขั้นตอนที่ 3</span>
+            <div className="font-bold text-slate-900">สั่งยา & ตรวจ HDI</div>
             <p className="text-slate-500 mt-1 text-[11px] leading-relaxed">
-              ค้นบัญชียา 21 รายการ คำนวณขนาดยา แจ้งเตือนอันตรกิริยากับยาแผนปัจจุบันทันที พร้อมเก็บบันทึก Clinical Override
+              ค้นบัญชียา 21 รายการ คำนวณขนาดยา เตือนอันตรกิริยา บันทึก Override
             </p>
           </div>
-          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 hover:border-brand-300 transition">
-            <span className="font-bold text-brand-800 text-sm block mb-1">ขั้นตอนที่ 4</span>
-            <div className="font-bold text-slate-900">พิมพ์ใบสั่งยา & วิเคราะห์ ICD-10-TM</div>
+          <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 hover:border-brand-300 transition">
+            <span className="font-bold text-brand-800 text-xs block mb-1">ขั้นตอนที่ 4</span>
+            <div className="font-bold text-slate-900">พิมพ์ใบสั่งยา & ฉลากยา</div>
             <p className="text-slate-500 mt-1 text-[11px] leading-relaxed">
-              ออกใบสั่งยา/ฉลากยา ส่งออก JSON บูรณาการ HIS และประมวลผลต้นทุนต่อเคสแบบ Real-time
+              ออกใบสั่งยา/ฉลากยา ส่งออก 43 แฟ้ม & FHIR JSON บูรณาการเข้า HIS
+            </p>
+          </div>
+          <div className="bg-gradient-to-br from-amber-50 to-teal-50 p-3.5 rounded-2xl border border-amber-300 hover:border-brand-400 transition shadow-xs">
+            <span className="font-bold text-amber-800 text-xs block mb-1">ขั้นตอนที่ 5 (ใหม่)</span>
+            <div className="font-bold text-slate-900">แผนการรักษา & ติดตามผล</div>
+            <p className="text-slate-600 mt-1 text-[11px] leading-relaxed">
+              กำหนดความถี่ติดตามผลรายเดือนตามหลักวิชาการ พร้อมกราฟแนวโน้มฟื้นฟูรายบุคคล
             </p>
           </div>
         </div>

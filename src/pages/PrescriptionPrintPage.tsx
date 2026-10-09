@@ -16,6 +16,8 @@ import {
   MessageSquare,
   ShieldCheck,
   Share2,
+  CalendarClock,
+  ArrowRight,
 } from 'lucide-react';
 import teamLogo from '@/assets/team-logo.png';
 
@@ -137,10 +139,19 @@ export const PrescriptionPrintPage: React.FC<PrescriptionPrintPageProps> = ({
 
           <button
             onClick={handlePrint}
-            className="flex items-center gap-1.5 bg-brand-700 hover:bg-brand-800 text-white font-semibold px-4 py-1.5 rounded-xl transition shadow-sm"
+            className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-3.5 py-1.5 rounded-xl transition shadow-sm"
           >
             <Printer className="w-4 h-4" />
             <span>พิมพ์ใบสั่งยา / ฉลากยา</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/care-plan')}
+            className="flex items-center gap-1.5 bg-gradient-to-r from-brand-700 to-teal-700 hover:from-brand-800 hover:to-teal-800 text-white font-bold px-4 py-1.5 rounded-xl transition shadow-md group"
+          >
+            <CalendarClock className="w-4 h-4 text-amber-300" />
+            <span>แผนการรักษา & ตารางติดตามผล</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition" />
           </button>
         </div>
       </div>
@@ -393,6 +404,26 @@ export const PrescriptionPrintPage: React.FC<PrescriptionPrintPageProps> = ({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Bottom Navigation Next Step Bar */}
+      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-soft flex flex-col sm:flex-row items-center justify-between gap-3 no-print">
+        <button
+          onClick={() => navigate('/prescribe')}
+          className="text-xs text-slate-600 hover:text-slate-900 font-semibold flex items-center gap-1.5"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>ย้อนกลับ: สั่งยาแผนไทย & ตรวจ HDI</span>
+        </button>
+
+        <button
+          onClick={() => navigate('/care-plan')}
+          className="bg-gradient-to-r from-brand-700 to-teal-700 hover:from-brand-800 hover:to-teal-800 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-md flex items-center gap-2 group transition"
+        >
+          <CalendarClock className="w-4 h-4 text-amber-300" />
+          <span>ขั้นตอนถัดไป: แผนการรักษา & ตารางติดตามผลรายบุคคล (Care Plan & Follow-up)</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+        </button>
       </div>
 
       {/* Clinician Feedback Modal */}
