@@ -7,14 +7,29 @@
   <b>TTM Hackathon 2026</b> — สาขา Health Informatics & Thai Traditional Medicine Innovation
 </p>
 
-[![Tests](https://img.shields.io/badge/tests-21%2F21%20passing-brightgreen.svg)](src/tests)
+[![Tests](https://img.shields.io/badge/tests-25%2F25%20passing-brightgreen.svg)](src/tests)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue.svg)](tsconfig.json)
 [![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](package.json)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8.svg)](tailwind.config.js)
 [![Maturity Level](https://img.shields.io/badge/Maturity-MVP--Ready%20(1.4)-teal.svg)](docs/00-prototype-status.md)
 [![Cohort Size](https://img.shields.io/badge/Cohort-30%20Synthetic%20Cases-amber.svg)](data/synthetic/cases.json)
 [![Patient Intake](https://img.shields.io/badge/Feature-Self--Service%20Intake-indigo.svg)](src/components/patient/PatientIntakeModal.tsx)
+[![Care Plan](https://img.shields.io/badge/Feature-Clinical%20Care%20Plan-emerald.svg)](src/pages/CarePlanPage.tsx)
 [![Data Privacy](https://img.shields.io/badge/Data%20Privacy-100%25%20Synthetic%20(0%20PII)-success.svg)](scripts/check-pii.py)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blue.svg)](https://clangxcl.github.io/TTM_Hackathon_2026/)
+
+---
+
+## 🎬 วิดีโอจำลองการทำงานจริงของระบบ (Program Simulation Video)
+
+<p align="center">
+  <a href="https://clangxcl.github.io/TTM_Hackathon_2026/videos/ttm-vejvivat-demo.mp4">
+    <img src="public/videos/demo-preview.gif" alt="TTM Smutthan Engine Simulation Walkthrough" width="720" style="border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.2);" />
+  </a>
+  <br />
+  <b>▶️ <a href="https://clangxcl.github.io/TTM_Hackathon_2026/videos/ttm-vejvivat-demo.mp4">คลิกที่นี่เพื่อรับชมหรือดาวน์โหลดวิดีโอตัวเต็ม (.mp4 720p HD ความยาว 1:11 นาที)</a></b> | <b><a href="https://clangxcl.github.io/TTM_Hackathon_2026/">เข้าสู่ระบบ Live Web App</a></b><br />
+  <i>วิดีโอบันทึกสาธิตการทำงานครบ 5 ขั้นตอน: 1. ลงทะเบียนผู้ป่วยใหม่ (Intake) → 2. ประเมินสมุฏฐานธาตุ AI & Override → 3. สั่งยาสมุนไพรและตรวจจับอันตรกิริยา HDI → 4. พิมพ์ใบสั่งยาอิเล็กทรอนิกส์ & FHIR → 5. แผนการรักษาและแดชบอร์ดแนวโน้มการฟื้นฟูรายบุคคล</i>
+</p>
 
 ---
 
@@ -25,24 +40,25 @@
 
 ---
 
-## 🎯 วิสัยทัศน์ของระบบ (3 เป้าหมายหลัก)
+## 🎯 วิสัยทัศน์ของระบบ (4 เสาหลักการพัฒนา)
 
 ```
-┌────────────────────────────────────────────────────────────────────────┐
-│                      TTM Smutthan Engine Platform                      │
-├─────────────────────┬──────────────────────────┬───────────────────────┤
-│ 1. Smutthan Engine  │ 2. Centralized HDI       │ 3. ICD-10-TM          │
-│    (AI-Assisted)    │    Database              │    Analytics          │
-├─────────────────────┼──────────────────────────┼───────────────────────┤
-│ • สภาพอากาศ Live    │ • ตรวจจับ 14 คู่ยาเสี่ยง │ • ต้นทุนต่อเคสจริง    │
-│ • คำนวณธาตุ 4 โปร่งใส│ • Evidence Level A-D     │ • จัดอันดับ U-Codes   │
-│ • อธิบายได้ทุกกฎ    │ • Override + ปรับขนาดยา  │ • Data Quality Score  │
-└─────────────────────┴──────────────────────────┴───────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        TTM Smutthan Engine Platform — VejVivat                         │
+├─────────────────────┬──────────────────────────┬───────────────────────┬───────────────┤
+│ 1. Smutthan Engine  │ 2. Centralized HDI       │ 3. Clinical Care Plan │ 4. ICD-10-TM  │
+│    (AI-Assisted)    │    Safety Screening      │    & Trajectory       │    Analytics  │
+├─────────────────────┼──────────────────────────┼───────────────────────┼───────────────┤
+│ • สภาพอากาศ Live    │ • ตรวจจับ 14+ คู่ยาเสี่ยง│ • แผนติดตามผลรายเดือน │ • ต้นทุนเคสจริง│
+│ • คำนวณธาตุ 4 โปร่งใส│ • Evidence Level A-D     │ • อิง สธ. & WHO       │ • สถิติรหัส U │
+│ • อธิบายได้ทุกกฎ    │ • Override + ตรวจโดส     │ • แดชบอร์ดแนวโน้มกราฟ │ • คุณภาพข้อมูล│
+└─────────────────────┴──────────────────────────┴───────────────────────┴───────────────┘
 ```
 
 1. **Smutthan Engine:** เครื่องมือช่วยประเมินสมุฏฐานวินิจฉัย (AI-assisted) รวบรวมสภาวะแวดล้อม สภาพอากาศ (อุณหภูมิ, ความชื้น) จาก Open-Meteo API แบบ Real-time ประมวลผลร่วมกับกาลสมุฏฐาน (เวลา), อายุสมุฏฐาน (วัย), สัญญาณชีพ และอาการสำคัญ เพื่อคำนวณและคาดการณ์ความแปรปรวนของธาตุประธานอย่างโปร่งใส ตรวจสอบย้อนหลังได้ 100% ลดความเหลื่อมล้ำของการวิเคราะห์โรคระหว่างผู้ประกอบวิชาชีพ
 2. **Centralized Herb-Drug Interaction (HDI) Database:** ฐานข้อมูลกลางตรวจอันตรกิริยาระหว่างยาแผนปัจจุบันกับสมุนไพร รองรับ API กับระบบ HIS ทุกระดับ (HOSxP, EHP, SSB, Himpro) แจ้งเตือนความปลอดภัยทันทีเมื่อมีการสั่งยาร่วมกัน พร้อมระบบรับทราบและบันทึกเหตุผลทางคลินิก (Clinician Override)
-3. **ICD-10-TM Real-time Analytics:** ยกระดับการบันทึก ICD-10-TM (กลุ่มรหัส U) ให้ประมวลผลการจ่ายยาและหัตถการไทยแบบ Real-time เพื่อประเมินต้นทุนต่อเคส ความคุ้มค่าทางเศรษฐศาสตร์สาธารณสุข และตรวจสอบคุณภาพข้อมูลตามมาตรฐาน 43 แฟ้มกระทรวงสาธารณสุข (สนย. 2568)
+3. **Evidence-Based Clinical Care Plan & Trajectory Dashboard:** แผนการรักษาและตารางติดตามผลรายบุคคลตามหลักวิชาการของกระทรวงสาธารณสุขและ WHO Herbal Pharmacovigilance (ความถี่รายเดือน 4 ครั้ง/เดือนสำหรับกลุ่มเสี่ยงสูง) พร้อมแดชบอร์ดกราฟแนวโน้มการลดระดับความปวด (VAS), การฟื้นฟูสมดุลตรีธาตุ และคะแนน PROM
+4. **ICD-10-TM Real-time Analytics:** ยกระดับการบันทึก ICD-10-TM (กลุ่มรหัส U) ให้ประมวลผลการจ่ายยาและหัตถการไทยแบบ Real-time เพื่อประเมินต้นทุนต่อเคส ความคุ้มค่าทางเศรษฐศาสตร์สาธารณสุข และตรวจสอบคุณภาพข้อมูลตามมาตรฐาน 43 แฟ้มกระทรวงสาธารณสุข (สนย. 2568)
 
 ---
 
@@ -54,6 +70,10 @@
   เชื่อมต่อ Open-Meteo REST API เพื่อดึงอุณหภูมิและความชื้นสัมพัทธ์ตามพิกัด รพ.สต. จริง พร้อมระบบ Fallback หากออฟไลน์
 - 📊 **Element Radar Chart & Explainable Breakdown:**  
   แสดงสมดุลธาตุดิน น้ำ ลม ไฟ พร้อมตารางแจกแจงน้ำหนักคะแนนทุกข้ออย่างโปร่งใส
+- 🧑‍⚕️ **Interactive Patient Intake Modal:**  
+  ระบบลงทะเบียนผู้ป่วยใหม่สดในห้องตรวจ คำนวณธาตุกำเนิดอัตโนมัติจากวันเดือนปีเกิด ดึงสภาพอากาศสด และบันทึกข้อมูลอย่างปลอดภัย
+- 📈 **Longitudinal Trajectory Dashboard (Recharts):**  
+  แสดงผลกราฟแนวโน้มการฟื้นฟูสุขภาพรายบุคคล 4 มิติ (ความปวด, สมดุลตรีธาตุ, สัญญาณชีพ, PROM) และตารางนัดรายเดือนตามเกณฑ์วิชาการ
 - 📑 **HL7 FHIR & 43-Folders Interoperability:**  
   ส่งออกใบสั่งยาในรูปแบบ **HL7 FHIR R4 MedicationRequest** และไฟล์ CSV ตามมาตรฐาน 43 แฟ้ม (DRUG_OPD, DIAGNOSIS_OPD, PROCEDURE_OPD)
 
@@ -68,23 +88,26 @@ ttm-smutthan-engine/
 │   └── mapping-43folders.json     # คอนฟิก Mapping ฟิลด์มาตรฐาน 43 แฟ้ม และรหัสยา 24 หลัก
 ├── data/
 │   ├── formulary/                 # บัญชียาสมุนไพร 21 รายการ (NLEM 2568, รหัส 24 หลัก)
-│   ├── hdi/                       # ฐานข้อมูล 14 คู่ยาอันตรกิริยา (C01-C10 + Extension)
+│   ├── hdi/                       # ฐานข้อมูล 14 คู่ยาอันตรกิริยา (C01-C30)
 │   ├── master/                    # รหัสยาแผนปัจจุบัน 12 รายการ และ ICD-10-TM Master
 │   ├── rules/                     # กฎการคำนวณสมุฏฐานธาตุ และอภิธานศัพท์ (Glossary)
-│   └── synthetic/                 # เคสจำลอง C01-C10 และชุดข้อมูล 43 แฟ้มย้อนหลัง 51 Visits
+│   └── synthetic/                 # เคสจำลอง C01-C30 และชุดข้อมูล 43 แฟ้มย้อนหลัง 51 Visits
 ├── docs/                          # เอกสารข้อกำหนดและการวิเคราะห์ฉบับสมบูรณ์ 10 บท
 ├── pitch/                         # สไลด์นำเสนอและบทพูด Pitching (5 นาที / 10 นาที)
-├── public/openapi.yaml            # OpenAPI 3.0 Specification สำหรับ HIS REST Gateway
-├── src/
-│   ├── adapters/                  # Clean Architecture Adapter Pattern (Mock, 43-Files, FHIR)
-│   ├── components/                # UI Components (Radar Chart, Safety Alert, Prescription Cart)
-│   ├── pages/                     # 7 หน้าจอหลักของระบบ
-│   ├── services/                  # Business Logic Engines (Smutthan, HDI, Dosage, Analytics)
-│   ├── tests/                     # 4 ชุดการทดสอบ Vitest (21 Tests Passed 100%)
-│   └── types/                     # TypeScript Domain Model Interfaces
+├── public/
+│   ├── openapi.yaml               # OpenAPI 3.0 Specification สำหรับ HIS REST Gateway
+│   └── videos/                    # วิดีโอสาธิตระบบ MP4, WebM, Poster และ Animated GIF
 ├── scripts/
 │   ├── check-pii.py               # สคริปต์สแกนตรวจจับข้อมูลส่วนบุคคล (PII)
-│   └── deidentify.py              # สคริปต์ De-identification สำหรับชุดข้อมูล
+│   ├── deidentify.py              # สคริปต์ De-identification สำหรับชุดข้อมูล
+│   └── record-simulation.mjs      # สคริปต์บันทึกวิดีโอจำลองการทำงานจริงอัตโนมัติ
+├── src/
+│   ├── adapters/                  # Clean Architecture Adapter Pattern (Mock, 43-Files, FHIR)
+│   ├── components/                # UI Components (Intake, Radar, Safety Alert, Cart)
+│   ├── pages/                     # 8 หน้าจอหลักของระบบ (รวม CarePlanPage & Video Modal)
+│   ├── services/                  # Core Engines (Smutthan, HDI, Dosage, Analytics, CarePlan)
+│   ├── tests/                     # 5 ชุดการทดสอบ Vitest (25 Tests Passed 100%)
+│   └── types/                     # TypeScript Domain Model Interfaces
 └── package.json
 ```
 
@@ -105,7 +128,7 @@ npm install
 ```bash
 npm test
 ```
-*ผลการทดสอบ: 4 Test Suites, 21 Tests Passed (100% Passing)*
+*ผลการทดสอบ: 5 Test Suites, 25 Tests Passed (100% Passing)*
 
 ### 4. รันระบบในโหมด Development
 ```bash
@@ -125,20 +148,22 @@ npm run build
 
 | เอกสาร | หัวข้อเนื้อหา |
 |---|---|
-| [docs/00-prototype-status.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/00-prototype-status.md) | สถานะความพร้อมของโปรโตไทป์ (Functional Prototype 1.3 สู่ MVP-ready 1.4) |
-| [docs/01-system-overview.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/01-system-overview.md) | ที่มา ปัญหา 3 เสาหลัก กลุ่มผู้ใช้งาน และตัวชี้วัดความสำเร็จ (KPIs) |
-| [docs/02-input-process-output.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/02-input-process-output.md) | ข้อกำหนด IPO, Data Dictionary และการเชื่อมโยงฟิลด์ 43 แฟ้ม |
-| [docs/03-architecture.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/03-architecture.md) | สถาปัตยกรรมระบบ ผัง Mermaid, Adapter Pattern และมาตรฐาน FHIR |
-| [docs/04-ai-explainability.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/04-ai-explainability.md) | ความโปร่งใสของ AI, สูตรคำนวณธาตุ และกลไก Clinician Override |
-| [docs/05-technical-feasibility.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/05-technical-feasibility.md) | ความเป็นไปได้ทางเทคนิค การบริหารความเสี่ยง และประมาณการต้นทุน |
-| [docs/06-health-economics.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/06-health-economics.md) | การประเมินความคุ้มค่าทางเศรษฐศาสตร์สาธารณสุข และต้นทุนต่อเคส |
-| [docs/07-formulary-and-prescribing.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/07-formulary-and-prescribing.md) | คู่มือบัญชียาสมุนไพร เกณฑ์ขนาดยาสูงสุด และระบบสั่งจ่ายยาปลอดภัย |
-| [docs/08-pilot-plan.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/08-pilot-plan.md) | แผนงานการนำร่องในพื้นที่จริง 4 ระยะในเครือข่าย รพ.สต. |
-| [docs/09-known-limitations.md](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/09-known-limitations.md) | ข้อจำกัดของระบบในปัจจุบัน และ Roadmap การพัฒนาสู่เวอร์ชัน 2.0 |
+| [docs/00-prototype-status.md](docs/00-prototype-status.md) | สถานะความพร้อมของโปรโตไทป์ (Functional Prototype 1.3 สู่ MVP-ready 1.4) |
+| [docs/01-system-overview.md](docs/01-system-overview.md) | ที่มา ปัญหา 4 เสาหลัก 5 ขั้นตอนการทำงาน และตัวชี้วัดความสำเร็จ (KPIs) |
+| [docs/02-input-process-output.md](docs/02-input-process-output.md) | ข้อกำหนด IPO, Patient Intake, Care Plan และการเชื่อมโยงฟิลด์ 43 แฟ้ม |
+| [docs/03-architecture.md](docs/03-architecture.md) | สถาปัตยกรรมระบบ ผัง Mermaid, Adapter Pattern และมาตรฐาน FHIR |
+| [docs/04-ai-explainability.md](docs/04-ai-explainability.md) | ความโปร่งใสของ AI, สูตรคำนวณธาตุ, กราฟ Trajectory และ Clinician Override |
+| [docs/05-technical-feasibility.md](docs/05-technical-feasibility.md) | ความเป็นไปได้ทางเทคนิค ผลการทดสอบ 25/25 การบริหารความเสี่ยง และต้นทุน |
+| [docs/06-health-economics.md](docs/06-health-economics.md) | การประเมินความคุ้มค่าทางเศรษฐศาสตร์สาธารณสุข และต้นทุนต่อเคส (30 เคส) |
+| [docs/07-formulary-and-prescribing.md](docs/07-formulary-and-prescribing.md) | คู่มือบัญชียาสมุนไพร เกณฑ์ขนาดยาสูงสุด และการส่งต่อสู่แผนการรักษา |
+| [docs/08-pilot-plan.md](docs/08-pilot-plan.md) | แผนงานการนำร่องในพื้นที่จริง 4 ระยะ และความถี่การติดตามผลรายเดือน |
+| [docs/09-known-limitations.md](docs/09-known-limitations.md) | ข้อจำกัดของระบบในปัจจุบัน และ Roadmap การพัฒนาสู่เวอร์ชัน 2.0 / 3.0 |
 
 ---
 
 ## 👥 ข้อมูลทีมพัฒนาและการแข่งขัน
+- **ทีมพัฒนา:** ทีม VejVivat (เวชวิวัฒน์) — Thai Medicine AI Innovation
 - **โครงการ:** TTM Smutthan Engine Platform
 - **เวที:** TTM Hackathon 2026
 - **Repository:** [https://github.com/ClangxCL/TTM_Hackathon_2026](https://github.com/ClangxCL/TTM_Hackathon_2026)
+- **Live Website:** [https://clangxcl.github.io/TTM_Hackathon_2026/](https://clangxcl.github.io/TTM_Hackathon_2026/)

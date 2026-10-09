@@ -40,3 +40,6 @@ __pycache__/
 .venv/
 venv/
 ENV/
+
+# Recorded video temp files
+/videos/
