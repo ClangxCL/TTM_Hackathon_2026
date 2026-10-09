@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { DisclaimerBanner } from './components/common/DisclaimerBanner';
 import { Navbar } from './components/common/Navbar';
 import { Sidebar } from './components/common/Sidebar';
+import { PatientIntakeModal } from './components/patient/PatientIntakeModal';
 import { MockDataService } from './services/mockDataService';
 import { SyntheticCase, Vitals } from './types/patient';
 
@@ -24,6 +25,7 @@ export const App: React.FC = () => {
   const [cases, setCases] = useState<SyntheticCase[]>(() => MockDataService.getCases());
   const [selectedCaseId, setSelectedCaseId] = useState<string>('C01');
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
+  const [isIntakeOpen, setIsIntakeOpen] = useState<boolean>(false);
 
   const currentCase = cases.find((c) => c.case_id === selectedCaseId) || cases[0];
 
@@ -36,30 +38,54 @@ export const App: React.FC = () => {
     setCases([...MockDataService.getCases()]);
   };
 
+  const handleSaveNewCase = (newCase: SyntheticCase) => {
+    MockDataService.addCustomCase(newCase);
+    const updated = MockDataService.getCases();
+    setCases([...updated]);
+    setSelectedCaseId(newCase.case_id);
+    setIsIntakeOpen(false);
+    navigate('/smutthan');
+  };
+
+  const handleDeleteCase = (caseId: string) => {
+    MockDataService.deleteCase(caseId);
+    const updated = MockDataService.getCases();
+    setCases([...updated]);
+    if (selectedCaseId === caseId) {
+      setSelectedCaseId(updated[0]?.case_id || 'C01');
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans">
       {/* 1. Persistent Top Disclaimer Banner */}
       <DisclaimerBanner />
 
       <div className="flex-1 flex overflow-hidden">
-        {/* 2. Collapsible Sidebar */}
+        {/* 2. Collapsible Sidebar with VejVivat Branding & Quick Intake */}
         <Sidebar
           collapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+          onOpenIntake={() => setIsIntakeOpen(true)}
+          casesCount={cases.length}
         />
 
         {/* 3. Main Workspace Area */}
         <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-          {/* Top Navbar with Active Case Summary & Live Weather */}
+          {/* Top Navbar with Active Case Summary, Live Weather & New Patient CTA */}
           <Navbar
             currentCase={currentCase}
             onSelectCaseClick={() => navigate('/patients')}
+            onOpenIntake={() => setIsIntakeOpen(true)}
           />
 
           {/* Page Routing */}
           <main className="flex-1 p-3 sm:p-6 pb-12">
             <Routes>
-              <Route path="/" element={<LandingPage />} />
+              <Route
+                path="/"
+                element={<LandingPage onOpenIntake={() => setIsIntakeOpen(true)} />}
+              />
               <Route
                 path="/patients"
                 element={
@@ -67,6 +93,8 @@ export const App: React.FC = () => {
                     cases={cases}
                     selectedCaseId={selectedCaseId}
                     onSelectCase={handleSelectCase}
+                    onOpenIntake={() => setIsIntakeOpen(true)}
+                    onDeleteCase={handleDeleteCase}
                   />
                 }
               />
@@ -98,6 +126,13 @@ export const App: React.FC = () => {
           </main>
         </div>
       </div>
+
+      {/* 4. Global Interactive Patient Registration / Intake Modal */}
+      <PatientIntakeModal
+        isOpen={isIntakeOpen}
+        onClose={() => setIsIntakeOpen(false)}
+        onSaveCase={handleSaveNewCase}
+      />
     </div>
   );
 };

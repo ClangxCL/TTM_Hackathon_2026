@@ -1,5 +1,5 @@
-import React from 'react';
-import { Info, CheckCircle2, AlertCircle, FileCode, ShieldCheck, Cpu } from 'lucide-react';
+import { Info, CheckCircle2, AlertCircle, FileCode, ShieldCheck, Cpu, Sparkles } from 'lucide-react';
+import teamLogo from '@/assets/team-logo.png';
 
 export const SystemStatusPage: React.FC = () => {
   const statusMatrix = [
@@ -32,6 +32,12 @@ export const SystemStatusPage: React.FC = () => {
       type: 'ทำงานจริง (Real Engine)',
       status: 'REAL',
       note: 'คำนวณต้นทุนต่อเคส/หัตถการจริงจากไฟล์ ไม่ hard-code ตัวเลข และรวมใบสั่งยาใหม่ทันที',
+    },
+    {
+      component: 'ชุดเคสสังเคราะห์ 30 เคส และระบบลงทะเบียนผู้ป่วยใหม่ (Patient Intake)',
+      type: 'ทำงานจริง (Real Engine & Storage)',
+      status: 'REAL',
+      note: 'ขยายเป็น 30 เคสสังเคราะห์ พร้อมระบบลงทะเบียนผู้ป่วยใหม่ คำนวณธาตุกำเนิด ดึงสภาพอากาศสด บันทึก LocalStorage และทดสอบได้ทันที',
     },
     {
       component: 'การเชื่อมต่อระบบ HIS โรงพยาบาลจริง (HOSxP, EHP)',
@@ -70,24 +76,31 @@ export const SystemStatusPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
         <div>
-          <div className="flex items-center gap-2">
-            <div className="p-2 bg-slate-100 text-slate-800 rounded-xl">
-              <Info className="w-5 h-5" />
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-slate-950 p-1 border border-amber-400/40 shadow-md shrink-0 flex items-center justify-center">
+              <img src={teamLogo} alt="VejVivat" className="w-full h-full object-contain" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-900">
-                สถานะระบบและเกณฑ์ความพร้อมผลงาน (Prototype Status Matrix)
-              </h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl font-bold text-slate-900">
+                  สถานะระบบและเกณฑ์ความพร้อมผลงาน (Prototype Status Matrix)
+                </h2>
+              </div>
               <p className="text-xs text-slate-500 mt-0.5">
-                จำแนกส่วนประกอบที่ทำงานจริงเทียบกับส่วนจำลองอย่างซื่อสัตย์ ตามเกณฑ์ Functional Prototype (1.3) และ MVP-ready (1.4)
+                ทีม VejVivat (เวชวิวัฒน์) - Thai Medicine AI • จำแนกส่วนประกอบที่ทำงานจริงเทียบกับส่วนจำลองอย่างซื่อสัตย์ ตามเกณฑ์ Functional Prototype (1.3) และ MVP-ready (1.4)
               </p>
             </div>
           </div>
         </div>
 
-        <span className="text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-xl font-bold">
-          Functional Prototype (1.3)
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-xl font-bold shadow-2xs">
+            Functional Prototype (1.3)
+          </span>
+          <span className="text-xs bg-teal-50 text-teal-800 border border-teal-200 px-3 py-1.5 rounded-xl font-bold shadow-2xs">
+            MVP-Ready (1.4)
+          </span>
+        </div>
       </div>
 
       {/* Status Table */}

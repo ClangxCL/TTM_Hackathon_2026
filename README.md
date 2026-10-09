@@ -1,18 +1,25 @@
 # TTM Smutthan Engine Platform 🌿🩺
-**ระบบสนับสนุนการตัดสินใจทางคลินิกแพทย์แผนไทย เชื่อมโยงสารสนเทศสุขภาพ และตรวจจับอันตรกิริยาสมุนไพร-ยาแผนปัจจุบัน**  
-*ผลงานสำหรับ Hackathon 2026 — สาขา Health Informatics & Thai Traditional Medicine Innovation*
+<p align="center">
+  <img src="public/team-logo.png" alt="VejVivat Thai Medicine AI Crest" width="160" />
+  <br />
+  <b>พัฒนาโดย ทีม VejVivat (เวชวิวัฒน์) — Thai Medicine AI Innovation</b><br />
+  <i>ระบบสนับสนุนการตัดสินใจทางคลินิกแพทย์แผนไทย เชื่อมโยงสารสนเทศสุขภาพ และตรวจจับอันตรกิริยาสมุนไพร-ยาแผนปัจจุบัน</i><br />
+  <b>TTM Hackathon 2026</b> — สาขา Health Informatics & Thai Traditional Medicine Innovation
+</p>
 
-[![Tests](https://img.shields.io/badge/tests-21%2F21%20passing-brightgreen.svg)](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/src/tests)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue.svg)](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/tsconfig.json)
-[![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/package.json)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8.svg)](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/tailwind.config.js)
-[![Maturity Level](https://img.shields.io/badge/Maturity-Functional%20Prototype%20(1.3)-amber.svg)](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/docs/00-prototype-status.md)
-[![Data Privacy](https://img.shields.io/badge/Data%20Privacy-100%25%20Synthetic%20(0%20PII)-success.svg)](file:///C:/Users/Piyanut/Desktop/Code_Work/ttm-smutthan-engine/scripts/check-pii.py)
+[![Tests](https://img.shields.io/badge/tests-21%2F21%20passing-brightgreen.svg)](src/tests)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue.svg)](tsconfig.json)
+[![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](package.json)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8.svg)](tailwind.config.js)
+[![Maturity Level](https://img.shields.io/badge/Maturity-MVP--Ready%20(1.4)-teal.svg)](docs/00-prototype-status.md)
+[![Cohort Size](https://img.shields.io/badge/Cohort-30%20Synthetic%20Cases-amber.svg)](data/synthetic/cases.json)
+[![Patient Intake](https://img.shields.io/badge/Feature-Self--Service%20Intake-indigo.svg)](src/components/patient/PatientIntakeModal.tsx)
+[![Data Privacy](https://img.shields.io/badge/Data%20Privacy-100%25%20Synthetic%20(0%20PII)-success.svg)](scripts/check-pii.py)
 
 ---
 
 > ### ⚠️ ข้อความปฏิเสธความรับผิดชอบทางการแพทย์และข้อมูลส่วนบุคคล (Clinical & Data Disclaimer)
-> 1. **ข้อมูลสังเคราะห์เพื่อการสาธิต (100% Synthetic Data):** ข้อมูลผู้ป่วยทั้งหมด (เคส C01–C10 และประวัติการรักษา 51 ครั้ง) ในระบบนี้เป็น **ข้อมูลที่ถูกสร้างขึ้นเพื่อการจำลองทางวิชาการในการแข่งขัน Hackathon 2026 เท่านั้น** มิใช่ข้อมูลผู้ป่วยจริงจากสถานพยาบาลใดๆ
+> 1. **ข้อมูลสังเคราะห์เพื่อการสาธิต (100% Synthetic Data):** ข้อมูลผู้ป่วยทั้งหมด (30 เคส C01–C30 และระบบลงทะเบียนผู้ป่วยใหม่) ในระบบนี้เป็น **ข้อมูลที่ถูกสร้างขึ้นเพื่อการจำลองทางวิชาการในการแข่งขัน Hackathon 2026 เท่านั้น** มิใช่ข้อมูลผู้ป่วยจริงจากสถานพยาบาลใดๆ
 > 2. **ระบบสนับสนุนการตัดสินใจ (Clinical Decision Support):** ระบบนี้ทำหน้าที่เป็นเครื่องมือสนับสนุนการตัดสินใจ (Decision Support) มิใช่การวินิจฉัยโรคหรือสั่งการรักษาแทนแพทย์แผนไทยผู้ประกอบวิชาชีพ
 > 3. **สถานะรายการยาและอันตรกิริยา:** ข้อมูลบัญชียาแผนไทยและคู่ยาอันตรกิริยาในระบบจัดอยู่ในสถานะ **"ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ"**
 

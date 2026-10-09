@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Share2,
 } from 'lucide-react';
+import teamLogo from '@/assets/team-logo.png';
 
 interface PrescriptionPrintPageProps {
   currentCase: SyntheticCase;
@@ -147,15 +148,24 @@ export const PrescriptionPrintPage: React.FC<PrescriptionPrintPageProps> = ({
       {/* Official Prescription Printable Sheet */}
       <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-soft space-y-6 print-card text-xs text-slate-800">
         {/* Prescription Header */}
-        <div className="text-center space-y-1 border-b border-slate-200 pb-4">
-          <div className="text-base font-bold text-slate-900 tracking-tight">
-            หน่วยบริการการแพทย์แผนไทยและแพทย์ทางเลือก (คลินิกตัวอย่าง)
+        <div className="flex items-center justify-between border-b border-slate-200 pb-4 gap-4">
+          <div className="w-14 h-14 rounded-xl bg-slate-950 p-1 border border-amber-500/30 flex items-center justify-center shrink-0 shadow-xs">
+            <img src={teamLogo} alt="VejVivat Crest" className="w-full h-full object-contain" />
           </div>
-          <div className="text-slate-600 font-medium">
-            ใบสั่งยาและบันทึกการรักษาเวชกรรมไทย (TTM Prescription & Clinical Note)
+          <div className="text-center flex-1 space-y-1">
+            <div className="text-base font-bold text-slate-900 tracking-tight">
+              หน่วยบริการการแพทย์แผนไทยและแพทย์ทางเลือก • ทีม VejVivat (เวชวิวัฒน์)
+            </div>
+            <div className="text-slate-600 font-medium">
+              ใบสั่งยาและบันทึกการรักษาเวชกรรมไทย (TTM Prescription & Clinical Note)
+            </div>
+            <div className="text-[10px] text-amber-800 bg-amber-50 inline-block px-3 py-0.5 rounded-full border border-amber-200 uppercase font-semibold">
+              TTM Hackathon 2026 • VejVivat Thai Medicine AI Platform
+            </div>
           </div>
-          <div className="text-[10px] text-amber-800 bg-amber-50 inline-block px-3 py-0.5 rounded-full border border-amber-200 mt-1 uppercase font-semibold">
-            ข้อมูลสังเคราะห์เพื่อการสาธิต (Synthetic Demonstration Document)
+          <div className="hidden sm:block w-14 shrink-0 text-right text-[10px] text-slate-400 font-mono">
+            <div>FORM: TTM-2569</div>
+            <div>VER: 1.4-MVP</div>
           </div>
         </div>
 

@@ -1,55 +1,59 @@
 import React from 'react';
-import { User, Activity, AlertCircle, FileText, ChevronRight } from 'lucide-react';
+import { User, Activity, AlertCircle, FileText, ChevronRight, UserPlus, Sparkles } from 'lucide-react';
 import { SyntheticCase } from '../../types/patient';
 import { WeatherWidget } from './WeatherWidget';
+import teamLogo from '@/assets/team-logo.png';
 
 interface NavbarProps {
   currentCase: SyntheticCase;
   onSelectCaseClick: () => void;
+  onOpenIntake?: () => void;
   onWeatherUpdate?: (weather: any) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentCase,
   onSelectCaseClick,
+  onOpenIntake,
   onWeatherUpdate,
 }) => {
   const p = currentCase.patient_info;
   const v = currentCase.current_encounter.vitals;
 
   return (
-    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm no-print">
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm no-print">
       <div className="px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4">
-        {/* Left: Patient Ribbon */}
-        <div className="flex items-center gap-3">
+        {/* Left: Patient Ribbon + Active Case Selector */}
+        <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={onSelectCaseClick}
-            className="flex items-center gap-2.5 bg-slate-50 hover:bg-brand-50 border border-slate-200 hover:border-brand-300 rounded-xl px-3 py-1.5 transition text-left group"
+            className="flex items-center gap-2.5 bg-slate-50/90 hover:bg-brand-50/80 border border-slate-200 hover:border-brand-300 rounded-xl px-3 py-1.5 transition-all text-left group shadow-xs active:scale-[0.99]"
+            title="คลิกเพื่อสลับเคสผู้ป่วย (Switch Patient)"
           >
-            <div className="w-8 h-8 rounded-lg bg-brand-700 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-700 to-teal-800 text-white flex items-center justify-center font-bold text-xs shadow-sm ring-1 ring-brand-900/10">
               {currentCase.case_id}
             </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-semibold text-slate-900 text-sm">{p.name}</span>
-                <span className="text-[11px] text-slate-500">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-semibold text-slate-900 text-sm truncate">{p.name}</span>
+                <span className="text-[11px] text-slate-500 shrink-0">
                   ({p.gender}, {p.age} ปี)
                 </span>
-                <span className="text-[10px] bg-slate-200/70 text-slate-700 font-mono px-1 rounded">
+                <span className="text-[10px] bg-slate-200/80 text-slate-700 font-mono px-1 rounded shrink-0">
                   {p.hn}
                 </span>
               </div>
-              <div className="text-[11px] text-slate-500 flex items-center gap-2">
-                <span>ภูมิลำเนา: {p.province}</span>
+              <div className="text-[11px] text-slate-500 flex items-center gap-2 truncate">
+                <span className="truncate">ภูมิลำเนา: {p.province}</span>
                 <span>•</span>
-                <span className="text-brand-800 font-medium">ธาตุกำเนิด: {p.birth_element}</span>
+                <span className="text-brand-800 font-medium shrink-0">ธาตุกำเนิด: {p.birth_element}</span>
               </div>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-brand-700 group-hover:translate-x-0.5 transition" />
+            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-brand-700 group-hover:translate-x-0.5 transition shrink-0 ml-1" />
           </button>
 
           {/* Vitals Summary Pill */}
-          <div className="hidden lg:flex items-center gap-3 bg-slate-50 border border-slate-200/80 px-3 py-1.5 rounded-xl text-xs text-slate-600">
+          <div className="hidden xl:flex items-center gap-3 bg-slate-50/80 border border-slate-200/80 px-3 py-1.5 rounded-xl text-xs text-slate-600">
             <span className="flex items-center gap-1 font-medium">
               <Activity className="w-3.5 h-3.5 text-rose-500" />
               <span>BT: <b className="text-slate-900">{v.btemp}°C</b></span>
@@ -63,14 +67,38 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Right: Weather & Current Encounter Context */}
-        <div className="flex items-center gap-2">
+        {/* Right: New Patient CTA + Weather & Team Branding */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          {onOpenIntake && (
+            <button
+              onClick={onOpenIntake}
+              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-600 to-teal-600 hover:from-brand-700 hover:to-teal-700 text-white font-medium px-3 py-1.5 rounded-xl text-xs shadow-sm hover:shadow-md transition active:scale-95"
+              title="ลงทะเบียนผู้ป่วยรายใหม่และทดสอบทันที"
+            >
+              <UserPlus className="w-3.5 h-3.5 text-amber-200" />
+              <span className="hidden sm:inline">+ ผู้ป่วยใหม่</span>
+              <span className="sm:hidden">+ เพิ่ม</span>
+            </button>
+          )}
+
+          {/* Live Open-Meteo Weather */}
           <WeatherWidget
             latitude={currentCase.current_encounter.ambient_context.latitude}
             longitude={currentCase.current_encounter.ambient_context.longitude}
             locationName={currentCase.current_encounter.ambient_context.location}
             onWeatherLoaded={onWeatherUpdate}
           />
+
+          {/* Subtle Team Crest in Header */}
+          <div className="hidden md:flex items-center gap-1.5 pl-2 border-l border-slate-200">
+            <div className="w-7 h-7 rounded-lg overflow-hidden bg-slate-900 p-0.5 border border-amber-500/30 shadow-xs">
+              <img src={teamLogo} alt="VejVivat" className="w-full h-full object-contain" />
+            </div>
+            <div className="text-[10px] leading-tight">
+              <span className="font-semibold text-slate-800 block">ทีม VejVivat</span>
+              <span className="text-slate-400 font-mono text-[9px] block">THAI AI</span>
+            </div>
+          </div>
         </div>
       </div>
     </header>

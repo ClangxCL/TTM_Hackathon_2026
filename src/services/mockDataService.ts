@@ -24,7 +24,17 @@ export class MockDataService {
     const storedCases = localStorage.getItem(STORAGE_KEY_CASES);
     if (storedCases) {
       try {
-        this.cases = JSON.parse(storedCases);
+        const parsed = JSON.parse(storedCases);
+        if (Array.isArray(parsed) && parsed.length >= (rawCases as any[]).length) {
+          this.cases = parsed;
+        } else {
+          // Keep custom added cases and ensure all bundled 30 cases are present
+          const customOnly = Array.isArray(parsed)
+            ? parsed.filter((c: any) => c.case_id.startsWith('CUSTOM') || !c.case_id.match(/^C(?:0[1-9]|[12][0-9]|30)$/))
+            : [];
+          this.cases = [...customOnly, ...(rawCases as SyntheticCase[])];
+          this.saveCases();
+        }
       } catch {
         this.cases = rawCases as SyntheticCase[];
       }
@@ -44,6 +54,30 @@ export class MockDataService {
 
   public static getCaseById(caseId: string): SyntheticCase | undefined {
     return this.getCases().find((c) => c.case_id.toLowerCase() === caseId.toLowerCase());
+  }
+
+  public static addCustomCase(newCase: SyntheticCase): void {
+    if (this.cases.length === 0) this.initialize();
+    this.cases = [newCase, ...this.cases];
+    this.saveCases();
+  }
+
+  public static deleteCase(caseId: string): void {
+    if (this.cases.length === 0) this.initialize();
+    this.cases = this.cases.filter((c) => c.case_id !== caseId);
+    this.saveCases();
+  }
+
+  public static calculateBirthElement(month: number): { element: string; desc: string } {
+    if ([4, 5, 6].includes(month)) {
+      return { element: 'เตโชธาตุ (ธาตุไฟ)', desc: 'เดือน 5, 6, 7 (เมษายน - มิถุนายน)' };
+    } else if ([7, 8, 9].includes(month)) {
+      return { element: 'วาโยธาตุ (ธาตุลม)', desc: 'เดือน 8, 9, 10 (กรกฎาคม - กันยายน)' };
+    } else if ([10, 11, 12].includes(month)) {
+      return { element: 'อาโปธาตุ (ธาตุน้ำ)', desc: 'เดือน 11, 12, 1 (ตุลาคม - ธันวาคม)' };
+    } else {
+      return { element: 'ปถวีธาตุ (ธาตุดิน)', desc: 'เดือน 2, 3, 4 (มกราคม - มีนาคม)' };
+    }
   }
 
   public static updateCaseVitalsAndSymptoms(
