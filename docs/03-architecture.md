@@ -1,5 +1,6 @@
 # สถาปัตยกรรมระบบและการเชื่อมต่อสารสนเทศ (System Architecture & HIS Integration)
 **โครงการ:** TTM Smutthan Engine Platform — Hackathon 2026  
+**ทีมพัฒนา:** **ทีม VejVivat (เวชวิวัฒน์) — Thai Medicine AI Innovation**  
 **ข้อความปฏิเสธความรับผิดชอบ:** *เอกสารนี้ใช้สำหรับข้อมูลสังเคราะห์เพื่อการสาธิตการแข่งขัน Hackathon 2026 เท่านั้น มิใช่ข้อมูลผู้ป่วยจริง*
 
 ---
@@ -9,23 +10,26 @@
 ```mermaid
 graph TB
     subgraph ClientLayer ["1. Presentation Layer (Clinician-Facing UI)"]
+        UI_Intake["Patient Intake Modal<br/>(New Registration & Live Weather)"]
         UI_Smutthan["Smutthan Dashboard<br/>(Element Radar & Explainer)"]
         UI_Prescribe["Prescription Cart & Safety Alerts<br/>(Real-time HDI & Overdose Check)"]
-        UI_Analytics["ICD-10-TM Real-time Analytics<br/>(Health Economics & Data Quality)"]
         UI_Print["Clinical Summary & FHIR Export<br/>(Printable Leaflet & Disclaimer)"]
+        UI_CarePlan["Care Plan & Trajectory Dashboard<br/>(Cadence Matrix & Recharts Trends)"]
+        UI_Analytics["ICD-10-TM Real-time Analytics<br/>(Health Economics & Data Quality)"]
     end
 
     subgraph ServiceLayer ["2. Application & Core Domain Services"]
         SE["Smutthan Engine<br/>(Rule-based Scoring 0-100)"]
-        HDI["Centralized HDI Matcher<br/>(14 Clinical Rules C01-C10)"]
+        HDI["Centralized HDI Matcher<br/>(Safety Rules C01-C30)"]
         DV["Dosage & Safety Validator<br/>(Max Daily Dose / Age limits)"]
+        CPS["Care Plan & Follow-up Service<br/>(Monthly Cadence & Trajectory)"]
         AE["Analytics Engine<br/>(Cost per Episode / U-Codes)"]
         AI["AI Explainer Service<br/>(Gemini Prompt / Template Fallback)"]
     end
 
     subgraph AdapterLayer ["3. HIS Integration Layer (Adapter Pattern)"]
         Interface["HIS Adapter Interface"]
-        MockAdap["Mock Local Adapter<br/>(In-Memory / LocalStorage)"]
+        MockAdap["Mock Local Adapter & Storage<br/>(In-Memory / LocalStorage Engine)"]
         Files43Adap["43-Folders Adapter<br/>(CSV Import/Export สนย. 2568)"]
         FhirAdap["HL7 FHIR Adapter<br/>(MedicationRequest JSON)"]
     end
@@ -37,14 +41,17 @@ graph TB
         MeteoAPI["Open-Meteo Weather API<br/>(Live Ambient Conditions)"]
     end
 
+    UI_Intake --> MockAdap
     UI_Smutthan --> SE
     UI_Smutthan --> AI
     UI_Prescribe --> HDI
     UI_Prescribe --> DV
-    UI_Analytics --> AE
     UI_Print --> FhirAdap
+    UI_CarePlan --> CPS
+    UI_Analytics --> AE
 
     SE --> MeteoAPI
+    UI_Intake --> MeteoAPI
     ServiceLayer --> Interface
     Interface --> MockAdap
     Interface --> Files43Adap
@@ -57,7 +64,7 @@ graph TB
 
 ---
 
-## 2. ลำดับการไหลของข้อมูล (Data Flow Diagram)
+## 2. ลำดับการไหลของข้อมูล 5 ขั้นตอน (5-Step Data Flow Diagram)
 
 ```mermaid
 sequenceDiagram
@@ -68,25 +75,32 @@ sequenceDiagram
     participant Smutthan as Smutthan Engine
     participant HIS as HIS Integration Adapter
     participant HDI as HDI & Safety Engine
+    participant CarePlan as Care Plan & Trajectory Service
 
-    TTM->>UI: เลือกเคสผู้ป่วย (เช่น C02 ผู้ป่วยสูงอายุ)
+    Note over TTM, CarePlan: ขั้นตอนที่ 1: เลือกเคส (C01-C30) หรือลงทะเบียนคนไข้ใหม่สด
+    TTM->>UI: เลือกเคส C02 หรือกรอก Patient Intake Modal
     UI->>HIS: ดึงประวัติยาเดิม (Warfarin 3mg) และสัญญาณชีพ
     HIS-->>UI: ข้อมูลผู้ป่วย & Active Meds
-    UI->>Weather: ดึงอุณหภูมิและความชื้นปัจจุบัน (พิกัด รพ.สต.)
+    UI->>Weather: ดึงอุณหภูมิและความชื้นสดตามพิกัดสถานพยาบาล
     Weather-->>UI: อุณหภูมิ 38.5°C, ความชื้น 85%
+
+    Note over TTM, CarePlan: ขั้นตอนที่ 2: ประเมินสมุฏฐานธาตุ 4 กอง
     UI->>Smutthan: ประมวลผลสมุฏฐาน (Vitals + Symptoms + Weather + Time)
     Smutthan-->>UI: เรดาร์ชาร์ตธาตุ (วาโย/เตโช กำเริบ) + Rule Reasons
+
+    Note over TTM, CarePlan: ขั้นตอนที่ 3: สั่งยาสมุนไพรและตรวจจับอันตรกิริยา
     TTM->>UI: เลือกสั่งยา "ยาแคปซูลขมิ้นชัน"
     UI->>HDI: ตรวจสอบอันตรกิริยากับยาเดิม (Warfarin + ขมิ้นชัน)
     HDI-->>UI: แจ้งเตือนความเสี่ยงสูง (HIGH: เลือดออกรุนแรง Level B)
-    alt แพทย์เลือกยืนยันการสั่งยา (Clinician Override)
-        TTM->>UI: ระบุเหตุผลทางคลินิก + แผนเฝ้าระวัง INR
-        UI->>HIS: บันทึกใบสั่งยาพร้อมคำเตือนและเหตุผล Override
-    else แพทย์ปรับเปลี่ยนการรักษา
-        TTM->>UI: เปลี่ยนเป็นการทำหัตถการนวดประคบสมุนไพรแทน
-        UI->>HIS: บันทึกรหัสหัตถการ 9007710
-    end
-    UI-->>TTM: พิมพ์ใบสั่งยา / ส่งออก 43 แฟ้ม & FHIR
+    TTM->>UI: ยืนยัน Clinician Override พร้อมระบุเหตุผลและแผนตรวจ INR
+
+    Note over TTM, CarePlan: ขั้นตอนที่ 4: พิมพ์ใบสั่งยาและสรุปเวชระเบียน
+    UI-->>TTM: พิมพ์ Clinical Prescription Sheet & HL7 FHIR Export
+
+    Note over TTM, CarePlan: ขั้นตอนที่ 5: แผนการรักษาและการติดตามผลรายบุคคล
+    UI->>CarePlan: สร้างแผนการรักษา & ตารางติดตามผล (MOPH & WHO Cadence)
+    CarePlan-->>UI: Cadence Matrix (4 ครั้ง/เดือนแรก), Trajectory Charts (VAS/Tridosha), Red Flags
+    UI-->>TTM: แสดงแดชบอร์ดแผนการรักษาและแนวโน้มสุขภาพรายบุคคล
 ```
 
 ---
@@ -109,7 +123,7 @@ export interface HisAdapter {
 1. **HOSxP / HOSxP_PCU:** เชื่อมต่อผ่าน MySQL Replication หรือ REST API Gateway ของ BMS
 2. **EHP (Electronic Health Record กรมการแพทย์แผนไทย):** ส่งออกและนำเข้าข้อมูลประวัติการตรวจวินิจฉัยและรหัสยาแผนไทย
 3. **SSB / Himpro:** เชื่อมต่อผ่าน HL7 FHIR MedicationRequest Endpoint
-4. **Offline Local Fallback:** บันทึกข้อมูลบน LocalStorage ของบราวเซอร์ เมื่อเครือข่ายอินเทอร์เน็ตของ รพ.สต. ขัดข้อง
+4. **Persistent LocalStorage Fallback:** บันทึกข้อมูลและเคสใหม่ที่ลงทะเบียนผ่าน `PatientIntakeModal` บนเบราว์เซอร์อย่างปลอดภัย พร้อมใช้งานแม้ออฟไลน์
 
 ---
 
@@ -162,7 +176,7 @@ export interface HisAdapter {
   ],
   "note": [
     {
-      "text": "Decision Support: แจ้งเตือนอันตรกิริยากับ Warfarin ความเสี่ยงสูง (Bleeding risk). แพทย์ยืนยันการสั่งใช้พร้อมนัดติดตาม INR."
+      "text": "Decision Support: แจ้งเตือนอันตรกิริยากับ Warfarin ความเสี่ยงสูง (Bleeding risk). แพทย์ยืนยันการสั่งใช้พร้อมนัดติดตาม INR สัปดาห์ละ 1 ครั้งตามแผนบริบาล VejVivat Care Plan"
     }
   ]
 }
@@ -172,9 +186,9 @@ export interface HisAdapter {
 
 ## 5. มาตรการความมั่นคงปลอดภัยและการปกป้องข้อมูลส่วนบุคคล (Security & Privacy)
 
-1. **Zero Real Patient Data:** ในช่วงการแข่งขันและพัฒนานี้ ใช้ข้อมูลสังเคราะห์ (Synthetic Data) 100%
+1. **Zero Real Patient Data:** ระบบใช้ชุดข้อมูลสังเคราะห์ 30 เคส (C01–C30) ตามหลักวิชาการเวชกรรมไทย 100%
 2. **PII Masking & De-identification:**
    - เลขบัตรประชาชนถูก Masked เป็น `1-1004-XXXXX-01-1`
    - เบอร์โทรศัพท์ถูก Masked เป็น `081-XXX-4501`
-   - มีสคริปต์ตรวจสอบก่อน Commit (`scripts/check-pii.py`) รันผ่าน CI/CD
-3. **Data Segregation:** ข้อมูลการคำนวณและกฎเกณฑ์ (Rules) แยกออกจากข้อมูลผู้ป่วยอย่างเด็ดขาด
+   - มีสคริปต์ตรวจสอบก่อน Commit (`scripts/check-pii.py`) รันผ่าน CI/CD ยืนยัน 0 PII
+3. **Data Segregation:** ข้อมูลการคำนวณ กฎเกณฑ์ทางการแพทย์ และแดชบอร์ดถูกออกแบบให้ประมวลผลบน Client-side อย่างปลอดภัย ไม่ส่งข้อมูลระบุตัวตนออกนอกเบราว์เซอร์
