@@ -30,8 +30,23 @@ export const InteractionAlerts: React.FC<InteractionAlertsProps> = ({ interactio
           <AlertOctagon className="w-4 h-4 text-rose-600" />
           <span>แจ้งเตือนอันตรกิริยายาแผนปัจจุบันและสมุนไพร (HDI Alerts)</span>
         </h4>
-        <span className="text-[11px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-full">
-          {interactions.length} ปฏิกิริยาตรวจพบ
+        <div className="flex items-center gap-1.5">
+          <span className="text-[10px] bg-blue-50 text-blue-800 font-semibold px-2 py-0.5 rounded border border-blue-200">
+            อิง NLEM 2569
+          </span>
+          <span className="text-[11px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-full">
+            {interactions.length} ปฏิกิริยาตรวจพบ
+          </span>
+        </div>
+      </div>
+
+      <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-2.5 text-[11px] text-slate-600 flex items-center justify-between">
+        <span className="flex items-center gap-1.5">
+          <BookOpen className="w-3.5 h-3.5 text-brand-700" />
+          <span>เชื่อมโยงฐานข้อมูลยาเคมีแผนปัจจุบัน (NLEM 2569) กับยาสมุนไพร 14 คู่ยามาตรฐาน</span>
+        </span>
+        <span className="text-[10px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded font-medium border border-amber-200">
+          ระดับสูงต้องบันทึกเหตุผล (Two-Key Check)
         </span>
       </div>
 

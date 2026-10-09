@@ -55,17 +55,21 @@ export async function fetchLiveWeather(lat: number, lon: number): Promise<LiveWe
 
 export function determineKalaPeriod(date: Date = new Date()): { period: string; dominant: string } {
   const hour = date.getHours();
-  if (hour >= 6 && hour < 10) {
-    return { period: '06:00 - 10:00 (ยาม 1)', dominant: 'อาโปธาตุ (เสมหะสมุฏฐาน)' };
-  } else if (hour >= 10 && hour < 14) {
-    return { period: '10:00 - 14:00 (ยาม 2)', dominant: 'เตโชธาตุ (ปิตตะสมุฏฐาน)' };
-  } else if (hour >= 14 && hour < 18) {
-    return { period: '14:00 - 18:00 (ยาม 3)', dominant: 'วาโยธาตุ (วาตะสมุฏฐาน)' };
-  } else if (hour >= 18 && hour < 22) {
-    return { period: '18:00 - 22:00 (ยาม 4)', dominant: 'อาโปธาตุ (เสมหะสมุฏฐาน)' };
-  } else if (hour >= 22 || hour < 2) {
-    return { period: '22:00 - 02:00 (ยาม 5)', dominant: 'เตโชธาตุ (ปิตตะสมุฏฐาน)' };
+  if (hour >= 6 && hour < 9) {
+    return { period: '06:00 - 09:00 (เสมหะกาล)', dominant: 'อาโปธาตุ (เสมหะสมุฏฐาน)' };
+  } else if (hour >= 9 && hour < 12) {
+    return { period: '09:00 - 12:00 (โลหิตกาล)', dominant: 'อาโป/เตโชธาตุ (โลหิตสมุฏฐาน)' };
+  } else if (hour >= 12 && hour < 15) {
+    return { period: '12:00 - 15:00 (ปิตตะกาล)', dominant: 'เตโชธาตุ (ปิตตะสมุฏฐาน)' };
+  } else if (hour >= 15 && hour < 18) {
+    return { period: '15:00 - 18:00 (วาตะกาล)', dominant: 'วาโยธาตุ (วาตะสมุฏฐาน)' };
+  } else if (hour >= 18 && hour < 21) {
+    return { period: '18:00 - 21:00 (เสมหะกาล 2)', dominant: 'อาโปธาตุ (เสมหะสมุฏฐาน)' };
+  } else if (hour >= 21 || hour < 0) {
+    return { period: '21:00 - 24:00 (โลหิตกาล 2)', dominant: 'อาโป/เตโชธาตุ (โลหิตสมุฏฐาน)' };
+  } else if (hour >= 0 && hour < 3) {
+    return { period: '00:00 - 03:00 (ปิตตะกาล 2)', dominant: 'เตโชธาตุ (ปิตตะสมุฏฐาน)' };
   } else {
-    return { period: '02:00 - 06:00 (ยาม 6)', dominant: 'วาโยธาตุ (วาตะสมุฏฐาน)' };
+    return { period: '03:00 - 06:00 (วาตะกาล 2)', dominant: 'วาโยธาตุ (วาตะสมุฏฐาน)' };
   }
 }

@@ -6,7 +6,7 @@ export interface ElementScores {
 }
 
 export interface RuleImpact {
-  category: 'อุตุสมุฏฐาน (อากาศ)' | 'กาลสมุฏฐาน (เวลา)' | 'อายุสมุฏฐาน (วัย)' | 'สัญญาณชีพ' | 'อาการสำคัญ' | 'ธาตุกำเนิด';
+  category: 'อุตุสมุฏฐาน (อากาศ)' | 'กาลสมุฏฐาน (เวลา)' | 'อายุสมุฏฐาน (วัย)' | 'สัญญาณชีพ' | 'อาการสำคัญ' | 'ธาตุกำเนิด' | 'ธาตุเจ้าเรือนเกิด';
   rule_title: string;
   condition_matched: string;
   delta: Partial<ElementScores>;

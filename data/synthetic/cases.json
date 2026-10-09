@@ -26,7 +26,7 @@
         "temperature_c": 36.5,
         "relative_humidity": 55,
         "weather_condition": "แดดจัด ร้อนระอุ",
-        "kala_period": "10:00 - 14:00 (เตโช/ปิตตะ)"
+        "kala_period": "09:00 - 12:00 (โลหิตกาล)"
       },
       "chief_complaint": "ท้องอืด จุกเสียด แน่นท้องหลังอาหาร เรอบ่อย ไม่อยากอาหาร 2 วัน",
       "vitals": {
@@ -198,7 +198,7 @@
         "temperature_c": 29.0,
         "relative_humidity": 88,
         "weather_condition": "ฝนตกปรอยๆ ลมชื้น",
-        "kala_period": "14:00 - 18:00 (วาโย/วาตะ)"
+        "kala_period": "12:00 - 15:00 (ปิตตะกาล)"
       },
       "chief_complaint": "แน่นจุกเสียดท้อง แสบร้อนยอดอก ทานอาหารไม่ย่อย มีลมตีขึ้น 1 สัปดาห์",
       "vitals": {
@@ -410,7 +410,7 @@
         "temperature_c": 17.5,
         "relative_humidity": 72,
         "weather_condition": "หนาวเย็น มีหมอกตอนเช้า",
-        "kala_period": "06:00 - 10:00 (อาโป/เสมหะ)"
+        "kala_period": "09:00 - 12:00 (โลหิตกาล)"
       },
       "chief_complaint": "ไอแห้งๆ ระคายคอ คอแห้ง เจ็บคอ มีเสมหะเหนียวขาวตอนเช้า 4 วัน",
       "vitals": {
@@ -616,7 +616,7 @@
         "temperature_c": 37.8,
         "relative_humidity": 42,
         "weather_condition": "แดดร้อนระอุ แห้งแล้ง",
-        "kala_period": "10:00 - 14:00 (เตโช/ปิตตะ)"
+        "kala_period": "09:00 - 12:00 (โลหิตกาล)"
       },
       "chief_complaint": "อ่อนเพลีย ร้อนใน กระหายน้ำ ทานจุ คอแห้ง อยากหาสมุนไพรช่วยคุมน้ำตาล 1 สัปดาห์",
       "vitals": {
@@ -803,7 +803,7 @@
         "temperature_c": 31.0,
         "relative_humidity": 82,
         "weather_condition": "ฝนตกชุก อากาศอบอ้าว",
-        "kala_period": "14:00 - 18:00 (วาโย/วาตะ)"
+        "kala_period": "15:00 - 18:00 (วาตะกาล)"
       },
       "chief_complaint": "มีไข้ต่ำ ครั่นเนื้อครั่นตัว เจ็บคอ มีน้ำมูกใส จามบ่อย ปวดเมื่อยตามตัว 2 วัน",
       "vitals": {
@@ -996,7 +996,7 @@
         "temperature_c": 28.5,
         "relative_humidity": 90,
         "weather_condition": "มรสุม ฝนตกหนัก ลมทะเลแรง",
-        "kala_period": "10:00 - 14:00 (เตโช/ปิตตะ)"
+        "kala_period": "12:00 - 15:00 (ปิตตะกาล)"
       },
       "chief_complaint": "มึนงงศีรษะ แน่นท้อง อึดอัดตัว ลมตีขึ้นบ่อย อยากใช้กระเทียมช่วยลดไขมัน 5 วัน",
       "vitals": {
@@ -1170,7 +1170,7 @@
         "temperature_c": 35.2,
         "relative_humidity": 58,
         "weather_condition": "อากาศร้อน ลมเอื่อย",
-        "kala_period": "14:00 - 18:00 (วาโย/วาตะ)"
+        "kala_period": "15:00 - 18:00 (วาตะกาล)"
       },
       "chief_complaint": "ปวดเมื่อยกล้ามเนื้อน่องและหลังส่วนล่าง กล้ามเนื้อตึงยึดหลังยกของหนัก 2 วัน",
       "vitals": {
@@ -1357,7 +1357,7 @@
         "temperature_c": 19.0,
         "relative_humidity": 65,
         "weather_condition": "หนาวแห้ง ลมพัดเย็น",
-        "kala_period": "14:00 - 18:00 (วาโย/วาตะ)"
+        "kala_period": "12:00 - 15:00 (ปิตตะกาล)"
       },
       "chief_complaint": "ท้องอืด ลมในท้อง แน่นลิ้นปี่ หนาวในตัว แขนขาเย็น มือชา 3 วัน",
       "vitals": {
@@ -1587,7 +1587,7 @@
         "temperature_c": 27.2,
         "relative_humidity": 86,
         "weather_condition": "ฝนตกพรำๆ อากาศชื้นเย็น",
-        "kala_period": "06:00 - 10:00 (อาโป/เสมหะ)"
+        "kala_period": "06:00 - 09:00 (เสมหะกาล)"
       },
       "chief_complaint": "ตัวร้อน ร้องงอแง เจ็บคอ มีน้ำมูกใส ปวดเมื่อยตามตัว 1 วัน",
       "vitals": {
@@ -1774,7 +1774,7 @@
         "temperature_c": 21.5,
         "relative_humidity": 68,
         "weather_condition": "ลมหนาวเริ่มพัด อากาศแห้งเย็น",
-        "kala_period": "10:00 - 14:00 (เตโช/ปิตตะ)"
+        "kala_period": "09:00 - 12:00 (โลหิตกาล)"
       },
       "chief_complaint": "ไอแห้งๆ คอแห้ง เจ็บคอ อ่อนเพลีย แน่นหน้าอกเล็กน้อย อยากได้ยาสมุนไพรชุ่มคอ 3 วัน",
       "vitals": {

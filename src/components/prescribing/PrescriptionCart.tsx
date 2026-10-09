@@ -108,27 +108,40 @@ export const PrescriptionCart: React.FC<PrescriptionCartProps> = ({
 
                 {/* High Warning Badge & Acknowledgement Action */}
                 {hasHigh && (
-                  <div className="mt-2 pt-1 border-t border-rose-200/60 flex items-center justify-between text-[11px]">
-                    {item.acknowledged ? (
-                      <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold text-[10px]">
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> รับทราบคำเตือนแล้ว
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 text-rose-700 font-bold text-[10px]">
-                        <AlertOctagon className="w-3.5 h-3.5 text-rose-600" /> มีคำเตือนระดับสูง
-                      </span>
-                    )}
+                  <div className="mt-2 pt-1 border-t border-rose-200/60 space-y-1.5 text-[11px]">
+                    <div className="flex items-center justify-between">
+                      {item.acknowledged ? (
+                        <span className="inline-flex items-center gap-1 text-emerald-700 font-semibold text-[10px]">
+                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> รับทราบคำเตือนแล้ว (บันทึกเหตุผล)
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-rose-700 font-bold text-[10px]">
+                          <AlertOctagon className="w-3.5 h-3.5 text-rose-600" /> มีคำเตือนความเสี่ยงระดับสูง
+                        </span>
+                      )}
 
-                    <button
-                      onClick={() => handleOpenAckModal(item)}
-                      className={`text-[10px] font-semibold px-2 py-1 rounded transition ${
-                        item.acknowledged
-                          ? 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                          : 'bg-rose-600 text-white hover:bg-rose-700 shadow-sm animate-pulse'
-                      }`}
-                    >
-                      {item.acknowledged ? 'แก้ไขเหตุผล' : 'กดรับทราบคำเตือน'}
-                    </button>
+                      <button
+                        onClick={() => handleOpenAckModal(item)}
+                        className={`text-[10px] font-semibold px-2 py-1 rounded transition ${
+                          item.acknowledged
+                            ? 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                            : 'bg-rose-600 text-white hover:bg-rose-700 shadow-sm animate-pulse'
+                        }`}
+                      >
+                        {item.acknowledged ? 'แก้ไขเหตุผล' : 'กดรับทราบคำเตือน'}
+                      </button>
+                    </div>
+
+                    {item.acknowledged && (
+                      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-2 text-[10px] text-emerald-900 space-y-0.5">
+                        <div className="font-semibold flex items-center gap-1">
+                          <span>✓ [ส่งต่อเภสัชกร Double Check ในระบบ HIS: Two-Key Protocol]</span>
+                        </div>
+                        <div className="text-slate-600 italic">
+                          เหตุผล: "{item.acknowledgement_reason}"
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -179,6 +192,14 @@ export const PrescriptionCart: React.FC<PrescriptionCartProps> = ({
             </div>
             <div className="text-xs text-slate-600">
               ยาที่สั่ง: <b className="text-slate-900">{ackModalItem.herb.thai_name}</b> มีคำเตือนอันตรกิริยาหรือขนาดยาระดับสูง
+            </div>
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-2.5 text-[11px] text-amber-900 space-y-1">
+              <div className="font-bold flex items-center gap-1">
+                <span>🛡 มาตรการความปลอดภัย Two-Key Authorization</span>
+              </div>
+              <div>
+                การ Override รายการยาระดับสูงจะถูกบันทึกลง Audit Trail และส่งแจ้งเตือนเภสัชกรโรงพยาบาลเพื่อ Double-Check ในระบบ HIS ก่อนจ่ายยา
+              </div>
             </div>
             <div>
               <label className="text-[11px] font-semibold text-slate-700 block mb-1">

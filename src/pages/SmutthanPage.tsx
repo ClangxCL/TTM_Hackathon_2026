@@ -208,41 +208,113 @@ export const SmutthanPage: React.FC<SmutthanPageProps> = ({
             onReset={handleResetVitals}
           />
 
+          {/* Dual Diagnosis (ICD-10-TM ↔ Conventional ICD-10) Card */}
+          {(() => {
+            const diagCode = currentCase.history_episodes?.[0]?.icd10tm_code || 'U60.10';
+            const diagInfo = MockDataService.getDiagnosisCrosswalk(diagCode);
+            return (
+              <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-soft space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse"></span>
+                    <h4 className="font-bold text-xs text-slate-900">
+                      ระบบวินิจฉัยคู่ขนาน (Dual Diagnosis Standard)
+                    </h4>
+                  </div>
+                  <span className="text-[10px] bg-teal-50 text-teal-800 font-bold px-2.5 py-0.5 rounded-full border border-teal-200">
+                    อิงคู่มือเทียบโรค DTAM 2568
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div className="bg-teal-50/70 border border-teal-200/80 rounded-xl p-3 space-y-1">
+                    <div className="text-[10px] text-teal-800 font-semibold uppercase tracking-wider">
+                      รหัสโรคการแพทย์แผนไทย (ICD-10-TM)
+                    </div>
+                    <div className="font-bold text-slate-900 text-sm font-mono text-teal-950">
+                      {diagInfo.icd10tm_code}
+                    </div>
+                    <div className="text-[11px] font-semibold text-slate-800">
+                      {diagInfo.thai_diagnosis_name}
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50/70 border border-blue-200/80 rounded-xl p-3 space-y-1">
+                    <div className="text-[10px] text-blue-800 font-semibold uppercase tracking-wider">
+                      รหัสโรคแผนปัจจุบันสากล (Conventional ICD-10)
+                    </div>
+                    <div className="font-bold text-slate-900 text-sm font-mono text-blue-950">
+                      {diagInfo.icd10_conventional_code}
+                    </div>
+                    <div className="text-[11px] font-semibold text-slate-800">
+                      {diagInfo.icd10_conventional_name}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-[11px] bg-slate-50 p-2.5 rounded-xl border border-slate-200/60 text-slate-600 leading-relaxed">
+                  <b className="text-slate-800">แนวคิดสมุฏฐาน: </b>
+                  {diagInfo.traditional_concept}
+                </div>
+              </div>
+            );
+          })()}
+
           {/* Patient 5 Smutthan Factors Profile */}
           <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-soft space-y-3">
-            <h4 className="font-bold text-xs text-slate-900 flex items-center gap-1.5">
-              <Compass className="w-4 h-4 text-brand-700" />
-              <span>องค์ประกอบสมุฏฐานทั้ง 5 ประการของผู้ป่วย</span>
-            </h4>
+            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+              <h4 className="font-bold text-xs text-slate-900 flex items-center gap-1.5">
+                <Compass className="w-4 h-4 text-brand-700" />
+                <span>องค์ประกอบสมุฏฐานทั้ง 5 ประการของผู้ป่วย</span>
+              </h4>
+              <span className="text-[10px] text-slate-400 font-medium">มาตรฐานเวชกรรมไทย</span>
+            </div>
 
-            <div className="space-y-2 text-xs divide-y divide-slate-100">
-              <div className="pt-1 flex items-center justify-between">
-                <span className="text-slate-500">1. ธาตุสมุฏฐาน (กำเนิด):</span>
-                <span className="font-semibold text-slate-900">{currentCase.patient_info.birth_element}</span>
+            <div className="space-y-2.5 text-xs divide-y divide-slate-100">
+              <div className="pt-1 flex items-start justify-between gap-2">
+                <div>
+                  <span className="text-slate-500 block">1. ธาตุสมุฏฐาน (กำเนิด):</span>
+                  <span className="text-[10px] text-brand-700 font-medium">
+                    คะแนนฐาน +10 อิงวงกลมธาตุเจ้าเรือน พญ.เพ็ญนภา ทรัพย์เจริญ
+                  </span>
+                </div>
+                <span className="font-bold text-slate-900 shrink-0">{currentCase.patient_info.birth_element}</span>
               </div>
               <div className="pt-2 flex items-center justify-between">
                 <span className="text-slate-500">2. ฤตุสมุฏฐาน (ฤดูกาล):</span>
                 <span className="font-semibold text-brand-800">{currentCase.current_encounter.season}</span>
               </div>
-              <div className="pt-2 flex items-center justify-between">
-                <span className="text-slate-500">3. กาลสมุฏฐาน (เวลา):</span>
-                <span className="font-semibold text-slate-900">
+              <div className="pt-2 flex items-start justify-between gap-2">
+                <div>
+                  <span className="text-slate-500 block">3. กาลสมุฏฐาน (เวลา):</span>
+                  <span className="text-[10px] text-slate-400">รอบละ 3 ชม. อิงตำราเวชกรรมไทย กรมฯ</span>
+                </div>
+                <span className="font-semibold text-slate-900 shrink-0">
                   {currentCase.current_encounter.ambient_context.kala_period}
                 </span>
               </div>
-              <div className="pt-2 flex items-center justify-between">
-                <span className="text-slate-500">4. อายุสมุฏฐาน (ช่วงวัย):</span>
-                <span className="font-semibold text-slate-900">
+              <div className="pt-2 flex items-start justify-between gap-2">
+                <div>
+                  <span className="text-slate-500 block">4. อายุสมุฏฐาน (ช่วงวัย):</span>
+                  <span className="text-[10px] text-slate-400">
+                    {currentCase.patient_info.age <= 16
+                      ? 'แรกเกิด - 16 ปี'
+                      : currentCase.patient_info.age <= 32
+                      ? '16 - 32 ปี (โลหิตเด่น)'
+                      : '32 ปีขึ้นไป'}
+                  </span>
+                </div>
+                <span className="font-semibold text-slate-900 shrink-0">
                   {currentCase.patient_info.age <= 16
-                    ? 'ปฐมวัย (อาโปธาตุ)'
+                    ? 'ปฐมวัย (อาโปธาตุ เสมหะเด่น)'
                     : currentCase.patient_info.age <= 32
-                    ? 'มัชฌิมวัย (เตโชธาตุ)'
-                    : 'ปัจฉิมวัย (วาโยธาตุ)'}
+                    ? 'มัชฌิมวัย (อาโปธาตุ โลหิตเด่น / เตโชธาตุ)'
+                    : 'ปัจฉิมวัย (วาโยธาตุ วาตะเด่น)'}
                 </span>
               </div>
               <div className="pt-2 flex items-center justify-between">
                 <span className="text-slate-500">5. ประเทศสมุฏฐาน (ถิ่นที่อยู่):</span>
-                <span className="font-semibold text-slate-900">{currentCase.patient_info.region}</span>
+                <span className="font-semibold text-slate-900">{currentCase.patient_info.region} ({currentCase.patient_info.province})</span>
               </div>
             </div>
           </div>

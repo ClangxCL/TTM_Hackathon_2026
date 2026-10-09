@@ -189,20 +189,47 @@ export const PrescriptionPrintPage: React.FC<PrescriptionPrintPageProps> = ({
           </div>
         </div>
 
-        {/* Diagnosis ICD-10-TM */}
-        <div className="bg-teal-50/60 border border-teal-200/80 rounded-2xl p-4 flex items-center justify-between">
-          <div>
-            <span className="font-semibold text-teal-900 block text-[11px]">
-              การวินิจฉัยโรคตามการแพทย์แผนไทย (ICD-10-TM Diagnosis):
-            </span>
-            <span className="font-bold text-teal-950 text-sm">
-              {items[0]?.reason_icd10tm || 'U60.10 ลมกษัยจุกเสียด (Functional Dyspepsia)'}
-            </span>
-          </div>
-          <span className="text-[11px] bg-teal-100 text-teal-800 px-2.5 py-1 rounded-lg font-mono font-bold">
-            MOPH Standard U-Code
-          </span>
-        </div>
+        {/* Dual Diagnosis (ICD-10-TM ↔ Conventional ICD-10) */}
+        {(() => {
+          const diagCode = items[0]?.reason_icd10tm || currentCase.history_episodes?.[0]?.icd10tm_code || 'U60.10';
+          const diagInfo = MockDataService.getDiagnosisCrosswalk(diagCode);
+          return (
+            <div className="bg-teal-50/60 border border-teal-200/80 rounded-2xl p-4 space-y-2.5">
+              <div className="flex items-center justify-between border-b border-teal-100 pb-1.5">
+                <span className="font-bold text-teal-950 text-xs">
+                  การวินิจฉัยโรคระบบคู่ขนาน (Dual Diagnosis Standard):
+                </span>
+                <span className="text-[10px] bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-medium border border-teal-200">
+                  อิงคู่มือเทียบโรค DTAM มี.ค. 2568
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div className="p-2.5 bg-white/80 rounded-xl border border-teal-200">
+                  <span className="text-teal-800 text-[10px] font-semibold block uppercase">
+                    รหัสโรคการแพทย์แผนไทย (ICD-10-TM)
+                  </span>
+                  <span className="font-bold text-teal-950 font-mono text-sm block">
+                    {diagInfo.icd10tm_code}
+                  </span>
+                  <span className="text-slate-800 font-medium text-[11px]">
+                    {diagInfo.thai_diagnosis_name}
+                  </span>
+                </div>
+                <div className="p-2.5 bg-white/80 rounded-xl border border-blue-200">
+                  <span className="text-blue-800 text-[10px] font-semibold block uppercase">
+                    รหัสโรคแผนปัจจุบันสากล (Conventional ICD-10)
+                  </span>
+                  <span className="font-bold text-blue-950 font-mono text-sm block">
+                    {diagInfo.icd10_conventional_code}
+                  </span>
+                  <span className="text-slate-800 font-medium text-[11px]">
+                    {diagInfo.icd10_conventional_name}
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Prescribed Items Table */}
         <div className="space-y-2">
@@ -298,16 +325,62 @@ export const PrescriptionPrintPage: React.FC<PrescriptionPrintPageProps> = ({
           </div>
         </div>
 
-        {/* Doctor Signature & Disclaimer */}
+        {/* Two-Key Safety Audit Trail (if warnings present) */}
+        {items.some((i) => i.warnings.length > 0) && (
+          <div className="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 space-y-2 text-xs">
+            <div className="flex items-center justify-between border-b border-amber-200/60 pb-1.5">
+              <span className="font-bold text-amber-950 flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-amber-700" />
+                <span>บันทึกการตรวจสอบความปลอดภัยทางคลินิก (Safety Audit Trail - Two-Key Protocol)</span>
+              </span>
+              <span className="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">
+                MOPH Audit Logged
+              </span>
+            </div>
+            <div className="space-y-1.5 text-[11px]">
+              {items
+                .filter((i) => i.warnings.length > 0)
+                .map((it, idx) => (
+                  <div key={idx} className="bg-white/80 p-2.5 rounded-xl border border-amber-200/80 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-slate-900">{it.herb.thai_name}: {it.warnings[0]?.title}</span>
+                      <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-semibold">
+                        [ส่งต่อเภสัชกร Double Check ในระบบ HIS: Two-Key Protocol]
+                      </span>
+                    </div>
+                    {it.acknowledgement_reason && (
+                      <div className="text-slate-600">
+                        <b>เหตุผลทางคลินิกของแพทย์:</b> "{it.acknowledgement_reason}"
+                      </div>
+                    )}
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
+
+        {/* Doctor & Pharmacist Dual Signatures & Disclaimer */}
         <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-          <div className="max-w-md text-[10px] text-slate-500 leading-relaxed">
+          <div className="max-w-xs text-[10px] text-slate-500 leading-relaxed">
             <b>Disclaimer:</b> เอกสารนี้สร้างขึ้นจากระบบ Decision Support ข้อมูลทั้งหมดเป็นข้อมูลสังเคราะห์เพื่อการสาธิตในโครงการ Hackathon 2026 มิใช่การสั่งยาจริงสำหรับผู้ป่วยจริง
           </div>
 
-          <div className="text-center sm:text-right space-y-1">
-            <div className="h-10 w-44 border-b border-slate-300 mx-auto sm:ml-auto"></div>
-            <div className="font-semibold text-slate-900">พท.ป. ศิริพร พงษ์ไพจิตร</div>
-            <div className="text-[11px] text-slate-500">แพทย์แผนไทยประยุกต์ (ว.พท.ป. 4512)</div>
+          <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6 text-center sm:text-right">
+            {/* Pharmacist Counter-signature */}
+            <div className="space-y-1">
+              <div className="h-10 w-40 border-b border-slate-300 mx-auto sm:ml-auto"></div>
+              <div className="font-semibold text-slate-900 text-xs">ภก. ธนภัทร สุขสมบูรณ์</div>
+              <div className="text-[10px] text-slate-500">เภสัชกรผู้ตรวจสอบความปลอดภัย (ภ. 23891)</div>
+              <div className="text-[9px] text-emerald-700 font-medium">✓ Two-Key Counter-Checked</div>
+            </div>
+
+            {/* Doctor Signature */}
+            <div className="space-y-1">
+              <div className="h-10 w-40 border-b border-slate-300 mx-auto sm:ml-auto"></div>
+              <div className="font-semibold text-slate-900 text-xs">พท.ป. ศิริพร พงษ์ไพจิตร</div>
+              <div className="text-[10px] text-slate-500">แพทย์แผนไทยประยุกต์ (ว.พท.ป. 4512)</div>
+              <div className="text-[9px] text-brand-700 font-medium">ผู้ตรวจรักษาและสั่งใช้ยา</div>
+            </div>
           </div>
         </div>
       </div>

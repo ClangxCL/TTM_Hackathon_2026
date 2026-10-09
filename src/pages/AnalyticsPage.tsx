@@ -44,6 +44,61 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ cases }) => {
       {/* Top Economic KPI Cards */}
       <CostPerCaseCard summary={summary} />
 
+      {/* NHSO / สปสช. Economic Benefit & NSAID-Sparing Card */}
+      <div className="bg-gradient-to-r from-teal-900 to-brand-900 text-white rounded-2xl p-5 shadow-soft space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+          <div className="flex items-center gap-2">
+            <span className="p-1.5 bg-teal-500/20 rounded-lg text-teal-300 font-bold text-xs">
+              NHSO Benefit
+            </span>
+            <h3 className="font-bold text-sm text-white">
+              มิติด้านเศรษฐศาสตร์สาธารณสุข: สปสช. Fee Schedule & ผลลัพธ์ NSAID-Sparing
+            </h3>
+          </div>
+          <span className="text-[11px] text-teal-200 bg-white/10 px-2.5 py-0.5 rounded-full font-mono">
+            นโยบายยกระดับบริการปฐมภูมิ 2568-2569
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div className="bg-white/10 rounded-xl p-3 border border-white/10 space-y-1">
+            <div className="text-[11px] text-teal-200 font-semibold">
+              NSAID-Sparing Effect (ทดแทนยาเคมี)
+            </div>
+            <div className="text-lg font-bold text-white font-mono">
+              ลดความเสี่ยง GI Bleed & CKD
+            </div>
+            <p className="text-[11px] text-slate-200 leading-snug">
+              การใช้เถาวัลย์เปรียง/ครีมไพลทดแทน NSAIDs ลดผลข้างเคียงเลือดออกในทางเดินอาหารและไตเสื่อมในกลุ่มผู้สูงอายุ
+            </p>
+          </div>
+
+          <div className="bg-white/10 rounded-xl p-3 border border-white/10 space-y-1">
+            <div className="text-[11px] text-teal-200 font-semibold">
+              มูลค่าการป้องกันภาวะแทรกซ้อนเฉลี่ย
+            </div>
+            <div className="text-lg font-bold text-emerald-300 font-mono">
+              ~฿35,000 / ราย
+            </div>
+            <p className="text-[11px] text-slate-200 leading-snug">
+              ประมาณการต้นทุนค่ารักษาภาวะแทรกซ้อนเฉียบพลันที่ระบบสุขภาพประหยัดได้ต่อการเกิดเหตุไม่พึงประสงค์ 1 ครั้ง
+            </p>
+          </div>
+
+          <div className="bg-white/10 rounded-xl p-3 border border-white/10 space-y-1">
+            <div className="text-[11px] text-teal-200 font-semibold">
+              การเบิกจ่ายตาม Fee Schedule สปสช.
+            </div>
+            <div className="text-lg font-bold text-white font-mono">
+              ฿150 - ฿250 / หัตถการ
+            </div>
+            <p className="text-[11px] text-slate-200 leading-snug">
+              รหัส 9007710 (นวด) และ 9007720 (ประคบ) เชื่อมโยง 43 แฟ้มและ ICD-10-TM ส่งเบิกกองทุนบริการแพทย์แผนไทยได้ 100%
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Charts & Table */}
       <Icd10tmUtilizationChart
         utilization={summary.utilization_by_code}

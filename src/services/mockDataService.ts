@@ -7,6 +7,7 @@ import { ClinicianOverride } from '../types/smutthan';
 import rawCases from '../../data/synthetic/cases.json';
 import rawFormulary from '../../data/formulary/thai-formulary.json';
 import rawInteractions from '../../data/hdi/herb-drug-interactions.json';
+import rawIcd10tm from '../../data/master/icd10tm-master.json';
 
 const STORAGE_KEY_CASES = 'ttm_synthetic_cases_v1';
 const STORAGE_KEY_PRESCRIPTIONS = 'ttm_prescriptions_v1';
@@ -66,6 +67,21 @@ export class MockDataService {
   public static getInteractions(): HerbDrugInteraction[] {
     if (this.interactions.length === 0) this.initialize();
     return this.interactions;
+  }
+
+  public static getIcd10tmMaster() {
+    return rawIcd10tm;
+  }
+
+  public static getDiagnosisCrosswalk(codeOrQuery?: string) {
+    if (!codeOrQuery) return rawIcd10tm[0];
+    const match = rawIcd10tm.find(
+      (item) =>
+        item.icd10tm_code.toLowerCase() === codeOrQuery.toLowerCase() ||
+        codeOrQuery.toLowerCase().includes(item.icd10tm_code.toLowerCase()) ||
+        item.thai_diagnosis_name.includes(codeOrQuery)
+    );
+    return match || rawIcd10tm[0];
   }
 
   // Prescriptions Persistence
