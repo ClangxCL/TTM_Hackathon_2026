@@ -8,6 +8,8 @@ import { checkHerbDrugInteractions } from '../services/interactionMatcher';
 import { validateDosageAndSafety } from '../services/dosageValidator';
 import { calculateSmutthan } from '../services/smutthanEngine';
 import { HerbRecommendationService, HerbRecommendationResult } from '../services/herbRecommendationService';
+import { RedFlagService, RedFlagAssessment } from '../services/redFlagService';
+import { EmergencyReferralModal } from '../components/common/EmergencyReferralModal';
 import { PatientActiveMeds } from '../components/prescribing/PatientActiveMeds';
 import { FormularySearch } from '../components/prescribing/FormularySearch';
 import { PrescriptionForm } from '../components/prescribing/PrescriptionForm';
@@ -24,6 +26,13 @@ import {
   Compass,
   CheckCircle2,
   Check,
+  Siren,
+  Heart,
+  Activity,
+  User,
+  Stethoscope,
+  Clock,
+  ChevronRight,
 } from 'lucide-react';
 
 interface PrescribePageProps {
@@ -44,6 +53,7 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
 
   // 2. Active medications state (synced with case, allows editing/adding on Prescribe page)
   const [activeMeds, setActiveMeds] = useState<CurrentMedication[]>([...currentCase.current_medications]);
+  const [isReferralModalOpen, setIsReferralModalOpen] = useState(false);
 
   useEffect(() => {
     setActiveMeds([...currentCase.current_medications]);
@@ -80,6 +90,14 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
     activeMeds,
     selectedHerb.drug_code_24,
     selectedHerb.thai_name
+  );
+
+  // 4. Clinical Safety & Red Flag Evaluation
+  const safetyAssessment: RedFlagAssessment = RedFlagService.evaluatePatientSafety(
+    currentCase,
+    currentCase.current_encounter.vitals,
+    currentCase.current_encounter.symptoms,
+    liveInteractions
   );
 
   const handleAddToCart = (newItem: Omit<PrescribedItem, 'id' | 'warnings' | 'acknowledged'>) => {
@@ -147,14 +165,17 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
     navigate('/prescription-print');
   };
 
+  const patient = currentCase.patient_info;
+  const vitals = currentCase.current_encounter.vitals;
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6 py-4 px-4 sm:px-6">
-      {/* Stepper Navigation */}
+    <div className="max-w-7xl mx-auto space-y-5 py-4 px-4 sm:px-6">
+      {/* Top Navigation & Stepper */}
       <div className="bg-white rounded-2xl p-3 border border-slate-200/80 shadow-soft flex items-center justify-between text-xs">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <button
             onClick={() => navigate('/smutthan')}
-            className="flex items-center gap-1 text-slate-500 hover:text-slate-800 transition cursor-pointer"
+            className="flex items-center gap-1 text-slate-500 hover:text-brand-700 transition cursor-pointer font-medium"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>1. ประเมินสมุฏฐาน</span>
@@ -166,20 +187,154 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
             </span>
             <span>สั่งยาแผนไทย & ตรวจอันตรกิริยา (Prescribing & HDI Check)</span>
           </div>
-          <span className="text-slate-300 hidden sm:inline">→</span>
-          <span className="text-slate-400 hidden sm:inline">3. ยืนยันใบสั่งยา & ฉลากยา</span>
+          <span className="text-slate-300 hidden md:inline">→</span>
+          <span className="text-slate-400 hidden md:inline">3. ยืนยันใบสั่งยา & ฉลากยา</span>
         </div>
 
-        {cartItems.length > 0 && (
+        <div className="flex items-center gap-2">
+          {/* Emergency Referral Button (Always accessible) */}
           <button
-            onClick={handleConfirmPrescription}
-            className="bg-brand-700 hover:bg-brand-800 text-white font-semibold px-4 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+            type="button"
+            onClick={() => setIsReferralModalOpen(true)}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm cursor-pointer ${
+              safetyAssessment.hasCriticalRedFlags
+                ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
+                : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200'
+            }`}
+            title="ส่งต่อผู้ป่วยไปยังแพทย์แผนปัจจุบัน / แผนกฉุกเฉินทันที"
           >
-            <span>พิมพ์ใบสั่งยา ({cartItems.length})</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <Siren className="w-4 h-4 text-rose-600 animate-bounce" />
+            <span className="hidden sm:inline">ส่งต่อแพทย์แผนปัจจุบัน</span>
+            <span className="sm:hidden">ส่งต่อ</span>
           </button>
-        )}
+
+          {cartItems.length > 0 && (
+            <button
+              onClick={handleConfirmPrescription}
+              className="bg-brand-700 hover:bg-brand-800 text-white font-semibold px-4 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+            >
+              <span>พิมพ์ใบสั่งยา ({cartItems.length})</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* Patient Clinical Context Banner */}
+      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+          {/* Left: Patient Demographics */}
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center border border-brand-200/80 font-bold shrink-0">
+              <User className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="font-extrabold text-slate-900 text-sm">{patient.name}</span>
+                <span className="font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md text-[11px]">
+                  HN: {patient.hn}
+                </span>
+                <span className="text-slate-600 font-medium text-[11px]">
+                  {patient.gender} • อายุ {patient.age} ปี
+                </span>
+              </div>
+              <div className="text-slate-500 text-[11px] mt-0.5 flex items-center gap-2 flex-wrap">
+                <span>อาการสำคัญ: <b className="text-slate-800">{currentCase.current_encounter.chief_complaint}</b></span>
+                <span>•</span>
+                <span>ธาตุเจ้าเรือน: <b className="text-brand-700">{patient.birth_element}</b></span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Vitals + Safety Status */}
+          <div className="flex items-center gap-3 flex-wrap">
+            {/* Vitals Snapshot */}
+            <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 font-mono text-[11px]">
+              <span className={`font-bold ${vitals.btemp >= 38.0 ? 'text-rose-600 font-extrabold' : 'text-slate-800'}`}>
+                🌡️ {vitals.btemp}°C
+              </span>
+              <span className="text-slate-300">|</span>
+              <span className={`font-bold ${vitals.sbp >= 140 ? 'text-rose-600 font-extrabold' : 'text-slate-800'}`}>
+                ❤️ {vitals.sbp}/{vitals.dbp} mmHg
+              </span>
+              <span className="text-slate-300">|</span>
+              <span className="text-slate-800">
+                🫀 {vitals.pr} bpm
+              </span>
+            </div>
+
+            {/* Safety Indicator Chip */}
+            {safetyAssessment.hasCriticalRedFlags ? (
+              <button
+                type="button"
+                onClick={() => setIsReferralModalOpen(true)}
+                className="px-3 py-1.5 rounded-xl bg-rose-100 text-rose-800 border border-rose-300 font-bold flex items-center gap-1.5 cursor-pointer hover:bg-rose-200 transition"
+              >
+                <Siren className="w-3.5 h-3.5 text-rose-600 animate-bounce" />
+                <span>🚨 ข้อห้ามทำหัตถการ / สัญญาณวิกฤต</span>
+              </button>
+            ) : safetyAssessment.hasWarnings ? (
+              <button
+                type="button"
+                onClick={() => setIsReferralModalOpen(true)}
+                className="px-3 py-1.5 rounded-xl bg-amber-50 text-amber-800 border border-amber-300 font-bold flex items-center gap-1.5 cursor-pointer hover:bg-amber-100 transition"
+              >
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+                <span>⚠️ ข้อควรระวังพิเศษ</span>
+              </button>
+            ) : (
+              <span className="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span>✓ ปลอดภัยต่อการนวดและสั่งยา</span>
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Critical Red Flag / Contraindication Alert Banner (When present) */}
+      {(safetyAssessment.hasCriticalRedFlags || safetyAssessment.hasWarnings) && (
+        <div className={`rounded-2xl p-4 border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-sm ${
+          safetyAssessment.hasCriticalRedFlags
+            ? 'bg-rose-50 border-rose-300 text-rose-950'
+            : 'bg-amber-50 border-amber-300 text-amber-950'
+        }`}>
+          <div className="flex items-start gap-3">
+            <div className={`p-2 rounded-xl mt-0.5 ${safetyAssessment.hasCriticalRedFlags ? 'bg-rose-200 text-rose-800' : 'bg-amber-200 text-amber-800'}`}>
+              <Siren className="w-5 h-5 animate-pulse" />
+            </div>
+            <div className="space-y-1">
+              <span className="font-bold text-sm block">
+                {safetyAssessment.hasCriticalRedFlags
+                  ? 'ตรวจพบอาการรุนแรง / โรคฉุกเฉิน / ข้อห้ามการนวดไทยเด็ดขาด!'
+                  : 'ตรวจพบข้อควรระวังทางการแพทย์ (Medical Precaution)'}
+              </span>
+              <p className="leading-relaxed">
+                {safetyAssessment.procedureStatus.massageRestrictionMessage}
+              </p>
+              <div className="flex flex-wrap gap-2 pt-0.5">
+                {safetyAssessment.alerts.map((a) => (
+                  <span
+                    key={a.id}
+                    className="inline-flex items-center gap-1 font-bold px-2 py-0.5 bg-white/80 rounded-md border text-[11px]"
+                  >
+                    • {a.title}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsReferralModalOpen(true)}
+            className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 shrink-0 cursor-pointer self-start sm:self-center"
+          >
+            <Siren className="w-4 h-4 text-white" />
+            <span>ออกใบส่งต่อแพทย์ด่วน</span>
+          </button>
+        </div>
+      )}
 
       {/* 3-Column Clinical Prescribing Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
@@ -195,39 +350,39 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
 
         {/* Column 2 (Middle 5 cols): Formulary Catalog & Prescribing Form */}
         <div className="lg:col-span-5 space-y-4">
-          {/* AI Recommended Herbs for Element Balance & Symptoms */}
-          <div className="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950 text-white rounded-2xl p-4 border border-teal-500/40 shadow-soft space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-teal-500/20">
+          {/* AI Recommended Herbs Spotlight Card */}
+          <div className="bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-900 text-white rounded-2xl p-4 border border-emerald-400/30 shadow-soft space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-emerald-400/20">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-teal-500/20 text-teal-300 border border-teal-400/30">
+                <div className="p-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
                   <Sparkles className="w-4 h-4 text-amber-300" />
                 </div>
                 <div>
                   <h4 className="font-extrabold text-xs text-white flex items-center gap-1.5">
-                    <span>ยาแผนไทยแนะนำตามอาการและสมดุลธาตุ (AI Prescribe Guide)</span>
+                    <span>ยาแผนไทยแนะนำตามอาการ & สมดุลธาตุ</span>
                   </h4>
-                  <p className="text-[10px] text-teal-200/80">
-                    ธาตุที่มีแนวโน้มแปรปรวน: <b className="text-white">{smutthan.dominant_element_th}</b> • รสยาปรับสมดุล:{' '}
+                  <p className="text-[10px] text-emerald-200/80">
+                    ธาตุประธาน: <b className="text-white">{smutthan.dominant_element_th}</b> • รสยาปรับสมดุล:{' '}
                     <b className="text-amber-300">{smutthan.recommended_taste.join(', ')}</b>
                   </p>
                 </div>
               </div>
-              <span className="text-[9px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase">
+              <span className="text-[9px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
                 AI MATCHED
               </span>
             </div>
 
             {/* Top 2 Recommended Herb Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {recommendations.slice(0, 2).map((rec) => {
                 const isFocused = selectedHerb.drug_code_24 === rec.herb.drug_code_24;
                 return (
                   <div
                     key={rec.herb.drug_code_24}
-                    className={`p-2.5 rounded-xl border transition cursor-pointer flex flex-col justify-between ${
+                    className={`p-3 rounded-xl border transition cursor-pointer flex flex-col justify-between ${
                       isFocused
-                        ? 'bg-teal-500/20 border-teal-400 ring-1 ring-teal-400'
-                        : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-teal-400/50'
+                        ? 'bg-teal-500/20 border-teal-400 ring-2 ring-teal-400/80 shadow-sm'
+                        : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-teal-400/40'
                     }`}
                     onClick={() => setSelectedHerb(rec.herb)}
                   >
@@ -238,12 +393,12 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
                           {rec.matchScore}%
                         </span>
                       </div>
-                      <p className="text-[10px] text-slate-300 line-clamp-2">
+                      <p className="text-[10px] text-slate-300 line-clamp-2 leading-relaxed">
                         {rec.elementRationale}
                       </p>
                     </div>
 
-                    <div className="pt-2 mt-1 border-t border-white/10 flex items-center justify-between text-[10px]">
+                    <div className="pt-2.5 mt-1.5 border-t border-white/10 flex items-center justify-between text-[10px]">
                       {rec.hdiRisk === 'HIGH' ? (
                         <span className="text-rose-300 font-bold flex items-center gap-1">
                           <AlertTriangle className="w-3 h-3 text-rose-400" /> เสี่ยง HDI สูง
@@ -264,10 +419,10 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
                           e.stopPropagation();
                           setSelectedHerb(rec.herb);
                         }}
-                        className={`px-2 py-0.5 rounded text-[10px] font-semibold transition cursor-pointer ${
+                        className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition cursor-pointer ${
                           isFocused
-                            ? 'bg-teal-400 text-slate-950 font-bold'
-                            : 'bg-white/10 hover:bg-white/20 text-white'
+                            ? 'bg-teal-400 text-slate-950 shadow-xs'
+                            : 'bg-white/15 hover:bg-white/25 text-white'
                         }`}
                       >
                         {isFocused ? '✓ เลือกอยู่' : 'เลือกยานี้'}
@@ -279,6 +434,7 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
             </div>
           </div>
 
+          {/* Formulary Catalog Search */}
           <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
             <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
               <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
@@ -319,6 +475,14 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
           />
         </div>
       </div>
+
+      {/* Emergency Referral Modal */}
+      <EmergencyReferralModal
+        isOpen={isReferralModalOpen}
+        onClose={() => setIsReferralModalOpen(false)}
+        patientCase={currentCase}
+        assessment={safetyAssessment}
+      />
     </div>
   );
 };

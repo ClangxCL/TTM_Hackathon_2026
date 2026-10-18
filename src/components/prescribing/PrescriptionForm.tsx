@@ -160,8 +160,24 @@ export const PrescriptionForm: React.FC<PrescriptionFormProps> = ({
               max="60"
               value={days}
               onChange={(e) => setDays(parseInt(e.target.value, 10) || 1)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-semibold text-slate-900 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-semibold text-slate-900 focus:outline-none focus:ring-1 focus:ring-brand-500 font-mono"
             />
+            <div className="flex gap-1 mt-1.5">
+              {[3, 5, 7, 14, 30].map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => setDays(d)}
+                  className={`flex-1 py-0.5 rounded text-[10px] font-semibold border transition cursor-pointer ${
+                    days === d
+                      ? 'bg-brand-700 text-white border-brand-700 shadow-2xs'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                  }`}
+                >
+                  {d} วัน
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 

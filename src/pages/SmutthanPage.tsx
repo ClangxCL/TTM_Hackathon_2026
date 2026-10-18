@@ -10,6 +10,8 @@ import { VoiceSymptomRecorder } from '../components/common/VoiceSymptomRecorder'
 import { MockDataService } from '../services/mockDataService';
 import { DualDiagnosisService } from '../services/dualDiagnosisService';
 import { HerbRecommendationService } from '../services/herbRecommendationService';
+import { RedFlagService, RedFlagAssessment } from '../services/redFlagService';
+import { EmergencyReferralModal } from '../components/common/EmergencyReferralModal';
 import {
   Compass,
   ArrowRight,
@@ -25,6 +27,8 @@ import {
   ChevronDown,
   Check,
   RotateCcw,
+  Siren,
+  AlertTriangle,
 } from 'lucide-react';
 
 interface SmutthanPageProps {
@@ -73,6 +77,14 @@ export const SmutthanPage: React.FC<SmutthanPageProps> = ({
   const [customIcd10tmName, setCustomIcd10tmName] = useState<string>('');
   const [customRationale, setCustomRationale] = useState<string>('');
   const [isCustomOverridden, setIsCustomOverridden] = useState<boolean>(false);
+
+  // Emergency Referral Modal State & Safety Evaluation
+  const [isReferralModalOpen, setIsReferralModalOpen] = useState(false);
+  const safetyAssessment: RedFlagAssessment = RedFlagService.evaluatePatientSafety(
+    currentCase,
+    vitals,
+    symptoms
+  );
 
   useEffect(() => {
     setSelectedDiagnosisCode(
@@ -218,14 +230,75 @@ export const SmutthanPage: React.FC<SmutthanPageProps> = ({
           <span className="text-slate-400 hidden sm:inline">3. ยืนยันใบสั่งยา & ฉลากยา</span>
         </div>
 
-        <button
-          onClick={() => navigate('/prescribe')}
-          className="bg-brand-700 hover:bg-brand-800 text-white font-semibold px-4 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm"
-        >
-          <span>ไปขั้นตอนสั่งยา</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setIsReferralModalOpen(true)}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm cursor-pointer ${
+              safetyAssessment.hasCriticalRedFlags
+                ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
+                : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200'
+            }`}
+            title="ส่งต่อผู้ป่วยไปยังแพทย์แผนปัจจุบัน / แผนกฉุกเฉินทันที"
+          >
+            <Siren className="w-4 h-4 text-rose-600 animate-bounce" />
+            <span className="hidden sm:inline">ส่งต่อแพทย์แผนปัจจุบัน</span>
+            <span className="sm:hidden">ส่งต่อ</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/prescribe')}
+            className="bg-brand-700 hover:bg-brand-800 text-white font-semibold px-4 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm"
+          >
+            <span>ไปขั้นตอนสั่งยา</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
+
+      {/* Red Flag & Contraindications Safety Warning Banner */}
+      {(safetyAssessment.hasCriticalRedFlags || safetyAssessment.hasWarnings) && (
+        <div className={`rounded-2xl p-4 border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-sm ${
+          safetyAssessment.hasCriticalRedFlags
+            ? 'bg-rose-50 border-rose-300 text-rose-950'
+            : 'bg-amber-50 border-amber-300 text-amber-950'
+        }`}>
+          <div className="flex items-start gap-3">
+            <div className={`p-2 rounded-xl mt-0.5 ${safetyAssessment.hasCriticalRedFlags ? 'bg-rose-200 text-rose-800' : 'bg-amber-200 text-amber-800'}`}>
+              <Siren className="w-5 h-5 animate-pulse" />
+            </div>
+            <div className="space-y-1">
+              <span className="font-bold text-sm block">
+                {safetyAssessment.hasCriticalRedFlags
+                  ? 'ตรวจพบอาการรุนแรง / โรคฉุกเฉิน / ข้อห้ามการนวดไทยเด็ดขาด!'
+                  : 'ตรวจพบข้อควรระวังทางการแพทย์ (Medical Precaution)'}
+              </span>
+              <p className="leading-relaxed">
+                {safetyAssessment.procedureStatus.massageRestrictionMessage}
+              </p>
+              <div className="flex flex-wrap gap-2 pt-0.5">
+                {safetyAssessment.alerts.map((a) => (
+                  <span
+                    key={a.id}
+                    className="inline-flex items-center gap-1 font-bold px-2 py-0.5 bg-white/80 rounded-md border text-[11px]"
+                  >
+                    • {a.title}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsReferralModalOpen(true)}
+            className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 shrink-0 cursor-pointer self-start sm:self-center"
+          >
+            <Siren className="w-4 h-4 text-white" />
+            <span>ออกใบส่งต่อแพทย์ด่วน</span>
+          </button>
+        </div>
+      )}
 
       {/* Main Content Layout (2 Columns) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -932,6 +1005,14 @@ export const SmutthanPage: React.FC<SmutthanPageProps> = ({
           </div>
         </div>
       )}
+
+      {/* Emergency Referral Modal */}
+      <EmergencyReferralModal
+        isOpen={isReferralModalOpen}
+        onClose={() => setIsReferralModalOpen(false)}
+        patientCase={currentCase}
+        assessment={safetyAssessment}
+      />
     </div>
   );
 };

@@ -38,25 +38,37 @@ export const PatientActiveMeds: React.FC<PatientActiveMedsProps> = ({
     return (
       d.generic_name.toLowerCase().includes(q) ||
       (d.thai_name && d.thai_name.toLowerCase().includes(q)) ||
-      (d.target_indications && d.target_indications.some((ind: string) => ind.toLowerCase().includes(q)))
+      (d.group_name && d.group_name.toLowerCase().includes(q)) ||
+      (d.subgroup_name && d.subgroup_name.toLowerCase().includes(q)) ||
+      (Array.isArray(d.brand_names) && d.brand_names.some((b: string) => b.toLowerCase().includes(q))) ||
+      (Array.isArray(d.target_indications) && d.target_indications.some((ind: string) => ind.toLowerCase().includes(q))) ||
+      (typeof d.indications === 'string' && d.indications.toLowerCase().includes(q))
     );
-  });
+  }).slice(0, 30);
 
   const handleAddDrug = (drug: any) => {
     if (!onUpdateMedications) return;
     if (medications.some((m) => m.generic_name.toLowerCase() === drug.generic_name.toLowerCase())) return;
 
+    const brand = Array.isArray(drug.brand_names) && drug.brand_names.length > 0
+      ? drug.brand_names[0]
+      : drug.brand_name || drug.generic_name;
+    const form = drug.dosage_forms?.[0]?.form || drug.dosage_form || 'Tablet';
+    const dose = drug.standard_regimen?.dose_mg || drug.standard_regimen?.dose_per_admin_mg || drug.strength_mg || 5.0;
+    const freq = drug.standard_regimen?.frequency_per_day || 1;
+    const timing = drug.standard_regimen?.timing || 'วันละ 1 ครั้ง หลังอาหาร';
+
     const newMed: CurrentMedication = {
       drug_id: drug.drug_id || `MED-CONV-${Date.now().toString().slice(-4)}`,
       generic_name: drug.generic_name,
-      brand_name: drug.brand_name || drug.generic_name,
-      dosage_form: drug.dosage_form || 'Tablet',
-      strength_mg: drug.strength_mg || 5.0,
-      dose_per_admin_mg: drug.standard_regimen?.dose_per_admin_mg || drug.strength_mg || 5.0,
-      frequency_per_day: drug.standard_regimen?.frequency_per_day || 1,
-      timing: drug.standard_regimen?.timing || 'หลังอาหาร',
+      brand_name: brand,
+      dosage_form: form,
+      strength_mg: dose,
+      dose_per_admin_mg: dose,
+      frequency_per_day: freq,
+      timing: timing,
       days: 30,
-      calculated_daily_dose_mg: (drug.standard_regimen?.dose_per_admin_mg || drug.strength_mg || 5.0) * (drug.standard_regimen?.frequency_per_day || 1),
+      calculated_daily_dose_mg: dose * freq,
       route: drug.route || 'Oral',
     };
 

@@ -155,7 +155,7 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
     const indication = (d.indications || '').toLowerCase();
     const atc = (d.atc_code || '').toLowerCase();
     return generic.includes(q) || brand.includes(q) || indication.includes(q) || atc.includes(q);
-  });
+  }).slice(0, 30);
 
   // Add medication from full NLEM master
   const handleAddConventionalDrug = (drug: any) => {
