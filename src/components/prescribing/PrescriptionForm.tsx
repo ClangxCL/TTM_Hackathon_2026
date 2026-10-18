@@ -3,6 +3,7 @@ import { ThaiHerbFormularyItem, PrescribedItem, DrugWarning } from '../../types/
 import { PatientInfo } from '../../types/patient';
 import { PlusCircle, AlertTriangle, ShieldCheck, Flame, Droplet, Wind, Mountain, Tag } from 'lucide-react';
 import { validateDosageAndSafety } from '../../services/dosageValidator';
+import { DualDiagnosisService } from '../../services/dualDiagnosisService';
 
 interface PrescriptionFormProps {
   herb: ThaiHerbFormularyItem;
@@ -212,23 +213,16 @@ export const PrescriptionForm: React.FC<PrescriptionFormProps> = ({
           <select
             value={reasonIcd}
             onChange={(e) => setReasonIcd(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-900 focus:outline-none focus:ring-1 focus:ring-brand-500"
+            className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-900 focus:outline-none focus:ring-1 focus:ring-brand-500 font-sans text-xs"
           >
-            <option value="U60.10 ลมกษัยจุกเสียด (K30 Functional Dyspepsia)">
-              U60.10 ลมกษัยจุกเสียด (K30 Functional Dyspepsia)
-            </option>
-            <option value="U56.19 ไข้หวัด, ไม่ระบุรายละเอียด (J00 Common Cold)">
-              U56.19 ไข้หวัด, ไม่ระบุรายละเอียด (J00 Common Cold)
-            </option>
-            <option value="U55.20 ลมปลายปัตฆาตสัญญาณ 4, 5 หลัง (M54.5 Low Back Pain)">
-              U55.20 ลมปลายปัตฆาตสัญญาณ 4, 5 หลัง (M54.5 Low Back Pain)
-            </option>
-            <option value="U61.2 ลมปะกัง หรือ ลมตะกัง (G43.9 Migraine)">
-              U61.2 ลมปะกัง หรือ ลมตะกัง (G43.9 Migraine)
-            </option>
-            <option value="U69.00 โรคมธุรส / เบาหวานแบบแพทย์แผนไทย (E11.9 T2DM)">
-              U69.00 โรคมธุรส / เบาหวานแบบแพทย์แผนไทย (E11.9 T2DM)
-            </option>
+            {DualDiagnosisService.getMasterList().map((item) => (
+              <option
+                key={item.icd10tm_code}
+                value={`${item.icd10tm_code} ${item.thai_diagnosis_name}`}
+              >
+                [{item.icd10_conventional_code}] {item.icd10_conventional_name} ↔ [{item.icd10tm_code}] {item.thai_diagnosis_name}
+              </option>
+            ))}
           </select>
         </div>
 

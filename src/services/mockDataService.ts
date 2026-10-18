@@ -101,6 +101,45 @@ export class MockDataService {
     }
   }
 
+  public static updateCaseDiagnosis(
+    caseId: string,
+    icd10tmCode: string,
+    icd10ConventionalCode: string,
+    icd10tmName: string
+  ): void {
+    const c = this.getCaseById(caseId);
+    if (c) {
+      if (!c.history_episodes || c.history_episodes.length === 0) {
+        c.history_episodes = [
+          {
+            vn: c.current_encounter.vn,
+            date: c.current_encounter.date,
+            icd10tm_code: icd10tmCode,
+            icd10tm_name: icd10tmName,
+            icd10_conventional: icd10ConventionalCode,
+            procedure: {
+              code: c.planned_procedure.code,
+              name: c.planned_procedure.name,
+              fee_thb: c.planned_procedure.fee || 250,
+            },
+            drug: {
+              code_24: c.intended_ttm_prescription.drug_code_24,
+              name: c.intended_ttm_prescription.herb_name,
+              quantity: 1,
+              cost_thb: 35.0,
+            },
+            total_cost_thb: (c.planned_procedure.fee || 250) + 35.0,
+          },
+        ];
+      } else {
+        c.history_episodes[0].icd10tm_code = icd10tmCode;
+        c.history_episodes[0].icd10_conventional = icd10ConventionalCode;
+        c.history_episodes[0].icd10tm_name = icd10tmName;
+      }
+      this.saveCases();
+    }
+  }
+
   public static getFormulary(): ThaiHerbFormularyItem[] {
     if (this.formulary.length === 0) this.initialize();
     return this.formulary;
@@ -117,10 +156,12 @@ export class MockDataService {
 
   public static getDiagnosisCrosswalk(codeOrQuery?: string) {
     if (!codeOrQuery) return rawIcd10tm[0];
-    const match = rawIcd10tm.find(
+    const match = (rawIcd10tm as any[]).find(
       (item) =>
         item.icd10tm_code.toLowerCase() === codeOrQuery.toLowerCase() ||
+        item.icd10_conventional_code.toLowerCase() === codeOrQuery.toLowerCase() ||
         codeOrQuery.toLowerCase().includes(item.icd10tm_code.toLowerCase()) ||
+        codeOrQuery.toLowerCase().includes(item.icd10_conventional_code.toLowerCase()) ||
         item.thai_diagnosis_name.includes(codeOrQuery)
     );
     return match || rawIcd10tm[0];

@@ -248,6 +248,9 @@ export const PrescriptionPrintPage: React.FC<PrescriptionPrintPageProps> = ({
                   </span>
                 </div>
               </div>
+              <div className="text-[10px] text-slate-600 bg-white/70 p-2 rounded-xl border border-teal-100/80">
+                <b className="text-teal-950">แนวคิดสมุฏฐานเวชกรรมไทย:</b> {diagInfo.traditional_concept}
+              </div>
             </div>
           );
         })()}

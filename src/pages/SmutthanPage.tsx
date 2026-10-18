@@ -7,6 +7,7 @@ import { ElementRadarChart } from '../components/smutthan/ElementRadarChart';
 import { ExplainableFactors } from '../components/smutthan/ExplainableFactors';
 import { VitalsInputForm } from '../components/smutthan/VitalsInputForm';
 import { MockDataService } from '../services/mockDataService';
+import { DualDiagnosisService } from '../services/dualDiagnosisService';
 import {
   Compass,
   ArrowRight,
@@ -16,6 +17,11 @@ import {
   AlertCircle,
   HelpCircle,
   Sparkles,
+  ArrowRightLeft,
+  Stethoscope,
+  BookOpen,
+  ChevronDown,
+  Check,
 } from 'lucide-react';
 
 interface SmutthanPageProps {
@@ -41,6 +47,39 @@ export const SmutthanPage: React.FC<SmutthanPageProps> = ({
 
   // AI synthesized clinical note
   const [aiNote, setAiNote] = useState<string>('');
+
+  // Dual diagnosis live recommendation based on symptoms, chief complaint, vitals
+  const dualResult = DualDiagnosisService.recommendDualDiagnosis(
+    symptoms,
+    currentCase.current_encounter.chief_complaint,
+    vitals,
+    currentCase.history_episodes?.[0]?.icd10tm_code
+  );
+
+  const [selectedDiagnosisCode, setSelectedDiagnosisCode] = useState<string>(
+    currentCase.history_episodes?.[0]?.icd10tm_code || dualResult.primary.item.icd10tm_code
+  );
+  const [isDiagnosisManuallySelected, setIsDiagnosisManuallySelected] = useState<boolean>(false);
+  const [showDifferentialDropdown, setShowDifferentialDropdown] = useState<boolean>(false);
+
+  useEffect(() => {
+    setSelectedDiagnosisCode(
+      currentCase.history_episodes?.[0]?.icd10tm_code || dualResult.primary.item.icd10tm_code
+    );
+    setIsDiagnosisManuallySelected(false);
+  }, [currentCase.case_id]);
+
+  const handleSelectDiagnosis = (code: string) => {
+    const info = DualDiagnosisService.getDiagnosisByCode(code);
+    setSelectedDiagnosisCode(info.icd10tm_code);
+    setIsDiagnosisManuallySelected(true);
+    MockDataService.updateCaseDiagnosis(
+      currentCase.case_id,
+      info.icd10tm_code,
+      info.icd10_conventional_code,
+      info.thai_diagnosis_name
+    );
+  };
 
   // Calculate Smutthan live
   const analysis = calculateSmutthan(
@@ -210,51 +249,208 @@ export const SmutthanPage: React.FC<SmutthanPageProps> = ({
 
           {/* Dual Diagnosis (ICD-10-TM ↔ Conventional ICD-10) Card */}
           {(() => {
-            const diagCode = currentCase.history_episodes?.[0]?.icd10tm_code || 'U60.10';
-            const diagInfo = MockDataService.getDiagnosisCrosswalk(diagCode);
+            const activeDiagInfo = DualDiagnosisService.getDiagnosisByCode(selectedDiagnosisCode);
+            const activeSuggestion = dualResult.allCandidates.find(
+              (c) => c.item.icd10tm_code === activeDiagInfo.icd10tm_code
+            ) || {
+              item: activeDiagInfo,
+              matchScore: 85,
+              matchedKeywords: symptoms.slice(0, 3),
+              confidenceLevel: 'HIGH' as const,
+              clinicalRationale: {
+                conventional: `ข้อบ่งชี้ทางคลินิกสอดคล้องกับกลุ่มโรค ${activeDiagInfo.icd10_conventional_name}`,
+                traditional: `สอดคล้องกับสมุฏฐาน ${activeDiagInfo.traditional_concept}`,
+              },
+            };
+
             return (
-              <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-soft space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
+              <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-soft space-y-3.5">
+                {/* Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse"></span>
-                    <h4 className="font-bold text-xs text-slate-900">
-                      ระบบวินิจฉัยคู่ขนาน (Dual Diagnosis Standard)
-                    </h4>
+                    <div className="p-1.5 rounded-lg bg-teal-50 text-teal-700">
+                      <ArrowRightLeft className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-slate-900 flex items-center gap-1.5">
+                        ระบบวินิจฉัยคู่ขนาน (Dual Diagnosis Standard)
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-md font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                          Symptom-Driven ICD-10 & TM
+                        </span>
+                      </h4>
+                      <p className="text-[10px] text-slate-500">
+                        AI แนะนำ ICD-10 แผนปัจจุบันจากกลุ่มอาการ พร้อมเทียบเคียง ICD-10-TM แผนไทยคู่ขนาน
+                      </p>
+                    </div>
                   </div>
-                  <span className="text-[10px] bg-teal-50 text-teal-800 font-bold px-2.5 py-0.5 rounded-full border border-teal-200">
-                    อิงคู่มือเทียบโรค DTAM 2568
-                  </span>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {isDiagnosisManuallySelected ? (
+                      <span className="text-[10px] bg-amber-50 text-amber-800 font-bold px-2 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
+                        <Check className="w-3 h-3" /> แพทย์เลือกยืนยัน
+                      </span>
+                    ) : (
+                      <span className="text-[10px] bg-teal-50 text-teal-800 font-bold px-2.5 py-0.5 rounded-full border border-teal-200 flex items-center gap-1">
+                        <Sparkles className="w-3 h-3 text-teal-600 animate-pulse" />
+                        AI แนะนำ (ความสอดคล้อง {activeSuggestion.matchScore}%)
+                      </span>
+                    )}
+                  </div>
                 </div>
 
+                {/* Symptom Clues Matched */}
+                {activeSuggestion.matchedKeywords.length > 0 && (
+                  <div className="bg-slate-50/80 border border-slate-200/70 rounded-xl p-2.5 space-y-1.5">
+                    <div className="text-[10px] text-slate-600 font-medium flex items-center justify-between">
+                      <span className="flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-teal-600" />
+                        <span>อาการและข้อค้นพบที่ตรงกับเกณฑ์วินิจฉัย (Matched Findings):</span>
+                      </span>
+                      <span className="text-[9px] text-slate-400 font-mono">
+                        {activeSuggestion.matchedKeywords.length} ข้อบ่งชี้
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {activeSuggestion.matchedKeywords.map((kw, i) => (
+                        <span
+                          key={i}
+                          className="text-[10px] bg-white border border-teal-200 text-teal-900 font-medium px-2 py-0.5 rounded-md shadow-2xs"
+                        >
+                          ✓ {kw}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Side-by-Side Dual Comparison Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  <div className="bg-teal-50/70 border border-teal-200/80 rounded-xl p-3 space-y-1">
-                    <div className="text-[10px] text-teal-800 font-semibold uppercase tracking-wider">
-                      รหัสโรคการแพทย์แผนไทย (ICD-10-TM)
+                  {/* Left: Conventional ICD-10 */}
+                  <div className="bg-gradient-to-br from-blue-50/80 to-indigo-50/40 border border-blue-200/90 rounded-xl p-3.5 space-y-2 flex flex-col justify-between">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-blue-800 font-bold uppercase tracking-wider flex items-center gap-1">
+                          <Stethoscope className="w-3.5 h-3.5 text-blue-700" />
+                          รหัสโรคแผนปัจจุบันสากล (Conventional ICD-10)
+                        </span>
+                        <span className="text-[9px] bg-blue-100/80 text-blue-800 font-semibold px-1.5 py-0.5 rounded">
+                          แนะนำจากอาการ
+                        </span>
+                      </div>
+                      <div className="font-extrabold text-blue-950 text-base font-mono tracking-tight flex items-baseline gap-2">
+                        {activeDiagInfo.icd10_conventional_code}
+                        <span className="text-xs font-semibold text-slate-700 font-sans truncate">
+                          {activeDiagInfo.icd10_conventional_name}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        <b className="text-blue-900">พยาธิสภาพ: </b>
+                        {activeDiagInfo.conventional_clinical_clues || activeDiagInfo.icd10_conventional_name}
+                      </p>
                     </div>
-                    <div className="font-bold text-slate-900 text-sm font-mono text-teal-950">
-                      {diagInfo.icd10tm_code}
-                    </div>
-                    <div className="text-[11px] font-semibold text-slate-800">
-                      {diagInfo.thai_diagnosis_name}
+
+                    <div className="pt-2 border-t border-blue-100 text-[10px] text-blue-900 bg-white/70 rounded-lg p-2 border border-blue-100/60">
+                      <span className="font-semibold block text-blue-950">แนวทางการดูแลแผนปัจจุบัน:</span>
+                      <span className="text-slate-600">{activeDiagInfo.conventional_treatment || 'ดูแลประคับประคองและติดตามอาการ'}</span>
                     </div>
                   </div>
 
-                  <div className="bg-blue-50/70 border border-blue-200/80 rounded-xl p-3 space-y-1">
-                    <div className="text-[10px] text-blue-800 font-semibold uppercase tracking-wider">
-                      รหัสโรคแผนปัจจุบันสากล (Conventional ICD-10)
+                  {/* Right: Thai Traditional ICD-10-TM */}
+                  <div className="bg-gradient-to-br from-teal-50/80 to-emerald-50/40 border border-teal-200/90 rounded-xl p-3.5 space-y-2 flex flex-col justify-between">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] text-teal-800 font-bold uppercase tracking-wider flex items-center gap-1">
+                          <BookOpen className="w-3.5 h-3.5 text-teal-700" />
+                          รหัสการแพทย์แผนไทย (ICD-10-TM กลุ่ม U)
+                        </span>
+                        <span className="text-[9px] bg-teal-100/80 text-teal-800 font-semibold px-1.5 py-0.5 rounded">
+                          เทียบเคียงคู่ขนาน
+                        </span>
+                      </div>
+                      <div className="font-extrabold text-teal-950 text-base font-mono tracking-tight flex items-baseline gap-2">
+                        {activeDiagInfo.icd10tm_code}
+                        <span className="text-xs font-semibold text-slate-700 font-sans truncate">
+                          {activeDiagInfo.thai_diagnosis_name}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 leading-relaxed">
+                        <b className="text-teal-900">แนวคิดสมุฏฐาน: </b>
+                        {activeDiagInfo.traditional_concept}
+                      </p>
                     </div>
-                    <div className="font-bold text-slate-900 text-sm font-mono text-blue-950">
-                      {diagInfo.icd10_conventional_code}
-                    </div>
-                    <div className="text-[11px] font-semibold text-slate-800">
-                      {diagInfo.icd10_conventional_name}
+
+                    <div className="pt-2 border-t border-teal-100 text-[10px] text-teal-900 bg-white/70 rounded-lg p-2 border border-teal-100/60">
+                      <span className="font-semibold block text-teal-950">การรักษาแผนไทย/ยาสมุนไพร:</span>
+                      <span className="text-slate-600">{activeDiagInfo.typical_ttm_treatment}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="text-[11px] bg-slate-50 p-2.5 rounded-xl border border-slate-200/60 text-slate-600 leading-relaxed">
-                  <b className="text-slate-800">แนวคิดสมุฏฐาน: </b>
-                  {diagInfo.traditional_concept}
+                {/* Differential Diagnosis Selector (Human-in-the-Loop) */}
+                <div className="pt-1 space-y-2">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-slate-700 flex items-center gap-1">
+                      <span>รหัสทางเลือกที่ใกล้เคียง (Differential Candidates):</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowDifferentialDropdown(!showDifferentialDropdown)}
+                      className="text-teal-700 hover:text-teal-900 font-medium flex items-center gap-1 text-[10px] underline cursor-pointer"
+                    >
+                      <span>{showDifferentialDropdown ? 'ซ่อนรายการทั้งหมด' : 'ดูรหัสโรคทั้งหมด'}</span>
+                      <ChevronDown className={`w-3 h-3 transition-transform ${showDifferentialDropdown ? 'rotate-180' : ''}`} />
+                    </button>
+                  </div>
+
+                  {/* Quick Select Buttons for Alternative Candidates */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {dualResult.alternatives.map((alt) => {
+                      const isSelected = alt.item.icd10tm_code === activeDiagInfo.icd10tm_code;
+                      return (
+                        <button
+                          key={alt.item.icd10tm_code}
+                          type="button"
+                          onClick={() => handleSelectDiagnosis(alt.item.icd10tm_code)}
+                          className={`text-left p-2 rounded-xl border text-[11px] transition-all cursor-pointer ${
+                            isSelected
+                              ? 'bg-teal-50 border-teal-500 shadow-2xs ring-1 ring-teal-400'
+                              : 'bg-white border-slate-200 hover:border-teal-300 hover:bg-slate-50'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-mono font-bold text-slate-800 text-[10px]">
+                              {alt.item.icd10_conventional_code} ↔ {alt.item.icd10tm_code}
+                            </span>
+                            <span className="text-[9px] text-teal-700 font-semibold">
+                              {alt.matchScore}%
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-slate-600 truncate mt-0.5">
+                            {alt.item.thai_diagnosis_name}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Dropdown for All Master Diagnoses */}
+                  {showDifferentialDropdown && (
+                    <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2 animate-in fade-in duration-200">
+                      <div className="text-[10px] font-semibold text-slate-600">
+                        เลือกรหัสการวินิจฉัยคู่ขนานจากฐานข้อมูลมาตรฐาน (ICD-10 ↔ ICD-10-TM):
+                      </div>
+                      <select
+                        value={activeDiagInfo.icd10tm_code}
+                        onChange={(e) => handleSelectDiagnosis(e.target.value)}
+                        className="w-full text-xs bg-white border border-slate-300 rounded-lg p-2 font-sans focus:ring-1 focus:ring-teal-500 focus:outline-none"
+                      >
+                        {DualDiagnosisService.getMasterList().map((d) => (
+                          <option key={d.icd10tm_code} value={d.icd10tm_code}>
+                            [ICD-10: {d.icd10_conventional_code}] {d.icd10_conventional_name} ↔ [{d.icd10tm_code}] {d.thai_diagnosis_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                 </div>
               </div>
             );

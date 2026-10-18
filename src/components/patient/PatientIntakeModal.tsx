@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SyntheticCase, PatientInfo, Vitals, AmbientContext, CurrentMedication, ChronicDisease } from '../../types/patient';
 import { MockDataService } from '../../services/mockDataService';
+import { DualDiagnosisService } from '../../services/dualDiagnosisService';
 import { fetchLiveWeather, determineKalaPeriod } from '../../services/weatherService';
 import {
   UserPlus,
@@ -338,27 +339,43 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
         dosage_warning: 'ขนาดยาอยู่ในเกณฑ์ปกติ',
         smutthan_dominant: 'รอผลประเมินจาก Smutthan Engine',
       },
-      history_episodes: [
-        {
-          vn: `VN${dateStr.replace(/-/g, '')}001`,
-          date: dateStr,
-          icd10tm_code: 'U60.10',
-          icd10tm_name: 'ลมกษัยจุกเสียด (ท้องอืด ท้องเฟ้อ)',
-          icd10_conventional: 'K30',
-          procedure: {
-            code: '9007710',
-            name: 'นวดไทยเพื่อการบำบัดรักษา',
-            fee_thb: 250.0,
+      history_episodes: (() => {
+        const dualRec = DualDiagnosisService.recommendDualDiagnosis(
+          selectedSymptoms.length > 0 ? selectedSymptoms : [chiefComplaint || 'ปวดเมื่อย'],
+          chiefComplaint,
+          {
+            btemp: Number(btemp) || 36.6,
+            sbp: Number(sbp) || 120,
+            dbp: Number(dbp) || 80,
+            pr: Number(pr) || 74,
+            rr: Number(rr) || 18,
+            weight_kg: Number(weightKg) || 60,
+            height_cm: Number(heightCm) || 165,
+            bmi: calculatedBmi,
+          }
+        );
+        return [
+          {
+            vn: `VN${dateStr.replace(/-/g, '')}001`,
+            date: dateStr,
+            icd10tm_code: dualRec.primary.item.icd10tm_code,
+            icd10tm_name: dualRec.primary.item.thai_diagnosis_name,
+            icd10_conventional: dualRec.primary.item.icd10_conventional_code,
+            procedure: {
+              code: '9007710',
+              name: 'นวดไทยเพื่อการบำบัดรักษา',
+              fee_thb: 250.0,
+            },
+            drug: {
+              code_24: selectedHerb.drug_code_24,
+              name: selectedHerb.thai_name,
+              quantity: 1,
+              cost_thb: 35.0,
+            },
+            total_cost_thb: 335.0,
           },
-          drug: {
-            code_24: selectedHerb.drug_code_24,
-            name: selectedHerb.thai_name,
-            quantity: 1,
-            cost_thb: 35.0,
-          },
-          total_cost_thb: 335.0,
-        },
-      ],
+        ];
+      })(),
     };
 
     onSaveCase(finalCase);
