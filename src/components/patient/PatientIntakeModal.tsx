@@ -4,6 +4,7 @@ import { SyntheticCase, PatientInfo, Vitals, AmbientContext, CurrentMedication, 
 import { MockDataService } from '../../services/mockDataService';
 import { DualDiagnosisService } from '../../services/dualDiagnosisService';
 import { fetchLiveWeather, determineKalaPeriod } from '../../services/weatherService';
+import { VoiceSymptomRecorder } from '../common/VoiceSymptomRecorder';
 import {
   UserPlus,
   X,
@@ -202,6 +203,16 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
         setChiefComplaint(customSymptomInput.trim());
       }
       setCustomSymptomInput('');
+    }
+  };
+
+  const handleVoiceIntake = (extracted: string[], transcript: string) => {
+    if (transcript && (!chiefComplaint || chiefComplaint === 'มีอาการปวดเมื่อยและแน่นท้อง')) {
+      setChiefComplaint(transcript);
+    }
+    if (extracted.length > 0) {
+      const combined = Array.from(new Set([...selectedSymptoms, ...extracted]));
+      setSelectedSymptoms(combined);
     }
   };
 
@@ -567,6 +578,12 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
                 className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-none"
               />
             </div>
+
+            {/* Voice Dictation (Speech-to-Text) */}
+            <VoiceSymptomRecorder
+              buttonLabel="🎙️ เปิดไมค์จับเสียงคนไข้บอกอาการ (Speech-to-Text)"
+              onSymptomsExtracted={handleVoiceIntake}
+            />
 
             <div>
               <label className="text-[11px] font-semibold text-slate-600 block mb-1.5">

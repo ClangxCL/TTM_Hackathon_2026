@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Vitals } from '../../types/patient';
 import { Activity, Plus, X, SlidersHorizontal, RotateCcw } from 'lucide-react';
+import { VoiceSymptomRecorder } from '../common/VoiceSymptomRecorder';
 
 interface VitalsInputFormProps {
   initialVitals: Vitals;
@@ -40,6 +41,13 @@ export const VitalsInputForm: React.FC<VitalsInputFormProps> = ({
     const updated = symptoms.filter((_, i) => i !== idx);
     setSymptoms(updated);
     onUpdate(vitals, updated);
+  };
+
+  const handleVoiceSymptoms = (extracted: string[]) => {
+    if (extracted.length === 0) return;
+    const combined = Array.from(new Set([...symptoms, ...extracted]));
+    setSymptoms(combined);
+    onUpdate(vitals, combined);
   };
 
   return (
@@ -137,6 +145,14 @@ export const VitalsInputForm: React.FC<VitalsInputFormProps> = ({
             className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-1 focus:ring-brand-500"
           />
         </div>
+      </div>
+
+      {/* Voice Speech-to-Text Symptom Intake */}
+      <div className="pt-1">
+        <VoiceSymptomRecorder
+          buttonLabel="🎙️ จับเสียงคนไข้บอกอาการ (Speech-to-Text)"
+          onSymptomsExtracted={handleVoiceSymptoms}
+        />
       </div>
 
       {/* Symptoms Tags */}
