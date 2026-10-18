@@ -1,13 +1,41 @@
-# คู่มือบัญชียาสมุนไพรและระบบสั่งจ่ายยาปลอดภัย (Formulary Governance & Prescribing Safety)
+# คู่มือบัญชียาคู่ขนานและระบบสั่งจ่ายยาปลอดภัย (Dual Formulary Governance & Prescribing Safety)
 **โครงการ:** TTM Smutthan Engine Platform — Hackathon 2026  
 **ทีมพัฒนา:** **ทีม VejVivat (เวชวิวัฒน์) — Thai Medicine AI Innovation**  
+**ลิงก์ระบบ Live Production:** [https://ttm-hackathon-2026.vercel.app](https://ttm-hackathon-2026.vercel.app)  
 **ข้อความปฏิเสธความรับผิดชอบ:** *เอกสารนี้ใช้สำหรับข้อมูลสังเคราะห์เพื่อการสาธิตการแข่งขัน Hackathon 2026 เท่านั้น มิใช่ข้อมูลผู้ป่วยจริง*
 
 ---
 
-## 1. โครงสร้างบัญชียาสมุนไพรและมาตรฐานรหัสยา 24 หลัก (Formulary Schema)
+## 1. การบริหารจัดการบัญชียาคู่ขนาน (Dual Formulary Governance Architecture)
 
-ในระบบ **TTM Smutthan Engine** รายการยาสมุนไพรทุกรายการอ้างอิงรหัสมาตรฐาน 24 หลักตามประกาศกรมการแพทย์แผนไทยและการแพทย์ทางเลือก และระบุสถานะในบัญชียาหลักแห่งชาติ (NLEM 2568) อย่างโปร่งใส:
+เพื่อเชื่อมประสานศาสตร์การแพทย์แผนไทยและการแพทย์แผนปัจจุบันเข้าด้วยกัน แพลตฟอร์ม **TTM Smutthan Engine** โดยทีม **VejVivat (เวชวิวัฒน์)** ได้จัดทำระบบคลังยาคู่ขนาน (Dual Formularies) ที่สมบูรณ์ที่สุด:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│             DUAL FORMULARY HUB (หน้าเมนู 2: /prescribe)                │
+├───────────────────────────────────┬────────────────────────────────────┤
+│  Tab 1: บัญชียาสมุนไพรแผนไทย     │  Tab 2: บัญชียาหลักแห่งชาติแผนปัจจุบัน│
+│  (TTM Herbal Formulary)           │  (NLEM Conventional - 1,080 รายการ)│
+├───────────────────────────────────┼────────────────────────────────────┤
+│ • ยาเดี่ยว / ยาตำรับ / ยาสกัด     │ • ครอบคลุม 17 กลุ่มระบบโรคสากล     │
+│ • รหัสยาแผนไทยมาตรฐาน 24 หลัก      │ • จำแนกหมวด บัญชี ก, ข, ค, ง       │
+│ • รสยา & ธาตุประธานที่ออกฤทธิ์     │ • รหัส ATC, รูปแบบยา, ขนาดยา, ทางบริหาร│
+│ • ขนาดยาสูงสุด & ข้อห้ามใช้       │ • เงื่อนไขการสั่งใช้ & ข้อควรระวังพิเศษ│
+│ • AI แนะนำยาตามสมดุลธาตุ & อาการ   │ • 1-Click นำเข้าประวัติยาคนไข้ (HIS)│
+└───────────────────────────────────┴────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│             ระบบตรวจจับอันตรกิริยา HDI สด (Real-time Cross-check)      │
+│  เปรียบเทียบยาแผนปัจจุบันที่คนไข้ใช้อยู่ กับ ยาสมุนไพรที่เลือกสั่งจ่าย     │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 2. โครงสร้างบัญชียาสมุนไพรแผนไทย (TTM Formulary Schema)
+
+รายการยาสมุนไพรทุกรายการอ้างอิงรหัสมาตรฐาน 24 หลักตามประกาศกรมการแพทย์แผนไทยและการแพทย์ทางเลือก:
 
 ```
 รหัสยา 24 หลัก: [41][0000000122][0191][50011402]
@@ -18,17 +46,51 @@
                   └─ กลุ่มยาสมุนไพรแผนไทย (41 = ยาเดี่ยว, 42 = ยาตำรับ)
 ```
 
-### ฟิลด์ข้อมูลสำคัญในแต่ละรายการยา:
+### ฟิลด์ข้อมูลสำคัญในแต่ละรายการยาแผนไทย:
 - `drug_code_24`: รหัสยาแผนไทย 24 หลัก
 - `thai_name`: ชื่อยาแผนไทย (เช่น ยาแคปซูลขมิ้นชัน, ยาแคปซูลฟ้าทะลายโจร, ยาสหัศธารา, ยาประสะไพล)
-- `nlem_status`: ระบุ **"ใช่"** หรือ **"ไม่ใช่"** หรือ **"ยังไม่ตรวจสอบ"** (ห้ามทึกทักเอาเอง)
-- `verification_status`: ป้ายกำกับ **"ตัวอย่าง รอเภสัชกร/แพทย์แผนไทยตรวจสอบ"**
+- `herb_type`: ประเภทของยา (`ยาเดี่ยว` | `ยาตำรับ` | `ยาสมุนไพรสกัด`)
 - `taste`: รสยาหลักตามคัมภีร์สรรพคุณยา (เช่น รสเผ็ดร้อน, รสขม, รสเปรี้ยว, รสสุขุม)
 - `primary_element`: ธาตุประธานที่ตัวยาออกฤทธิ์ปรับสมดุล (วาโย / ปิตตะ / อาโป / ปถวี)
+- `standard_dosing.adult`: เกณฑ์ขนาดยาผู้ใหญ่ (`dose_per_admin`, `frequency_per_day`, `timing`, `max_daily_dose_mg`, `max_duration_days`)
+- `nlem_status`: สถานะในบัญชียาหลักแห่งชาติ ("ใช่" / "ไม่ใช่")
 
 ---
 
-## 2. กฎการตรวจสอบขนาดยาและความปลอดภัย (Dosage & Safety Validation Rules)
+## 3. บัญชียาหลักแห่งชาติ แผนปัจจุบันทางการ 1,080 รายการ (NLEM Conventional Medicines)
+
+ระบบได้นำเข้าและเชื่อมโยงฐานข้อมูลยาแผนปัจจุบันตาม **ประกาศคณะกรรมการพัฒนาระบบยาแห่งชาติ (ฉบับล่าสุด 2568)** ครบถ้วนทั้ง **1,080 รายการ** แบ่งออกเป็น **17 กลุ่มระบบโรคสากล**:
+
+| ลำดับที่ | ชื่อกลุ่มระบบโรค (Clinical System Group) | ตัวอย่างรายการยาสำคัญ |
+|:---:|---|---|
+| **1** | Gastro-intestinal system (ระบบทางเดินอาหาร) | Omeprazole, Antacids, Domperidone, Simethicone, Hyoscine |
+| **2** | Cardiovascular system (ระบบหัวใจและหลอดเลือด) | Warfarin, Amlodipine, Losartan, Enalapril, Digoxin, Propranolol, Statin |
+| **3** | Respiratory system (ระบบทางเดินหายใจ) | Salbutamol, Theophylline, Cetirizine, Bromhexine |
+| **4** | Central nervous system (ระบบประสาทส่วนกลาง) | Paracetamol, Tramadol, Phenytoin, Diazepam, Amitriptyline |
+| **5** | Infections (โรคติดเชื้อ) | Amoxicillin, Ciprofloxacin, Doxycycline, Fluconazole, Acyclovir |
+| **6** | Endocrine system (ระบบต่อมไร้ท่อและเบาหวาน) | Metformin, Glibenclamide, Glipizide, Levothyroxine, Prednisolone |
+| **7** | Obstetrics, gynaecology & urinary tract (สูติ-นรีเวช & ทางเดินปัสสาวะ) | Finasteride, Tamsulosin, Tranexamic acid, Medroxyprogesterone |
+| **8** | Malignant disease & immunosuppression (โรคมะเร็งและยากดภูมิคุ้มกัน) | Methotrexate, Cyclophosphamide, Tamoxifen, Azathioprine |
+| **9** | Nutrition and blood (โภชนาการและโลหิตวิทยา) | Ferrous fumarate, Folic acid, Vitamin B complex, Potassium chloride |
+| **10** | Musculoskeletal & joint diseases (โรคกล้ามเนื้อ กระดูก และข้อ) | Ibuprofen, Diclofenac, Naproxen, Colchicine, Allopurinol |
+| **11** | Eye (ยาสำหรับดวงตา) | Artificial tears, Chloramphenicol eye drops, Timolol |
+| **12** | Ear, nose, oropharynx (หู คอ จมูก และช่องปาก) | Triamcinolone oral paste, Chlorhexidine mouthwash |
+| **13** | Skin (ยาสำหรับผิวหนัง) | Betamethasone cream, Calamine lotion, Clotrimazole cream |
+| **14** | Immunological products & vaccines (วัคซีนและภูมิคุ้มกัน) | Tetanus toxoid, Rabies vaccine, Hepatitis B vaccine |
+| **15** | Anaesthesia (ยาระงับความรู้สึก) | Lidocaine HCl, Bupivacaine |
+| **16** | Poisoning and toxicology (พิษวิทยาและยาต้านพิษ) | Acetylcysteine (antidote), Naloxone, Charcoal |
+| **17** | Contrast media & Radiopharmaceuticals (สารทึบรังสี) | Barium sulfate, Iohexol |
+
+### ฟังก์ชันบนหน้าจอ User Interface ของคลังยา NLEM:
+1. **Real-time Search:** พิมพ์ค้นหาได้ทั้ง Generic Name, Thai Name, Brand Names, ข้อบ่งใช้ หรือรหัส ATC
+2. **Category Filters:** กรองตามหมวดหมู่บัญชี ก (จำเป็นพื้นฐาน), ข (มีเงื่อนไขเฉพาะ), ค (แพทย์เฉพาะทาง), ง (ยาพิเศษ/ราคาสูง)
+3. **17 Clinical Group Pills:** ปุ่มเลือกกลุ่มระบบโรค 1-17 พร้อมไอคอนประจำระบบ
+4. **HDI Risk Highlight:** กรองเฉพาะยาแผนปัจจุบันที่มีรายงานอันตรกิริยากับยาสมุนไพรในระบบ TTM
+5. **1-Click Medication Sync:** ปุ่ม `+ นำเข้าประวัติยาผู้ป่วย (Add to Patient Active Meds)` เพิ่มรายการยาเข้าสู่ประวัติยาที่ใช้อยู่ทันทีเพื่อตรวจอันตรกิริยา HDI
+
+---
+
+## 4. กฎการตรวจสอบขนาดยาและความปลอดภัย (Dosage & Safety Validation Rules)
 
 ก่อนที่ยาจะถูกเพิ่มเข้าสู่ใบสั่งยา ระบบจะทำการตรวจสอบ 5 ด่านความปลอดภัยโดยอัตโนมัติ:
 
@@ -51,16 +113,39 @@
 
 ---
 
-## 3. วงจรการออกใบสั่งยาอิเล็กทรอนิกส์ (Prescription Lifecycle & Care Plan Transition)
+## 5. การคัดกรองความปลอดภัยฉุกเฉินและข้อห้ามนวดไทย (Procedure Red Flags & Referral)
 
-1. **เลือกตัวยา (Formulary Search):** ค้นหาด้วยชื่อไทย, รสยา, หรือธาตุสมุฏฐาน
-2. **ประเมินความปลอดภัยทันที (Real-time Screening):** แสดงการ์ดเตือน HDI และ Overdose ทันทีที่เลือกขนาดยา (ครอบคลุม C01–C30)
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                   RED FLAG & SAFETY SCREENING ENGINE                   │
+├────────────────────────────────────────────────────────────────────────┤
+│ 1. คัดกรองอาการฉุกเฉิน: Stroke, ACS, Acute Abdomen, DVT                │
+│ 2. คัดกรองสัญญาณชีพวิกฤต: BP >= 180/110 mmHg หรือ ไข้สูง >= 38.5°C     │
+│ 3. คัดกรองข้อห้ามนวด: ผู้ป่วยที่ได้รับยา Warfarin หรือ Aspirin/Plavix    │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│              ออกใบส่งต่อแพทย์แผนปัจจุบันทันที (SBAR Referral)           │
+│  Situation: อาการวิกฤตที่ตรวจพบและข้อห้ามทำหัตถการ                     │
+│  Background: ข้อมูลประวัติยาเดิมและโรคประจำตัว                         │
+│  Assessment: สัญญาณชีพและผลตรวจประเมินทางคลินิก                        │
+│  Recommendation: คำแนะนำการส่งต่อห้องฉุกเฉิน / ตรวจทางรังสีวิทยา       │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 6. วงจรการสั่งยาและการส่งต่อไปยังแผนการรักษา (Prescription Lifecycle)
+
+1. **สืบค้นและเลือกตัวยา:** ค้นหายาแผนไทยตามอาการ/ธาตุ หรือค้นหายาแผนปัจจุบัน 1,080 รายการ
+2. **ประเมินความปลอดภัยทันที (Real-time HDI Screening):** แสดงการ์ดเตือน HDI และ Overdose ทันทีที่เลือกขนาดยา
 3. **การยืนยันสั่งยา (Clinician Acknowledgment & Override):**
-   - หากตรวจพบ HDI ความเสี่ยงสูง แพทย์ต้องใส่เครื่องหมายถูกยืนยันการรับทราบ และระบุเหตุผลทางคลินิก
-4. **สรุปและส่งออก (Finalization & Interoperability):**
-   - พิมพ์ใบสั่งยาอิเล็กทรอนิกส์ (Printable Clinical Leaflet) พร้อม Decision Support Disclaimer
-   - ส่งออกข้อมูลเป็น 43 แฟ้ม (`DRUG_OPD.CSV`)
-   - ส่งออกข้อมูลเป็น HL7 FHIR MedicationRequest JSON Resource
-5. **การส่งต่อสู่แผนการรักษาและตารางติดตามผล (Transition to Clinical Care Plan):**
+   - หากตรวจพบ HDI ความเสี่ยงสูง แพทย์ต้องยืนยันการรับทราบและระบุเหตุผลทางคลินิก
+4. **สรุปและส่งออกเวชระเบียน:**
+   - พิมพ์ใบสั่งยาอิเล็กทรอนิกส์พร้อม Decision Support Disclaimer
+   - พิมพ์ใบส่งต่อ SBAR กรณีพบข้อห้ามทำหัตถการหรือโรคฉุกเฉิน
+   - ส่งออกข้อมูลเป็น 43 แฟ้ม (`DRUG_OPD.CSV`, `DIAGNOSIS_OPD.CSV`) และ HL7 FHIR MedicationRequest JSON Resource
+5. **การส่งต่อสู่แผนการรักษาและตารางติดตามผล (Care Plan Transition):**
    - ยาและผลการประเมินความเสี่ยง HDI จะถูกส่งต่อไปยังโมดูล `CarePlanService` อัตโนมัติ เพื่อคำนวณจำนวนครั้งการนัดติดตามผลในแต่ละเดือน (Monthly Cadence)
    - กรณีมีความเสี่ยงสูง (High Risk): กำหนดนัด 4 ครั้งในเดือนแรก (สัปดาห์ละ 1 ครั้ง) ตามระเบียบกระทรวงสาธารณสุขและ WHO Herbal Pharmacovigilance เพื่อตรวจติดตามสัญญาณชีพ อาการเลือดออกผิดปกติ และเอนไซม์ตับ/ไต

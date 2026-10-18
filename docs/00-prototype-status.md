@@ -1,14 +1,25 @@
 # สถานะของโปรโตไทป์ (Prototype Status & Maturity Assessment)
 **โครงการ:** TTM Smutthan Engine Platform — Hackathon 2026  
 **ทีมพัฒนา:** **ทีม VejVivat (เวชวิวัฒน์) — Thai Medicine AI Innovation**  
-**ระดับความพร้อม (Maturity Level):** **Functional Prototype (1.3)** ขยับสู่ **MVP-ready (1.4)**  
+**ระดับความพร้อม (Maturity Level):** **Maturity Level 1.5 — Advanced Clinical Hub & Dual Formulary Engine (MVP-Ready)**  
+**ลิงก์ระบบ Live Production:** [https://ttm-hackathon-2026.vercel.app](https://ttm-hackathon-2026.vercel.app)  
+**คลังรหัสต้นฉบับ GitHub:** [https://github.com/ClangxCL/TTM_Hackathon_2026](https://github.com/ClangxCL/TTM_Hackathon_2026)  
 **ข้อความปฏิเสธความรับผิดชอบ:** *เอกสารนี้ใช้สำหรับข้อมูลสังเคราะห์เพื่อการสาธิตการแข่งขัน Hackathon 2026 เท่านั้น มิใช่ข้อมูลผู้ป่วยจริง*
 
 ---
 
 ## 1. สรุปความพร้อมของระบบ (System Maturity Overview)
 
-แพลตฟอร์ม **TTM Smutthan Engine** พัฒนาโดย **ทีม VejVivat (เวชวิวัฒน์)** ในรูปแบบเว็บแอปพลิเคชันสำหรับแพทย์แผนไทย (Clinician-facing) เพื่อแก้ไข Pain point ด้านความเข้าใจร่วมระหว่างแพทย์แผนปัจจุบันและแพทย์แผนไทย การประเมินสมุฏฐานธาตุที่โปร่งใสตรวจสอบได้ การตรวจจับอันตรกิริยาระหว่างสมุนไพรกับยาแผนปัจจุบัน (Herb-Drug Interaction: HDI) การขยายชุดเคสทดสอบเป็น **30 เคสจำลองทางคลินิก (C01–C30)** พร้อมระบบ **ลงทะเบียนผู้ป่วยรายใหม่ (Patient Intake)** และหน้า **แผนการรักษาและการติดตามผลรายบุคคล (Clinical Care Plan & Longitudinal Trajectory)**
+แพลตฟอร์ม **TTM Smutthan Engine** พัฒนาโดย **ทีม VejVivat (เวชวิวัฒน์)** ในรูปแบบเว็บแอปพลิเคชันสำหรับแพทย์แผนไทยและทีมสหวิชาชีพ (Clinician-facing) เพื่อแก้ไข Pain point ด้านความเข้าใจร่วมระหว่างแพทย์แผนปัจจุบันและแพทย์แผนไทย การประเมินสมุฏฐานธาตุที่โปร่งใสตรวจสอบได้ การตรวจจับอันตรกิริยาระหว่างสมุนไพรกับยาแผนปัจจุบัน (Herb-Drug Interaction: HDI) การขยายชุดเคสทดสอบเป็น **30 เคสจำลองทางคลินิก (C01–C30)** พร้อมระบบ **ลงทะเบียนผู้ป่วยรายใหม่ (Patient Intake)** และการยกระดับสถาปัตยกรรมสู่ **Advanced Clinical Hub**:
+
+1. **การแยกหน้าที่ชัดเจนระหว่างเมนู 1 และเมนู 2 (Clean Separation of Concerns):**
+   - **หน้าเมนู 1 (`/smutthan`):** เน้นเฉพาะการประเมิน 5 สมุฏฐาน (ธาตุ-ฤดู-กาล-อายุ-ประเทศ), สัญญาณชีพ & อาการสำคัญ, โมเดลรับเสียงคนไข้บอกอาการ (AI Speech-to-Text), ระบบวินิจฉัยคู่ขนาน (Dual Diagnosis: ICD-10 ↔ ICD-10-TM), และการคัดกรองความปลอดภัยฉุกเฉิน (Red Flag & SBAR Referral) โดยไม่มีการสั่งยาปะปน
+   - **หน้าเมนู 2 (`/prescribe`):** ยกระดับเป็นศูนย์กลางการสั่งยาและคลังข้อมูลยาคู่ขนาน (Dual Formularies Hub):
+     - **Tab 1:** 🌿 สั่งยาสมุนไพรในบัญชียาหลัก & ตรวจสอบอันตรกิริยา HDI สด พร้อม AI แนะนำยาสอดคล้องธาตุประธาน
+     - **Tab 2:** 💊 บัญชียาหลักแห่งชาติ แผนปัจจุบัน (NLEM Conventional Medicines Formulary) ครบถ้วน **1,080 รายการ ครอบคลุม 17 กลุ่มระบบโรคสากล** จากประกาศกระทรวงสาธารณสุขฉบับทางการ
+2. **โมเดล AI Speech-to-Text รับเสียงคนไข้บอกอาการ:** บันทึกเสียงภาษาไทย สกัดคำสำคัญของอาการ และคำนวณสมดุลธาตุ 4 กองสดทันที
+3. **ระบบวินิจฉัยคู่ขนาน (Dual Diagnosis Standard):** แนะนำรหัสสากล Conventional ICD-10 ควบคู่กับ ICD-10-TM กลุ่ม U พร้อมค่าความเชื่อมั่นและเปิดให้แพทย์แก้ไขรหัสได้ (Human-in-the-Loop)
+4. **ระบบคัดกรองโรคฉุกเฉินและข้อห้ามทำหัตถการ (Red Flag & Emergency Referral):** ตรวจจับ Stroke, ACS, Acute Abdomen, DVT, ข้อห้ามนวดไทยเด็ดขาด พร้อมออกใบส่งต่อแบบ **SBAR Handover** สากลทันที
 
 ```
 [ระดับ 1.1: Paper/Concept] 
@@ -17,9 +28,11 @@
        ↓
 [ระดับ 1.3: Functional Prototype]  <-- [สถานะเดิม: 10 เคสจำลอง]
        ↓
-[ระดับ 1.4: MVP-ready]             <-- [สถานะปัจจุบัน: 30 เคส + Patient Intake + Care Plan + Trajectory]
+[ระดับ 1.4: MVP-ready]             <-- [สถานะเดิม: 30 เคส + Care Plan + Trajectory]
        ↓
-[ระดับ 2.0: Full Production HIS Integration]
+[ระดับ 1.5: Advanced Clinical Hub] <-- [สถานะปัจจุบัน: Dual Formulary 1,080 ยา + Voice STT + Dual Diagnosis + SBAR]
+       ↓
+[ระดับ 2.0: Full Production HIS Integration (FHIR API / 43 แฟ้ม Live Bridge)]
 ```
 
 ---
@@ -28,14 +41,18 @@
 
 | ส่วนประกอบระบบ (Component) | ฟังก์ชันการทำงาน (Functionality) | สถานะความพร้อม (Status) | การทำงานจริง (Real) | การจำลอง (Simulated / Mock) |
 |---|---|:---:|---|---|
-| **1. Smutthan Engine** | การดึงสภาพอากาศและสิ่งแวดล้อม (อุตุสมุฏฐาน) | **Real / Fallback** | เชื่อมต่อ Open-Meteo API ดึงอุณหภูมิและความชื้นแบบ Real-time ตามพิกัด รพ.สต. | มี Mock Fallback หากออฟไลน์หรือ API ขัดข้อง |
+| **1. Smutthan Engine (หน้า 1)** | การดึงสภาพอากาศและสิ่งแวดล้อม (อุตุสมุฏฐาน) | **Real / Fallback** | เชื่อมต่อ Open-Meteo API ดึงอุณหภูมิและความชื้นแบบ Real-time ตามพิกัด รพ.สต. | มี Mock Fallback หากออฟไลน์หรือ API ขัดข้อง |
 | | การคำนวณธาตุสมุฏฐาน (Rule-based Engine) | **Real** | คำนวณคะแนนธาตุดิน น้ำ ลม ไฟ (0-100) ตามกฎเกณฑ์กาล-อายุ-อุตุ-สัญญาณชีพจริง | - |
-| | การอธิบายเหตุผลทางคลินิก (Explainability) | **Real** | แสดง Rule Impact Breakdown ทีละข้อ พร้อมผลกระทบต่อธาตุอย่างโปร่งใส | - |
+| | การอธิบายเหตุผลทางคลินิก (Explainability) | **Real** | แสดง Rule Impact Breakdown ทีละข้อ พร้อมผลกระทบต่อธาตุอย่างโปร่งใส 100% | - |
+| | โมเดลถอดเสียงอาการคนไข้ (AI Speech-to-Text) | **Real Web Audio** | บันทึกเสียงผ่านไมโครโฟน สกัดคีย์เวิร์ดอาการภาษาไทย และอัปเดตสมดุลธาตุสด | มี Mock Fallback อาการจำลองหากเบราว์เซอร์ไม่รองรับไมโครโฟน |
+| | ระบบวินิจฉัยคู่ขนาน (Dual Diagnosis ICD-10 ↔ TM) | **Real Engine** | จับคู่อาการและให้คำแนะนำ ICD-10 แผนปัจจุบันคู่กับ ICD-10-TM กลุ่ม U พร้อมให้แพทย์แก้ไขรหัสได้ | - |
+| | การคัดกรองสัญญาณอันตราย & ข้อห้ามนวด (Red Flags) | **Real Protocol** | ตรวจจับอาการฉุกเฉิน (Stroke, ACS, DVT, BP วิกฤต, ยาต้านการแข็งตัวของเลือด) พร้อมออกใบส่งต่อ SBAR | - |
 | | การปรับแก้ผลวินิจฉัยโดยแพทย์ (Clinician Override) | **Real** | บันทึกความเห็นต่าง เหตุผล และคำนวณ Inter-rater Agreement (Cohen's Kappa) | - |
-| **2. Herb-Drug Interaction (HDI)** | การตรวจจับคู่ยาอันตรกิริยา (30 เคส C01–C30) | **Real** | อัลกอริทึมจับคู่ 14 กฎความสัมพันธ์ (Warfarin, Amlodipine, Digoxin, Aspirin ฯลฯ) | - |
-| | การประเมินความรุนแรงและหลักฐานทางวิชาการ | **Real** | จัดระดับ สูง/ปานกลาง/ต่ำ พร้อม Evidence Level (A–D) และเอกสารอ้างอิง | - |
+| **2. Dual Formulary Hub (หน้า 2)** | บัญชียาสมุนไพรแผนไทย (TTM Formulary) | **Real Master Data** | รายการยาสมุนไพรเดี่ยว ตำรับ สกัด รหัส 24 หลัก รสยา ธาตุประธาน และขนาดสูงสุด | - |
+| | บัญชียาหลักแห่งชาติ แผนปัจจุบัน (NLEM Conventional) | **Real Database** | **1,080 รายการยาทางการ ครอบคลุม 17 กลุ่มระบบโรคสากล** กรองตามหมวด ก, ข, ค, ง, รูปแบบยา, ขนาดยา | ข้อมูลจากประกาศราชกิจจานุเบกษา สธ. |
+| | การตรวจจับคู่ยาอันตรกิริยา (Two-Way HDI Engine) | **Real** | ตรวจสอบอันตรกิริยาทันทีระหว่างยาสมุนไพรและยาแผนปัจจุบันที่ใช้อยู่จริง | - |
 | | การตรวจสอบขนาดและระยะเวลาใช้ยา (Dosage Check) | **Real** | คำนวณปริมาณยาสูงสุดต่อวัน (Max Daily Dose) และระยะเวลาตามบัญชียา | - |
-| | การยืนยันความปลอดภัยและการ Override ใบสั่งยา | **Real** | แพทย์ต้องระบุเหตุผลทางคลินิกก่อนสั่งยาที่มีอันตรกิริยาความเสี่ยงสูง | - |
+| | การนำเข้ายา 1-Click เข้าสู่ประวัติยาคนไข้ | **Real State Sync** | แพทย์สามารถกดเลือกยาแผนปัจจุบันเข้าสู่ Active Meds เพื่อประเมิน HDI สดทันที | - |
 | **3. Patient Intake & Cohort** | ชุดเคสจำลองทางคลินิก 30 เคส (C01–C30) | **Real Data Models** | ครอบคลุมทุกช่วงวัย ภูมิภาค ระดับความเสี่ยง และภาวะโรคร่วม | ข้อมูลสังเคราะห์ Zero-PII |
 | | ระบบลงทะเบียนผู้ป่วยใหม่ (Self-Service Intake) | **Real Engine & Storage** | คำนวณธาตุกำเนิดอัตโนมัติ ดึงสภาพอากาศสด คีย์ยาและโรค บันทึก LocalStorage | - |
 | **4. Clinical Care Plan & Follow-up** | แผนการรักษาและตารางติดตามผลรายเดือน | **Real Engine** | กำหนดจำนวนครั้งต่อเดือนตามหลักวิชาการ (Academic Cadence) อิง สธ. และ WHO | - |
@@ -48,12 +65,13 @@
 
 ---
 
-## 3. เกณฑ์ชี้วัดความเป็น MVP-ready (MVP Acceptance Criteria)
+## 3. เกณฑ์ชี้วัดความเป็น Production/MVP-ready (MVP Acceptance Criteria)
 
 - [x] **Zero PII Leakage:** ไม่มีข้อมูลระบุตัวตนของผู้ป่วยจริงใน Source code และ Repository (สคริปต์ `scripts/check-pii.py` ยืนยัน 0 PII)
-- [x] **Deterministic Clinical Calculation:** ผลการคำนวณสมุฏฐานธาตุและอันตรกิริยายาให้ผลลัพธ์คงเส้นคงวาและตรวจสอบย้อนหลังได้ (ผ่าน Vitest 25/25 tests 100%)
+- [x] **Deterministic Clinical Calculation:** ผลการคำนวณสมุฏฐานธาตุและอันตรกิริยายาให้ผลลัพธ์คงเส้นคงวาและตรวจสอบย้อนหลังได้ (**ผ่าน Vitest ครบ 35/35 tests 100%**)
 - [x] **30 Synthetic Benchmarks & Intake:** มีชุดเคสทดสอบ 30 เคสครอบคลุมทุกระดับความเสี่ยง และมีระบบคีย์เพิ่มเคสใหม่ได้สดในห้องตรวจ
-- [x] **Evidence-Based Care Plan & Cadence:** กำหนดแผนการรักษาและการติดตามผลรายเดือนตามระเบียบกระทรวงสาธารณสุขและแนวทาง WHO
-- [x] **Interoperability Standards:** ใช้รหัสมาตรฐานกระทรวงสาธารณสุขครบถ้วน (รหัสยาแผนไทย 24 หลัก, ICD-10-TM รหัสกลุ่ม U, รหัสหัตถการ สนย.)
+- [x] **Dual Formulary Standard:** มีทั้งบัญชียาสมุนไพรแผนไทย และบัญชียาหลักแห่งชาติแผนปัจจุบันทางการ **1,080 รายการ ใน 17 กลุ่มโรค**
+- [x] **Safety & Emergency Referral:** มีระบบคัดกรองข้อห้ามทำหัตถการนวดไทย และออกใบส่งต่อ SBAR แก่แผนกฉุกเฉิน/แพทย์แผนปัจจุบัน
+- [x] **Dual Diagnosis Interoperability:** เชื่อมโยงรหัสโรคสองศาสตร์ ICD-10 แผนปัจจุบันคู่กับ ICD-10-TM กลุ่ม U
 - [x] **Clinician Autonomy:** ไม่มีการตัดสินใจแทนแพทย์ มีกลไก Override และมี Decision Support Disclaimer กำกับทุกหน้าจอ
-- [x] **Offline Resilience & Live Pages:** ระบบยังคงทำงานได้แม้ไม่มีอินเทอร์เน็ต และ Deploy สดบน GitHub Pages พร้อมใช้งานจริง
+- [x] **Zero-Downtime Live Production:** Deploy สดบน Vercel Production (`https://ttm-hackathon-2026.vercel.app`) พร้อมใช้งานจริง

@@ -1,40 +1,56 @@
 # สถาปัตยกรรมระบบและการเชื่อมต่อสารสนเทศ (System Architecture & HIS Integration)
 **โครงการ:** TTM Smutthan Engine Platform — Hackathon 2026  
 **ทีมพัฒนา:** **ทีม VejVivat (เวชวิวัฒน์) — Thai Medicine AI Innovation**  
+**ลิงก์ระบบ Live Production:** [https://ttm-hackathon-2026.vercel.app](https://ttm-hackathon-2026.vercel.app)  
 **ข้อความปฏิเสธความรับผิดชอบ:** *เอกสารนี้ใช้สำหรับข้อมูลสังเคราะห์เพื่อการสาธิตการแข่งขัน Hackathon 2026 เท่านั้น มิใช่ข้อมูลผู้ป่วยจริง*
 
 ---
 
 ## 1. แผนผังสถาปัตยกรรมระบบ (System Architecture)
 
+แพลตฟอร์มถูกออกแบบด้วยสถาปัตยกรรม **Modular Clean Architecture & Hexagonal Adapter Pattern** ที่แยกส่วนการนำเสนอผล (Presentation Layer), ส่วนประมวลผลทางคลินิก (Core Clinical Domain Services), และส่วนเชื่อมโยงสารสนเทศ (HIS & Standards Layer):
+
 ```mermaid
 graph TB
     subgraph ClientLayer ["1. Presentation Layer (Clinician-Facing UI)"]
         UI_Intake["Patient Intake Modal<br/>(New Registration & Live Weather)"]
-        UI_Smutthan["Smutthan Dashboard<br/>(Element Radar & Explainer)"]
-        UI_Prescribe["Prescription Cart & Safety Alerts<br/>(Real-time HDI & Overdose Check)"]
-        UI_Print["Clinical Summary & FHIR Export<br/>(Printable Leaflet & Disclaimer)"]
+        UI_Smutthan["หน้าเมนู 1: Smutthan & Dual Diagnosis<br/>(Voice STT / Radar / ICD-10 ↔ TM / Red Flag SBAR)"]
+        UI_Prescribe["หน้าเมนู 2: Dual Formulary Hub<br/>(Tab 1: TTM Prescribe & HDI / Tab 2: NLEM 1,080 Drugs)"]
+        UI_Print["Clinical Summary & SBAR Export<br/>(Printable Leaflet & SBAR Handover)"]
         UI_CarePlan["Care Plan & Trajectory Dashboard<br/>(Cadence Matrix & Recharts Trends)"]
         UI_Analytics["ICD-10-TM Real-time Analytics<br/>(Health Economics & Data Quality)"]
     end
 
     subgraph ServiceLayer ["2. Application & Core Domain Services"]
-        SE["Smutthan Engine<br/>(Rule-based Scoring 0-100)"]
-        HDI["Centralized HDI Matcher<br/>(Safety Rules C01-C30)"]
+        SE["Smutthan Engine<br/>(5 Smutthan Factors Rule Scoring 0-100)"]
+        STT["AI Speech-to-Text Service<br/>(Thai Audio NLP Tokenizer)"]
+        DDS["Dual Diagnosis Service<br/>(ICD-10 ↔ ICD-10-TM Crosswalk)"]
+        RFS["Red Flag Safety Service<br/>(Stroke / ACS / DVT / Massage Bans / SBAR)"]
+        HDI["Two-Way Centralized HDI Matcher<br/>(Safety Rules C01-C30 & NLEM Cross-ref)"]
+        HRS["Herb Recommendation Service<br/>(Element Balance & Symptom Match)"]
         DV["Dosage & Safety Validator<br/>(Max Daily Dose / Age limits)"]
         CPS["Care Plan & Follow-up Service<br/>(Monthly Cadence & Trajectory)"]
         AE["Analytics Engine<br/>(Cost per Episode / U-Codes)"]
-        AI["AI Explainer Service<br/>(Gemini Prompt / Template Fallback)"]
+        AI["AI Explainer Service<br/>(Clinical Note Synthesizer)"]
     end
 
-    subgraph AdapterLayer ["3. HIS Integration Layer (Adapter Pattern)"]
+    subgraph DataLayer ["3. Master Datasets & Local Persistence"]
+        DB_Cases["30 Synthetic Cases (cases.json)<br/>Zero-PII Benchmarks C01-C30"]
+        DB_TTM["TTM Formulary (thai-formulary.json)<br/>24-Digit Code / Taste / Primary Element"]
+        DB_NLEM["NLEM Conventional Formulary (conventional-drugs.json)<br/>1,080 Drugs in 17 Clinical Systems"]
+        DB_HDI["HDI Knowledge Base (herb-drug-interactions.json)<br/>Severity HIGH/MOD / Evidence A-D"]
+        DB_ICD["Dual Diagnosis Master (icd10tm-master.json)<br/>ICD-10 ↔ ICD-10-TM U-Codes"]
+        LocalStorage["Client-Side LocalStorage<br/>(Persistent Intake / Overrides / Rx)"]
+    end
+
+    subgraph AdapterLayer ["4. HIS Integration Layer (Adapter Pattern)"]
         Interface["HIS Adapter Interface"]
         MockAdap["Mock Local Adapter & Storage<br/>(In-Memory / LocalStorage Engine)"]
         Files43Adap["43-Folders Adapter<br/>(CSV Import/Export สนย. 2568)"]
         FhirAdap["HL7 FHIR Adapter<br/>(MedicationRequest JSON)"]
     end
 
-    subgraph ExternalLayer ["4. External Systems & Data Sources"]
+    subgraph ExternalLayer ["5. External Systems & Data Sources"]
         HIS_HOSxP["HOSxP / HOSxP_PCU"]
         HIS_EHP["EHP (กรมการแพทย์แผนไทย)"]
         HIS_Other["SSB / Himpro"]
@@ -43,9 +59,14 @@ graph TB
 
     UI_Intake --> MockAdap
     UI_Smutthan --> SE
+    UI_Smutthan --> STT
+    UI_Smutthan --> DDS
+    UI_Smutthan --> RFS
     UI_Smutthan --> AI
+    UI_Prescribe --> HRS
     UI_Prescribe --> HDI
     UI_Prescribe --> DV
+    UI_Prescribe --> DB_NLEM
     UI_Print --> FhirAdap
     UI_CarePlan --> CPS
     UI_Analytics --> AE
@@ -57,6 +78,12 @@ graph TB
     Interface --> Files43Adap
     Interface --> FhirAdap
 
+    ServiceLayer --> DB_Cases
+    ServiceLayer --> DB_TTM
+    ServiceLayer --> DB_NLEM
+    ServiceLayer --> DB_HDI
+    ServiceLayer --> DB_ICD
+
     Files43Adap -.-> HIS_HOSxP
     Files43Adap -.-> HIS_EHP
     FhirAdap -.-> HIS_Other
@@ -64,43 +91,43 @@ graph TB
 
 ---
 
-## 2. ลำดับการไหลของข้อมูล 5 ขั้นตอน (5-Step Data Flow Diagram)
+## 2. ลำดับการไหลของข้อมูลทางคลินิก (Clinical Data Flow Diagram)
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor TTM as แพทย์แผนไทย (TTM Clinician)
-    participant UI as Web Application UI
-    participant Weather as Open-Meteo Weather API
+    participant Page1 as หน้าเมนู 1 (Smutthan & Dual Diagnosis)
+    participant Page2 as หน้าเมนู 2 (Prescribing & NLEM Hub)
+    participant STT as AI Speech-to-Text Model
     participant Smutthan as Smutthan Engine
-    participant HIS as HIS Integration Adapter
-    participant HDI as HDI & Safety Engine
-    participant CarePlan as Care Plan & Trajectory Service
+    participant DualDiag as Dual Diagnosis Service
+    participant RedFlag as Red Flag & Referral Service
+    participant NLEM as NLEM 1,080 Database
+    participant HDI as HDI & Dosage Validator
 
-    Note over TTM, CarePlan: ขั้นตอนที่ 1: เลือกเคส (C01-C30) หรือลงทะเบียนคนไข้ใหม่สด
-    TTM->>UI: เลือกเคส C02 หรือกรอก Patient Intake Modal
-    UI->>HIS: ดึงประวัติยาเดิม (Warfarin 3mg) และสัญญาณชีพ
-    HIS-->>UI: ข้อมูลผู้ป่วย & Active Meds
-    UI->>Weather: ดึงอุณหภูมิและความชื้นสดตามพิกัดสถานพยาบาล
-    Weather-->>UI: อุณหภูมิ 38.5°C, ความชื้น 85%
+    Note over TTM, RedFlag: ขั้นตอนที่ 1: บันทึกข้อมูลคนไข้ & รับเสียงบอกเล่าอาการ
+    TTM->>Page1: เลือกเคส หรือเปิดไมค์พูดอาการ "ปวดบั้นเอวร้าวลงขา ชาปลายเท้า"
+    Page1->>STT: ประมวลผลคลื่นเสียงภาษาไทย (Speech-to-Text)
+    STT-->>Page1: สกัดอาการ ["ปวดบั้นเอว", "ร้าวลงขา", "ชาปลายเท้า"] เข้าสู่สัญญาณชีพ
 
-    Note over TTM, CarePlan: ขั้นตอนที่ 2: ประเมินสมุฏฐานธาตุ 4 กอง
-    UI->>Smutthan: ประมวลผลสมุฏฐาน (Vitals + Symptoms + Weather + Time)
-    Smutthan-->>UI: เรดาร์ชาร์ตธาตุ (วาโย/เตโช กำเริบ) + Rule Reasons
+    Note over TTM, RedFlag: ขั้นตอนที่ 2: ประเมินสมุฏฐาน 5 ด้าน & วินิจฉัยคู่ขนาน
+    Page1->>Smutthan: คำนวณ 5 สมุฏฐาน (ธาตุ-ฤดู-กาล-อายุ-ประเทศ)
+    Smutthan-->>Page1: เรดาร์ชาร์ต 4 ธาตุ (วาโยกำเริบ 68, เตโช 52)
+    Page1->>DualDiag: ประมวลผลกลุ่มอาการหาข้อวินิจฉัยสากล
+    DualDiag-->>Page1: แนะนำ Conventional ICD-10 (M54.5) คู่กับ ICD-10-TM (U74.1)
 
-    Note over TTM, CarePlan: ขั้นตอนที่ 3: สั่งยาสมุนไพรและตรวจจับอันตรกิริยา
-    TTM->>UI: เลือกสั่งยา "ยาแคปซูลขมิ้นชัน"
-    UI->>HDI: ตรวจสอบอันตรกิริยากับยาเดิม (Warfarin + ขมิ้นชัน)
-    HDI-->>UI: แจ้งเตือนความเสี่ยงสูง (HIGH: เลือดออกรุนแรง Level B)
-    TTM->>UI: ยืนยัน Clinician Override พร้อมระบุเหตุผลและแผนตรวจ INR
+    Note over TTM, RedFlag: ขั้นตอนที่ 3: ตรวจสอบความปลอดภัย & ข้อห้ามนวด
+    Page1->>RedFlag: ประเมินสัญญาณชีพวิกฤต, Red Flags และยาเดิม
+    RedFlag-->>Page1: สถานะปลอดภัย / หากพบภาวะวิกฤต แสดงปุ่มออกใบส่งต่อ SBAR ทันที
 
-    Note over TTM, CarePlan: ขั้นตอนที่ 4: พิมพ์ใบสั่งยาและสรุปเวชระเบียน
-    UI-->>TTM: พิมพ์ Clinical Prescription Sheet & HL7 FHIR Export
-
-    Note over TTM, CarePlan: ขั้นตอนที่ 5: แผนการรักษาและการติดตามผลรายบุคคล
-    UI->>CarePlan: สร้างแผนการรักษา & ตารางติดตามผล (MOPH & WHO Cadence)
-    CarePlan-->>UI: Cadence Matrix (4 ครั้ง/เดือนแรก), Trajectory Charts (VAS/Tridosha), Red Flags
-    UI-->>TTM: แสดงแดชบอร์ดแผนการรักษาและแนวโน้มสุขภาพรายบุคคล
+    Note over TTM, HDI: ขั้นตอนที่ 4: สั่งยา & บัญชียาหลักแห่งชาติ (หน้า 2)
+    TTM->>Page2: สลับมายังหน้าสั่งยา (Prescribe Module)
+    Note over Page2, NLEM: ตัวเลือก Tab 1 (TTM Prescribe) หรือ Tab 2 (NLEM Formulary 1,080 ยา)
+    Page2->>NLEM: ค้นหายาแผนปัจจุบัน (เช่น Warfarin sodium บัญชี ค)
+    Page2->>HDI: ตรวจสอบอันตรกิริยา HDI สดกับยาแผนไทยที่เลือกสั่ง
+    HDI-->>Page2: แสดงผลการตรวจ HDI, ระดับความรุนแรง และขนาดสูงสุดต่อวัน
+    TTM->>Page2: บันทึกยืนยันใบสั่งยา หรือปรับแก้ขนาดยา
 ```
 
 ---

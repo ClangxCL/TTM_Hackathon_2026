@@ -7,16 +7,16 @@
   <b>TTM Hackathon 2026</b> — สาขา Health Informatics & Thai Traditional Medicine Innovation
 </p>
 
-[![Tests](https://img.shields.io/badge/tests-25%2F25%20passing-brightgreen.svg)](src/tests)
+[![Tests](https://img.shields.io/badge/tests-35%2F35%20passing-brightgreen.svg)](src/tests)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue.svg)](tsconfig.json)
 [![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](package.json)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8.svg)](tailwind.config.js)
-[![Maturity Level](https://img.shields.io/badge/Maturity-MVP--Ready%20(1.4)-teal.svg)](docs/00-prototype-status.md)
+[![Maturity Level](https://img.shields.io/badge/Maturity-Level%201.5%20(Advanced%20Clinical%20Hub)-teal.svg)](docs/00-prototype-status.md)
+[![NLEM Formulary](https://img.shields.io/badge/NLEM%20Conventional-1%2C080%20Drugs%20(17%20Systems)-blue.svg)](docs/07-formulary-and-prescribing.md)
+[![Dual Diagnosis](https://img.shields.io/badge/Dual%20Diagnosis-ICD--10%20%E2%86%94%20ICD--10--TM-purple.svg)](docs/04-ai-explainability.md)
+[![Voice AI](https://img.shields.io/badge/Voice%20AI-Speech--to--Text%20Symptom%20Model-rose.svg)](docs/04-ai-explainability.md)
 [![Cohort Size](https://img.shields.io/badge/Cohort-30%20Synthetic%20Cases-amber.svg)](data/synthetic/cases.json)
-[![Patient Intake](https://img.shields.io/badge/Feature-Self--Service%20Intake-indigo.svg)](src/components/patient/PatientIntakeModal.tsx)
-[![Care Plan](https://img.shields.io/badge/Feature-Clinical%20Care%20Plan-emerald.svg)](src/pages/CarePlanPage.tsx)
-[![Data Privacy](https://img.shields.io/badge/Data%20Privacy-100%25%20Synthetic%20(0%20PII)-success.svg)](scripts/check-pii.py)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blue.svg)](https://clangxcl.github.io/TTM_Hackathon_2026/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel%20Production-success.svg)](https://ttm-hackathon-2026.vercel.app)
 
 ---
 
@@ -128,7 +128,7 @@ npm install
 ```bash
 npm test
 ```
-*ผลการทดสอบ: 5 Test Suites, 25 Tests Passed (100% Passing)*
+*ผลการทดสอบ: 7 Test Suites, 35 Tests Passed (100% Passing)*
 
 ### 4. รันระบบในโหมด Development
 ```bash
@@ -140,7 +140,7 @@ npm run dev
 ```bash
 npm run build
 ```
-ไฟล์ Bundle ที่ผ่านการคอมไพล์จะถูกสร้างไว้ในโฟลเดอร์ `dist/` พร้อมนำไป Deploy บน Web Server หรือ GitHub Pages ได้ทันที
+ไฟล์ Bundle ที่ผ่านการคอมไพล์จะถูกสร้างไว้ในโฟลเดอร์ `dist/` พร้อมนำไป Deploy บน Web Server หรือ Vercel ได้ทันที
 
 ---
 
@@ -148,15 +148,15 @@ npm run build
 
 | เอกสาร | หัวข้อเนื้อหา |
 |---|---|
-| [docs/00-prototype-status.md](docs/00-prototype-status.md) | สถานะความพร้อมของโปรโตไทป์ (Functional Prototype 1.3 สู่ MVP-ready 1.4) |
-| [docs/01-system-overview.md](docs/01-system-overview.md) | ที่มา ปัญหา 4 เสาหลัก 5 ขั้นตอนการทำงาน และตัวชี้วัดความสำเร็จ (KPIs) |
-| [docs/02-input-process-output.md](docs/02-input-process-output.md) | ข้อกำหนด IPO, Patient Intake, Care Plan และการเชื่อมโยงฟิลด์ 43 แฟ้ม |
+| [docs/00-prototype-status.md](docs/00-prototype-status.md) | สถานะความพร้อมของโปรโตไทป์ (Maturity Level 1.5 Advanced Clinical Hub & Dual Formulary) |
+| [docs/01-system-overview.md](docs/01-system-overview.md) | ที่มา ปัญหา 5 เสาหลักเทคโนโลยี 5 ขั้นตอนการทำงาน และตัวชี้วัดความสำเร็จ (KPIs) |
+| [docs/02-input-process-output.md](docs/02-input-process-output.md) | ข้อกำหนด IPO, โมเดลเสียง AI, Dual Diagnosis, SBAR Referral, และ NLEM 1,080 ยา |
 | [docs/03-architecture.md](docs/03-architecture.md) | สถาปัตยกรรมระบบ ผัง Mermaid, Adapter Pattern และมาตรฐาน FHIR |
-| [docs/04-ai-explainability.md](docs/04-ai-explainability.md) | ความโปร่งใสของ AI, สูตรคำนวณธาตุ, กราฟ Trajectory และ Clinician Override |
-| [docs/05-technical-feasibility.md](docs/05-technical-feasibility.md) | ความเป็นไปได้ทางเทคนิค ผลการทดสอบ 25/25 การบริหารความเสี่ยง และต้นทุน |
-| [docs/06-health-economics.md](docs/06-health-economics.md) | การประเมินความคุ้มค่าทางเศรษฐศาสตร์สาธารณสุข และต้นทุนต่อเคส (30 เคส) |
-| [docs/07-formulary-and-prescribing.md](docs/07-formulary-and-prescribing.md) | คู่มือบัญชียาสมุนไพร เกณฑ์ขนาดยาสูงสุด และการส่งต่อสู่แผนการรักษา |
-| [docs/08-pilot-plan.md](docs/08-pilot-plan.md) | แผนงานการนำร่องในพื้นที่จริง 4 ระยะ และความถี่การติดตามผลรายเดือน |
+| [docs/04-ai-explainability.md](docs/04-ai-explainability.md) | ความโปร่งใสของ AI, สูตรคำนวณธาตุ, AI Speech-to-Text, Dual Diagnosis, และ SBAR |
+| [docs/05-technical-feasibility.md](docs/05-technical-feasibility.md) | ความเป็นไปได้ทางเทคนิค ผลการทดสอบ 35/35 การบริหารความเสี่ยง และ NLEM Performance |
+| [docs/06-health-economics.md](docs/06-health-economics.md) | การประเมินความคุ้มค่าทางเศรษฐศาสตร์สาธารณสุข, RDU NLEM 1,080 ยา และต้นทุนต่อเคส |
+| [docs/07-formulary-and-prescribing.md](docs/07-formulary-and-prescribing.md) | คู่มือบัญชียาคู่ขนาน TTM & NLEM 1,080 ยาใน 17 กลุ่มโรค, HDI และข้อห้ามนวดไทย |
+| [docs/08-pilot-plan.md](docs/08-pilot-plan.md) | แผนงานการนำร่องในพื้นที่จริง 4 ระยะ, การทดสอบโมเดลเสียง, และความถี่การติดตามผล |
 | [docs/09-known-limitations.md](docs/09-known-limitations.md) | ข้อจำกัดของระบบในปัจจุบัน และ Roadmap การพัฒนาสู่เวอร์ชัน 2.0 / 3.0 |
 
 ---
@@ -166,4 +166,5 @@ npm run build
 - **โครงการ:** TTM Smutthan Engine Platform
 - **เวที:** TTM Hackathon 2026
 - **Repository:** [https://github.com/ClangxCL/TTM_Hackathon_2026](https://github.com/ClangxCL/TTM_Hackathon_2026)
-- **Live Website:** [https://clangxcl.github.io/TTM_Hackathon_2026/](https://clangxcl.github.io/TTM_Hackathon_2026/)
+- **Live Production Website:** [https://ttm-hackathon-2026.vercel.app](https://ttm-hackathon-2026.vercel.app)
+
