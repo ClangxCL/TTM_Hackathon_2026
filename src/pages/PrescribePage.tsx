@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SyntheticCase, CurrentMedication } from '../types/patient';
-import { ThaiHerbFormularyItem, PrescribedItem, DrugWarning } from '../types/drug';
+import { ThaiHerbFormularyItem, PrescribedItem, DrugWarning, ConventionalDrugItem } from '../types/drug';
 import { MatchedInteractionResult } from '../types/hdi';
 import { MockDataService } from '../services/mockDataService';
 import { checkHerbDrugInteractions } from '../services/interactionMatcher';
@@ -15,6 +15,7 @@ import { FormularySearch } from '../components/prescribing/FormularySearch';
 import { PrescriptionForm } from '../components/prescribing/PrescriptionForm';
 import { InteractionAlerts } from '../components/prescribing/InteractionAlerts';
 import { PrescriptionCart } from '../components/prescribing/PrescriptionCart';
+import { NlemFormularyCatalog } from '../components/prescribing/NlemFormularyCatalog';
 import {
   ArrowLeft,
   ArrowRight,
@@ -33,6 +34,9 @@ import {
   Stethoscope,
   Clock,
   ChevronRight,
+  Database,
+  Layers,
+  Search,
 } from 'lucide-react';
 
 interface PrescribePageProps {
@@ -51,9 +55,10 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
     currentCase.current_encounter.ambient_context
   );
 
-  // 2. Active medications state (synced with case, allows editing/adding on Prescribe page)
+  // Active medications state (synced with case, allows editing/adding on Prescribe page)
   const [activeMeds, setActiveMeds] = useState<CurrentMedication[]>([...currentCase.current_medications]);
   const [isReferralModalOpen, setIsReferralModalOpen] = useState(false);
+  const [activeCatalogTab, setActiveCatalogTab] = useState<'prescribe' | 'nlem'>('prescribe');
 
   useEffect(() => {
     setActiveMeds([...currentCase.current_medications]);
@@ -62,6 +67,38 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
   const handleUpdateActiveMeds = (newMeds: CurrentMedication[]) => {
     setActiveMeds(newMeds);
     MockDataService.updateCaseMedications(currentCase.case_id, newMeds);
+  };
+
+  const handleAddConventionalDrug = (drug: ConventionalDrugItem) => {
+    if (activeMeds.some((m) => m.generic_name.toLowerCase() === drug.generic_name.toLowerCase())) return;
+
+    const brand = Array.isArray(drug.brand_names) && drug.brand_names.length > 0
+      ? drug.brand_names[0]
+      : drug.generic_name;
+    const form = drug.dosage_forms?.[0]?.form || drug.dosage_form || 'Tablet';
+    const dose = drug.standard_regimen?.dose_mg || drug.standard_regimen?.dose_per_admin_mg || drug.strength_mg || 5.0;
+    const freq = drug.standard_regimen?.frequency_per_day || 1;
+    const timing = drug.standard_regimen?.timing || 'วันละ 1 ครั้ง หลังอาหาร';
+
+    const newMed: CurrentMedication = {
+      drug_id: drug.drug_id || `MED-CONV-${Date.now().toString().slice(-4)}`,
+      generic_name: drug.generic_name,
+      brand_name: brand,
+      dosage_form: form,
+      strength_mg: dose,
+      dose_per_admin_mg: dose,
+      frequency_per_day: freq,
+      timing: timing,
+      days: 30,
+      calculated_daily_dose_mg: dose * freq,
+      route: drug.route || 'Oral',
+    };
+
+    handleUpdateActiveMeds([...activeMeds, newMed]);
+  };
+
+  const handleRemoveConventionalDrug = (drugId: string) => {
+    handleUpdateActiveMeds(activeMeds.filter((m) => m.drug_id !== drugId));
   };
 
   // 3. AI Herb Recommendations tailored to symptoms & element balance with live HDI
@@ -336,17 +373,72 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
         </div>
       )}
 
-      {/* 3-Column Clinical Prescribing Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-        {/* Column 1 (Left 3 cols): Active Medications & Chronic Diseases */}
-        <div className="lg:col-span-3 space-y-4">
-          <PatientActiveMeds
-            patient={currentCase.patient_info}
-            medications={activeMeds}
-            chronicDiseases={currentCase.chronic_diseases}
-            onUpdateMedications={handleUpdateActiveMeds}
-          />
+      {/* Tab Switcher: 1. Prescribing & HDI vs 2. NLEM Conventional Formulary */}
+      <div className="bg-white rounded-2xl p-1.5 border border-slate-200/80 shadow-soft flex items-center justify-between gap-2 flex-wrap">
+        <div className="flex items-center gap-1.5 flex-1">
+          <button
+            type="button"
+            onClick={() => setActiveCatalogTab('prescribe')}
+            className={`flex-1 sm:flex-initial px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer ${
+              activeCatalogTab === 'prescribe'
+                ? 'bg-brand-700 text-white shadow-sm'
+                : 'bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+            }`}
+          >
+            <Pill className="w-4 h-4 text-emerald-300" />
+            <span>1. สั่งยาสมุนไพร & ตรวจอันตรกิริยา (TTM Prescribing & HDI)</span>
+            {cartItems.length > 0 && (
+              <span className="bg-white/20 text-white text-[10px] px-2 py-0.5 rounded-full font-mono">
+                {cartItems.length}
+              </span>
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveCatalogTab('nlem')}
+            className={`flex-1 sm:flex-initial px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer ${
+              activeCatalogTab === 'nlem'
+                ? 'bg-blue-700 text-white shadow-sm'
+                : 'bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+            }`}
+          >
+            <Database className="w-4 h-4 text-blue-300" />
+            <span>2. บัญชียาหลักแห่งชาติ แผนปัจจุบัน (NLEM Formulary - 1,080 รายการ)</span>
+            <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full border border-blue-200 hidden md:inline">
+              17 กลุ่มโรค
+            </span>
+          </button>
         </div>
+
+        {/* Quick status info */}
+        <div className="text-xs text-slate-500 pr-2 hidden lg:flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span className="font-medium">ฐานข้อมูลยาคู่ขนาน TTM & NLEM เชื่อมโยงพร้อมใช้งาน</span>
+        </div>
+      </div>
+
+      {/* Main Content Area based on Active Tab */}
+      {activeCatalogTab === 'nlem' ? (
+        <NlemFormularyCatalog
+          activeMeds={activeMeds}
+          onAddMedication={handleAddConventionalDrug}
+          onRemoveMedication={handleRemoveConventionalDrug}
+          onSelectHerbPrescribeTab={() => setActiveCatalogTab('prescribe')}
+        />
+      ) : (
+        /* 3-Column Clinical Prescribing Grid */
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          {/* Column 1 (Left 3 cols): Active Medications & Chronic Diseases */}
+          <div className="lg:col-span-3 space-y-4">
+            <PatientActiveMeds
+              patient={currentCase.patient_info}
+              medications={activeMeds}
+              chronicDiseases={currentCase.chronic_diseases}
+              onUpdateMedications={handleUpdateActiveMeds}
+              onOpenFullNlemCatalog={() => setActiveCatalogTab('nlem')}
+            />
+          </div>
 
         {/* Column 2 (Middle 5 cols): Formulary Catalog & Prescribing Form */}
         <div className="lg:col-span-5 space-y-4">
@@ -475,6 +567,7 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
           />
         </div>
       </div>
+      )}
 
       {/* Emergency Referral Modal */}
       <EmergencyReferralModal

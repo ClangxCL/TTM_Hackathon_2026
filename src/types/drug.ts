@@ -68,3 +68,36 @@ export interface DrugWarning {
   message: string;
   recommendation: string;
 }
+
+export interface ConventionalDrugItem {
+  drug_id: string;
+  generic_name: string;
+  thai_name: string;
+  brand_names?: string[];
+  atc_code?: string;
+  nlem_category?: string;
+  group_name?: string;
+  subgroup_name?: string;
+  dosage_form?: string;
+  dosage_forms?: { form: string; strengths_mg: number[] }[];
+  strength_mg?: number;
+  strength_description?: string;
+  available_strengths_mg?: number[];
+  route?: string;
+  standard_regimen?: {
+    dose_mg?: number;
+    dose_per_admin_mg?: number;
+    frequency_per_day?: number;
+    timing?: string;
+    calculated_daily_dose_mg?: number;
+    max_daily_dose_mg?: number;
+    route?: string;
+  };
+  therapeutic_class?: string;
+  indications?: string;
+  target_indications?: string[];
+  conditions?: string;
+  critical_safety_notes?: string;
+  notes?: string;
+  source_reference?: string;
+}

@@ -8,6 +8,7 @@ interface PatientActiveMedsProps {
   medications: CurrentMedication[];
   chronicDiseases: ChronicDisease[];
   onUpdateMedications?: (meds: CurrentMedication[]) => void;
+  onOpenFullNlemCatalog?: () => void;
 }
 
 const COMMON_NLEM_DRUGS = [
@@ -26,6 +27,7 @@ export const PatientActiveMeds: React.FC<PatientActiveMedsProps> = ({
   medications,
   chronicDiseases,
   onUpdateMedications,
+  onOpenFullNlemCatalog,
 }) => {
   const [isAddingOpen, setIsAddingOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -192,6 +194,17 @@ export const PatientActiveMeds: React.FC<PatientActiveMedsProps> = ({
               ))}
             </div>
           </div>
+
+          {onOpenFullNlemCatalog && (
+            <button
+              type="button"
+              onClick={onOpenFullNlemCatalog}
+              className="w-full text-center py-1.5 text-[11px] text-blue-700 hover:text-blue-900 font-bold bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition cursor-pointer flex items-center justify-center gap-1 shadow-2xs"
+            >
+              <Search className="w-3.5 h-3.5" />
+              <span>เปิดฐานข้อมูลบัญชียาหลัก 1,080 รายการฉบับเต็ม →</span>
+            </button>
+          )}
         </div>
       )}
 

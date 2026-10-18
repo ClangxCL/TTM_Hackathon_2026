@@ -9,7 +9,6 @@ import { VitalsInputForm } from '../components/smutthan/VitalsInputForm';
 import { VoiceSymptomRecorder } from '../components/common/VoiceSymptomRecorder';
 import { MockDataService } from '../services/mockDataService';
 import { DualDiagnosisService } from '../services/dualDiagnosisService';
-import { HerbRecommendationService } from '../services/herbRecommendationService';
 import { RedFlagService, RedFlagAssessment } from '../services/redFlagService';
 import { EmergencyReferralModal } from '../components/common/EmergencyReferralModal';
 import {
@@ -164,25 +163,6 @@ export const SmutthanPage: React.FC<SmutthanPageProps> = ({
       setAiNote(res.text);
     });
   }, [vitals, symptoms, currentCase]);
-
-  // AI Recommended Herbs matching symptoms & 4 elements
-  const recommendedHerbs = HerbRecommendationService.recommendHerbsForCase(
-    {
-      ...currentCase,
-      current_encounter: {
-        ...currentCase.current_encounter,
-        vitals,
-        symptoms,
-      },
-    },
-    analysis.dominant_element_th,
-    analysis.recommended_taste
-  );
-
-  const handleSelectHerbAndPrescribe = (herbCode: string) => {
-    MockDataService.updateCaseIntendedHerb(currentCase.case_id, herbCode);
-    navigate('/prescribe');
-  };
 
   const handleVitalsUpdate = (newVitals: Vitals, newSymptoms: string[]) => {
     setVitals(newVitals);
@@ -845,99 +825,17 @@ export const SmutthanPage: React.FC<SmutthanPageProps> = ({
             </div>
           </div>
 
-          {/* AI Recommended Herbs Preview with Live HDI Status */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-soft space-y-3.5">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-700">
-                  <Sparkles className="w-4 h-4" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs text-slate-900 flex items-center gap-1.5">
-                    <span>ยาสมุนไพรแนะนำตามอาการ & สมดุลธาตุ</span>
-                    <span className="text-[10px] font-normal text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                      AI Herb Match & Live HDI
-                    </span>
-                  </h4>
-                  <span className="text-[10px] text-slate-400">
-                    ปรับสมดุลธาตุประธาน ({analysis.dominant_element_th}) และรสยาที่แนะนำ ({analysis.recommended_taste.join(', ')})
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              {recommendedHerbs.slice(0, 3).map((rec) => {
-                const isSafe = rec.hdiRisk === 'SAFE';
-                const isModerate = rec.hdiRisk === 'MODERATE';
-                const isHigh = rec.hdiRisk === 'HIGH';
-
-                return (
-                  <div
-                    key={rec.herb.drug_code_24}
-                    className="p-3 rounded-xl border border-slate-200 hover:border-emerald-300 hover:shadow-2xs bg-slate-50/50 hover:bg-white transition flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs"
-                  >
-                    <div className="flex-1 space-y-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-slate-900 text-xs">
-                          {rec.herb.thai_name}
-                        </span>
-                        <span className="text-[10px] text-slate-500 font-mono">
-                          ({rec.herb.strength_per_unit})
-                        </span>
-                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded-md">
-                          🎯 สอดคล้อง {rec.matchScore}%
-                        </span>
-                        {/* Live HDI Badge */}
-                        <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 ${
-                            isSafe
-                              ? 'bg-emerald-100 text-emerald-800'
-                              : isModerate
-                              ? 'bg-amber-100 text-amber-800'
-                              : 'bg-rose-100 text-rose-800 animate-pulse'
-                          }`}
-                        >
-                          {isSafe ? '🟢 ปลอดภัย' : isModerate ? '🟡 เฝ้าระวัง HDI' : '🔴 เสี่ยง HDI สูง'}
-                        </span>
-                      </div>
-
-                      <p className="text-[11px] text-slate-600 line-clamp-1">
-                        {rec.symptomRationale} • {rec.elementRationale}
-                      </p>
-
-                      {!isSafe && rec.hdiSummary && (
-                        <div className="text-[10px] font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-                          ⚠️ {rec.hdiSummary}
-                        </div>
-                      )}
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => handleSelectHerbAndPrescribe(rec.herb.drug_code_24)}
-                      className="px-3 py-1.5 bg-brand-700 hover:bg-brand-800 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1 shrink-0 shadow-2xs cursor-pointer self-end sm:self-auto"
-                    >
-                      <span>เลือกสั่งยานี้</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
           {/* Forward Action Card */}
           <div className="bg-gradient-to-br from-brand-700 to-teal-800 text-white rounded-2xl p-5 shadow-md space-y-3">
-            <div className="font-bold text-sm">พร้อมเข้าสู่ขั้นตอนการสั่งยาสมุนไพร</div>
+            <div className="font-bold text-sm">พร้อมเข้าสู่ขั้นตอนการสั่งยา & ค้นหาบัญชียาหลัก</div>
             <p className="text-xs text-brand-100 leading-relaxed">
-              ผลการประเมินสมุฏฐานจะถูกส่งต่อเข้าสู่โมดูลสั่งยา เพื่อช่วยเลือกยาสมุนไพรและตรวจสอบอันตรกิริยากับยาแผนปัจจุบันโดยอัตโนมัติ
+              ผลการประเมินสมุฏฐานและรหัสวินิจฉัยคู่ขนานจะถูกส่งต่อไปยังโมดูลสั่งยา เพื่อเลือกยาสมุนไพร ตรวจสอบอันตรกิริยา (HDI Check) และค้นหาบัญชียาหลักแห่งชาติแผนปัจจุบัน 1,080 รายการ
             </p>
             <button
               onClick={() => navigate('/prescribe')}
-              className="w-full bg-white text-brand-900 hover:bg-brand-50 font-bold py-2.5 px-4 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm"
+              className="w-full bg-white text-brand-900 hover:bg-brand-50 font-bold py-2.5 px-4 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
             >
-              <span>ดำเนินการสั่งยาแผนไทย (Prescribe Module)</span>
+              <span>ดำเนินการสั่งยา & ค้นหาบัญชียาหลัก (Prescribing & Formulary)</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
