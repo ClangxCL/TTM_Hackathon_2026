@@ -1,18 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CurrentMedication, ChronicDisease, PatientInfo } from '../../types/patient';
-import { Pill, AlertOctagon, Heart, ShieldAlert } from 'lucide-react';
+import { MockDataService } from '../../services/mockDataService';
+import { Pill, AlertOctagon, Heart, ShieldAlert, Plus, Search, Trash2, CheckCircle2, X } from 'lucide-react';
 
 interface PatientActiveMedsProps {
   patient: PatientInfo;
   medications: CurrentMedication[];
   chronicDiseases: ChronicDisease[];
+  onUpdateMedications?: (meds: CurrentMedication[]) => void;
 }
+
+const COMMON_NLEM_DRUGS = [
+  { generic: 'Warfarin sodium', brand: 'Orfarin 3mg', strength: 3.0, form: 'Tablet', timing: 'ก่อนนอน' },
+  { generic: 'Aspirin', brand: 'Aspent-M 81mg', strength: 81.0, form: 'Tablet', timing: 'หลังอาหารเช้า' },
+  { generic: 'Amlodipine besilate', brand: 'Norvasc 5mg', strength: 5.0, form: 'Tablet', timing: 'ตอนเช้า' },
+  { generic: 'Metformin hydrochloride', brand: 'Glucophage 500mg', strength: 500.0, form: 'Tablet', timing: 'พร้อมอาหาร เช้า-เย็น' },
+  { generic: 'Simvastatin', brand: 'Zocor 20mg', strength: 20.0, form: 'Tablet', timing: 'ก่อนนอน' },
+  { generic: 'Omeprazole', brand: 'Miracid 20mg', strength: 20.0, form: 'Capsule', timing: 'ก่อนอาหารเช้า 30 นาที' },
+  { generic: 'Digoxin', brand: 'Lanoxin 0.25mg', strength: 0.25, form: 'Tablet', timing: 'ตอนเช้า' },
+  { generic: 'Ibuprofen', brand: 'Brufen 400mg', strength: 400.0, form: 'Tablet', timing: 'หลังอาหารทันที' },
+];
 
 export const PatientActiveMeds: React.FC<PatientActiveMedsProps> = ({
   patient,
   medications,
   chronicDiseases,
+  onUpdateMedications,
 }) => {
+  const [isAddingOpen, setIsAddingOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const conventionalDrugs = MockDataService.getConventionalDrugs();
+
+  const filteredDrugs = conventionalDrugs.filter((d: any) => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return false;
+    return (
+      d.generic_name.toLowerCase().includes(q) ||
+      (d.thai_name && d.thai_name.toLowerCase().includes(q)) ||
+      (d.target_indications && d.target_indications.some((ind: string) => ind.toLowerCase().includes(q)))
+    );
+  });
+
+  const handleAddDrug = (drug: any) => {
+    if (!onUpdateMedications) return;
+    if (medications.some((m) => m.generic_name.toLowerCase() === drug.generic_name.toLowerCase())) return;
+
+    const newMed: CurrentMedication = {
+      drug_id: drug.drug_id || `MED-CONV-${Date.now().toString().slice(-4)}`,
+      generic_name: drug.generic_name,
+      brand_name: drug.brand_name || drug.generic_name,
+      dosage_form: drug.dosage_form || 'Tablet',
+      strength_mg: drug.strength_mg || 5.0,
+      dose_per_admin_mg: drug.standard_regimen?.dose_per_admin_mg || drug.strength_mg || 5.0,
+      frequency_per_day: drug.standard_regimen?.frequency_per_day || 1,
+      timing: drug.standard_regimen?.timing || 'หลังอาหาร',
+      days: 30,
+      calculated_daily_dose_mg: (drug.standard_regimen?.dose_per_admin_mg || drug.strength_mg || 5.0) * (drug.standard_regimen?.frequency_per_day || 1),
+      route: drug.route || 'Oral',
+    };
+
+    onUpdateMedications([...medications, newMed]);
+    setSearchQuery('');
+    setIsAddingOpen(false);
+  };
+
+  const handleRemoveDrug = (drugId: string) => {
+    if (!onUpdateMedications) return;
+    onUpdateMedications(medications.filter((m) => m.drug_id !== drugId));
+  };
+
   return (
     <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft space-y-4">
       {/* Header */}
@@ -21,10 +78,110 @@ export const PatientActiveMeds: React.FC<PatientActiveMedsProps> = ({
           <Pill className="w-4 h-4 text-brand-700" />
           <span>ยาแผนปัจจุบันที่ใช้อยู่ (HIS Active Meds)</span>
         </div>
-        <span className="text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full font-mono">
-          {medications.length} รายการ
-        </span>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full font-mono">
+            {medications.length} รายการ
+          </span>
+          {onUpdateMedications && (
+            <button
+              type="button"
+              onClick={() => setIsAddingOpen(!isAddingOpen)}
+              className="text-[10px] bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 px-2 py-0.5 rounded-lg flex items-center gap-1 font-semibold transition cursor-pointer"
+              title="พิมพ์ค้นหาเพิ่มยาแผนปัจจุบันจากบัญชียาหลัก NLEM"
+            >
+              <Plus className="w-3 h-3" />
+              <span>{isAddingOpen ? 'ปิด' : 'เพิ่มยา NLEM'}</span>
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* Search & Add Drug from NLEM (If open) */}
+      {isAddingOpen && (
+        <div className="bg-purple-50/60 p-3 rounded-xl border border-purple-200 space-y-2 animate-in fade-in duration-150">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-purple-900 flex items-center gap-1">
+              <Search className="w-3 h-3 text-purple-700" />
+              <span>พิมพ์ค้นหายาแผนปัจจุบัน (บัญชียาหลักแห่งชาติ):</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsAddingOpen(false)}
+              className="text-slate-400 hover:text-slate-600"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </div>
+
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="พิมพ์ชื่อยา เช่น warfarin, amlodipine, metformin, aspirin..."
+              className="w-full bg-white border border-purple-300 rounded-lg pl-3 pr-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-purple-500"
+              autoFocus
+            />
+          </div>
+
+          {/* Autocomplete Search Results */}
+          {searchQuery && (
+            <div className="max-h-40 overflow-y-auto space-y-1 bg-white rounded-lg border border-purple-200 p-1.5">
+              {filteredDrugs.length === 0 ? (
+                <div className="text-[11px] text-slate-400 p-2 text-center">
+                  ไม่พบรายการยาที่ตรงกับ "{searchQuery}"
+                </div>
+              ) : (
+                filteredDrugs.map((d: any) => (
+                  <div
+                    key={d.drug_id}
+                    onClick={() => handleAddDrug(d)}
+                    className="p-1.5 hover:bg-purple-50 rounded-md cursor-pointer flex items-center justify-between text-xs transition"
+                  >
+                    <div>
+                      <span className="font-bold text-slate-900">{d.generic_name}</span>
+                      <span className="text-[10px] text-slate-500 ml-1">({d.thai_name || d.brand_name})</span>
+                      <span className="text-[9px] text-purple-700 block">{d.strength_mg} mg • บัญชี {d.nlem_category}</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded font-semibold shrink-0"
+                    >
+                      + เพิ่ม
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+
+          {/* Quick Preset Buttons for Common History Regimens */}
+          <div className="space-y-1 pt-1 border-t border-purple-200/60">
+            <span className="text-[10px] text-purple-900 font-semibold block">
+              หรือเลือกยาในประวัติที่พบบ่อย (1-Click History):
+            </span>
+            <div className="flex flex-wrap gap-1">
+              {COMMON_NLEM_DRUGS.map((item) => (
+                <button
+                  key={item.generic}
+                  type="button"
+                  onClick={() => handleAddDrug({
+                    drug_id: `MED-${item.generic.slice(0, 4).toUpperCase()}`,
+                    generic_name: item.generic,
+                    brand_name: item.brand,
+                    dosage_form: item.form,
+                    strength_mg: item.strength,
+                    standard_regimen: { dose_per_admin_mg: item.strength, frequency_per_day: 1, timing: item.timing },
+                  })}
+                  className="text-[10px] bg-white border border-purple-200 hover:border-purple-400 text-purple-900 px-2 py-0.5 rounded-md transition shadow-2xs font-medium cursor-pointer"
+                >
+                  + {item.generic}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* High-Risk Clinical Flags */}
       <div className="space-y-1.5">
@@ -59,13 +216,23 @@ export const PatientActiveMeds: React.FC<PatientActiveMedsProps> = ({
 
       {/* Medication Cards List */}
       <div className="space-y-2.5">
-        <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-          รายการยาและขนาดที่รับประทานจริง
+        <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+          <span>รายการยาและขนาดที่รับประทานจริง</span>
+          <span className="text-[10px] text-slate-400 font-normal">ประวัติจาก HIS / NLEM</span>
         </div>
 
         {medications.length === 0 ? (
-          <div className="bg-slate-50 border border-dashed border-slate-200 rounded-xl p-4 text-center text-xs text-slate-400">
-            ไม่มีประวัติการใช้ยาแผนปัจจุบันในระบบ HIS
+          <div className="bg-slate-50 border border-dashed border-slate-200 rounded-xl p-4 text-center text-xs text-slate-400 space-y-1">
+            <p>ไม่มีประวัติการใช้ยาแผนปัจจุบันในระบบ</p>
+            {onUpdateMedications && (
+              <button
+                type="button"
+                onClick={() => setIsAddingOpen(true)}
+                className="text-xs text-purple-700 font-semibold hover:underline"
+              >
+                + คลิกเพื่อค้นหาเพิ่มยาแผนปัจจุบัน
+              </button>
+            )}
           </div>
         ) : (
           medications.map((m) => {
@@ -93,9 +260,21 @@ export const PatientActiveMeds: React.FC<PatientActiveMedsProps> = ({
                       {m.brand_name} • {m.dosage_form}
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-slate-800 bg-white px-2 py-0.5 rounded border border-slate-200 font-mono shrink-0">
-                    {m.strength_mg} mg
-                  </span>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <span className="text-xs font-bold text-slate-800 bg-white px-2 py-0.5 rounded border border-slate-200 font-mono">
+                      {m.strength_mg} mg
+                    </span>
+                    {onUpdateMedications && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveDrug(m.drug_id)}
+                        className="text-slate-400 hover:text-rose-600 p-1 transition cursor-pointer"
+                        title="ลบยานี้ออกจากประวัติ"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <div className="mt-2 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-600">
@@ -113,7 +292,7 @@ export const PatientActiveMeds: React.FC<PatientActiveMedsProps> = ({
       </div>
 
       <div className="text-[11px] text-slate-400 border-t border-slate-100 pt-2 flex items-center justify-between">
-        <span>ข้อมูลดึงจาก HIS Adapter</span>
+        <span>ข้อมูลเชื่อมต่อ HIS Adapter</span>
         <span className="font-mono">มาตรฐาน HL7 / FHIR</span>
       </div>
     </div>

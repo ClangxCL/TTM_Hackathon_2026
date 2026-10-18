@@ -22,6 +22,9 @@ import {
   Plus,
   Trash2,
   RefreshCw,
+  Search,
+  Check,
+  FileText,
 } from 'lucide-react';
 
 interface PatientIntakeModalProps {
@@ -117,14 +120,14 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
   const [customSymptomInput, setCustomSymptomInput] = useState('');
 
-  // 3. Vitals State
-  const [btemp, setBtemp] = useState<number>(36.6);
-  const [sbp, setSbp] = useState<number>(120);
-  const [dbp, setDbp] = useState<number>(80);
-  const [pr, setPr] = useState<number>(74);
-  const [rr, setRr] = useState<number>(18);
-  const [weightKg, setWeightKg] = useState<number>(62.0);
-  const [heightCm, setHeightCm] = useState<number>(162.0);
+  // 3. Vitals State (controlled strings for seamless typing and no jumping)
+  const [btempStr, setBtempStr] = useState('36.6');
+  const [sbpStr, setSbpStr] = useState('120');
+  const [dbpStr, setDbpStr] = useState('80');
+  const [prStr, setPrStr] = useState('74');
+  const [rrStr, setRrStr] = useState('18');
+  const [weightKgStr, setWeightKgStr] = useState('62.0');
+  const [heightCmStr, setHeightCmStr] = useState('162.0');
 
   // 4. Ambient Weather State
   const [temperatureC, setTemperatureC] = useState<number>(32.0);
@@ -132,14 +135,166 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
   const [weatherDesc, setWeatherDesc] = useState<string>('แจ่มใส ลมสงบ');
   const [isFetchingWeather, setIsFetchingWeather] = useState(false);
 
-  // 5. Medical History State
+  // 5. Medical History State & Searchable NLEM Drugs
   const [selectedChronic, setSelectedChronic] = useState<ChronicDisease[]>([]);
   const [activeMeds, setActiveMeds] = useState<CurrentMedication[]>([]);
-  const [selectedMedTemplate, setSelectedMedTemplate] = useState('');
+  const [drugSearchQuery, setDrugSearchQuery] = useState('');
+  const [isDrugDropdownOpen, setIsDrugDropdownOpen] = useState(false);
+  const allConventionalDrugs = MockDataService.getConventionalDrugs();
 
   // 6. Intended TTM Formulary Item
   const formulary = MockDataService.getFormulary();
   const [intendedHerbCode, setIntendedHerbCode] = useState(formulary[0]?.drug_code_24 || '410000000102019150011401');
+
+  // Filtered conventional drugs for autocomplete
+  const filteredDrugs = allConventionalDrugs.filter((d: any) => {
+    if (!drugSearchQuery.trim()) return false;
+    const q = drugSearchQuery.toLowerCase();
+    const generic = (d.generic_name || '').toLowerCase();
+    const brand = Array.isArray(d.brand_names) ? d.brand_names.join(' ').toLowerCase() : '';
+    const indication = (d.indications || '').toLowerCase();
+    const atc = (d.atc_code || '').toLowerCase();
+    return generic.includes(q) || brand.includes(q) || indication.includes(q) || atc.includes(q);
+  });
+
+  // Add medication from full NLEM master
+  const handleAddConventionalDrug = (drug: any) => {
+    if (activeMeds.some((m) => m.generic_name.toLowerCase() === drug.generic_name.toLowerCase())) {
+      setDrugSearchQuery('');
+      setIsDrugDropdownOpen(false);
+      return;
+    }
+
+    const reg = drug.standard_regimen || {};
+    const dose = reg.dose_mg || (drug.dosage_forms?.[0]?.strengths_mg?.[0]) || 10;
+    const freq = reg.frequency_per_day || 1;
+    const brand = Array.isArray(drug.brand_names) && drug.brand_names.length > 0 ? drug.brand_names[0] : drug.generic_name;
+    const form = drug.dosage_forms?.[0]?.form || 'Tablet';
+
+    const newMed: CurrentMedication = {
+      drug_id: drug.drug_id || `MED-CONV-${Date.now().toString().slice(-4)}`,
+      generic_name: drug.generic_name,
+      brand_name: brand,
+      dosage_form: form,
+      strength_mg: dose,
+      dose_per_admin_mg: dose,
+      frequency_per_day: freq,
+      timing: reg.timing || 'วันละ 1 ครั้ง',
+      days: 30,
+      calculated_daily_dose_mg: dose * freq,
+      route: reg.route || 'Oral',
+    };
+
+    setActiveMeds([...activeMeds, newMed]);
+    setDrugSearchQuery('');
+    setIsDrugDropdownOpen(false);
+  };
+
+  // Auto-populate active medications based on selected chronic disease history
+  const handleAutoPopulateFromHistory = () => {
+    const diseaseDrugMap: Record<string, string[]> = {
+      'I10': ['Amlodipine besylate', 'Losartan potassium', 'Enalapril maleate'],
+      'E11.9': ['Metformin hydrochloride', 'Glipizide'],
+      'E78.5': ['Simvastatin', 'Atorvastatin'],
+      'I48.9': ['Warfarin sodium', 'Aspirin'],
+      'K21.9': ['Omeprazole'],
+      'M17.9': ['Paracetamol', 'Ibuprofen'],
+      'G43.9': ['Paracetamol', 'Propranolol hydrochloride'],
+      'J30.4': ['Cetirizine hydrochloride'],
+    };
+
+    const targetGenerics = new Set<string>();
+
+    if (selectedChronic.length === 0) {
+      // Default common cardiovascular / elderly baseline
+      targetGenerics.add('Amlodipine besylate');
+      targetGenerics.add('Warfarin sodium');
+      targetGenerics.add('Omeprazole');
+    } else {
+      selectedChronic.forEach((c) => {
+        const mapped = diseaseDrugMap[c.icd10];
+        if (mapped) {
+          mapped.slice(0, 1).forEach((gen) => targetGenerics.add(gen));
+        }
+      });
+    }
+
+    const medsToAdd: CurrentMedication[] = [];
+    targetGenerics.forEach((generic) => {
+      if (activeMeds.some((m) => m.generic_name.toLowerCase() === generic.toLowerCase())) return;
+
+      const foundMaster = allConventionalDrugs.find(
+        (d: any) => d.generic_name.toLowerCase() === generic.toLowerCase()
+      );
+      if (foundMaster) {
+        const reg = foundMaster.standard_regimen || {};
+        const dose = reg.dose_mg || 5;
+        const freq = reg.frequency_per_day || 1;
+        const brand = Array.isArray(foundMaster.brand_names) && foundMaster.brand_names.length > 0 ? foundMaster.brand_names[0] : foundMaster.generic_name;
+        medsToAdd.push({
+          drug_id: foundMaster.drug_id,
+          generic_name: foundMaster.generic_name,
+          brand_name: brand,
+          dosage_form: foundMaster.dosage_forms?.[0]?.form || 'Tablet',
+          strength_mg: dose,
+          dose_per_admin_mg: dose,
+          frequency_per_day: freq,
+          timing: reg.timing || 'วันละ 1 ครั้ง',
+          days: 30,
+          calculated_daily_dose_mg: dose * freq,
+          route: reg.route || 'Oral',
+        });
+      } else {
+        const fallbackTmpl = COMMON_DRUGS.find((d) => d.generic.toLowerCase().includes(generic.toLowerCase()));
+        if (fallbackTmpl) {
+          medsToAdd.push({
+            drug_id: `MED-CONV-${Date.now().toString().slice(-4)}`,
+            generic_name: fallbackTmpl.generic,
+            brand_name: fallbackTmpl.brand,
+            dosage_form: fallbackTmpl.form,
+            strength_mg: fallbackTmpl.dose,
+            dose_per_admin_mg: fallbackTmpl.dose,
+            frequency_per_day: fallbackTmpl.freq,
+            timing: fallbackTmpl.timing,
+            days: 30,
+            calculated_daily_dose_mg: fallbackTmpl.dose * fallbackTmpl.freq,
+            route: 'Oral',
+          });
+        }
+      }
+    });
+
+    if (medsToAdd.length > 0) {
+      setActiveMeds([...activeMeds, ...medsToAdd]);
+    }
+  };
+
+  const handleAddMedication = (genericName: string) => {
+    const medTmpl = COMMON_DRUGS.find((d) => d.generic === genericName);
+    if (!medTmpl) return;
+
+    if (activeMeds.some((m) => m.generic_name === medTmpl.generic)) return;
+
+    const newMed: CurrentMedication = {
+      drug_id: `MED-CONV-${Date.now().toString().slice(-4)}`,
+      generic_name: medTmpl.generic,
+      brand_name: medTmpl.brand,
+      dosage_form: medTmpl.form,
+      strength_mg: medTmpl.dose,
+      dose_per_admin_mg: medTmpl.dose,
+      frequency_per_day: medTmpl.freq,
+      timing: medTmpl.timing,
+      days: 30,
+      calculated_daily_dose_mg: medTmpl.dose * medTmpl.freq,
+      route: 'Oral',
+    };
+
+    setActiveMeds([...activeMeds, newMed]);
+  };
+
+  const handleRemoveMedication = (generic: string) => {
+    setActiveMeds(activeMeds.filter((m) => m.generic_name !== generic));
+  };
 
   // Generate HN on initial open
   useEffect(() => {
@@ -216,33 +371,6 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
     }
   };
 
-  const handleAddMedication = () => {
-    const medTmpl = COMMON_DRUGS.find((d) => d.generic === selectedMedTemplate);
-    if (!medTmpl) return;
-
-    if (activeMeds.some((m) => m.generic_name === medTmpl.generic)) return;
-
-    const newMed: CurrentMedication = {
-      drug_id: `MED-CONV-${Date.now().toString().slice(-4)}`,
-      generic_name: medTmpl.generic,
-      brand_name: medTmpl.brand,
-      dosage_form: medTmpl.form,
-      strength_mg: medTmpl.dose,
-      dose_per_admin_mg: medTmpl.dose,
-      frequency_per_day: medTmpl.freq,
-      timing: medTmpl.timing,
-      days: 30,
-      calculated_daily_dose_mg: medTmpl.dose * medTmpl.freq,
-      route: 'Oral',
-    };
-
-    setActiveMeds([...activeMeds, newMed]);
-  };
-
-  const handleRemoveMedication = (generic: string) => {
-    setActiveMeds(activeMeds.filter((m) => m.generic_name !== generic));
-  };
-
   const handleToggleChronic = (ch: typeof COMMON_CHRONIC[0]) => {
     if (selectedChronic.some((c) => c.icd10 === ch.icd10)) {
       setSelectedChronic(selectedChronic.filter((c) => c.icd10 !== ch.icd10));
@@ -266,6 +394,14 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
     const dateStr = now.toISOString().split('T')[0];
     const timeStr = now.toTimeString().split(' ')[0];
     const kala = determineKalaPeriod(now);
+
+    const btemp = parseFloat(btempStr) || 36.6;
+    const sbp = parseInt(sbpStr, 10) || 120;
+    const dbp = parseInt(dbpStr, 10) || 80;
+    const pr = parseInt(prStr, 10) || 74;
+    const rr = parseInt(rrStr, 10) || 18;
+    const weightKg = parseFloat(weightKgStr) || 62.0;
+    const heightCm = parseFloat(heightCmStr) || 162.0;
 
     const calculatedBmi =
       heightCm > 0 ? Math.round((weightKg / Math.pow(heightCm / 100, 2)) * 10) / 10 : 22.0;
@@ -637,110 +773,177 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
           </div>
 
           {/* Section 3: Vital Signs */}
-          <div className="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/80 space-y-3">
-            <span className="font-bold text-slate-900 flex items-center gap-1.5 text-xs border-b border-slate-200/60 pb-2">
-              <Heart className="w-4 h-4 text-rose-600" />
-              <span>3. สัญญาณชีพและมาตรวัดทางกายภาพ (Vital Signs)</span>
-            </span>
+          <div className="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/80 space-y-3.5">
+            <div className="flex items-center justify-between border-b border-slate-200/60 pb-2">
+              <span className="font-bold text-slate-900 flex items-center gap-1.5 text-xs">
+                <Heart className="w-4 h-4 text-rose-600" />
+                <span>3. สัญญาณชีพและมาตรวัดทางกายภาพ (Vital Signs)</span>
+              </span>
+              <span className="text-[10px] text-slate-500 font-medium bg-white px-2 py-0.5 rounded-md border border-slate-200">
+                พิมพ์ใส่ค่าง่าย ไม่ดีดกลับ เห็นผลทันที
+              </span>
+            </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div>
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
-                  อุณหภูมิกาย (°C)
-                </label>
-                <input
-                  type="number"
-                  step="0.1"
-                  value={btemp}
-                  onChange={(e) => setBtemp(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-900 font-mono"
-                />
+            {/* Primary Vitals Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {/* BTEMP */}
+              <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-slate-700">อุณหภูมิกาย</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-bold ${
+                    (parseFloat(btempStr) || 0) >= 38.0
+                      ? 'bg-rose-100 text-rose-800'
+                      : (parseFloat(btempStr) || 0) >= 37.5
+                      ? 'bg-amber-100 text-amber-800'
+                      : 'bg-emerald-50 text-emerald-700'
+                  }`}>
+                    {(parseFloat(btempStr) || 0) >= 38.0
+                      ? '🔥 ไข้สูง'
+                      : (parseFloat(btempStr) || 0) >= 37.5
+                      ? '⚠️ ไข้ต่ำ'
+                      : '✓ ปกติ'}
+                  </span>
+                </div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    value={btempStr}
+                    onChange={(e) => setBtempStr(e.target.value)}
+                    placeholder="36.6"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-base font-mono font-bold text-slate-900 focus:bg-white focus:border-brand-500 focus:outline-none"
+                  />
+                  <span className="absolute right-2.5 top-2 text-xs font-semibold text-slate-400 pointer-events-none">
+                    °C
+                  </span>
+                </div>
               </div>
 
-              <div>
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
-                  BP ตัวบน (SBP)
-                </label>
-                <input
-                  type="number"
-                  value={sbp}
-                  onChange={(e) => setSbp(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-900 font-mono"
-                />
+              {/* BP SBP / DBP */}
+              <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-slate-700">ความดันโลหิต</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-bold ${
+                    (parseInt(sbpStr, 10) || 0) >= 140 || (parseInt(dbpStr, 10) || 0) >= 90
+                      ? 'bg-rose-100 text-rose-800'
+                      : 'bg-emerald-50 text-emerald-700'
+                  }`}>
+                    {(parseInt(sbpStr, 10) || 0) >= 140 || (parseInt(dbpStr, 10) || 0) >= 90
+                      ? '⚠️ ความดันสูง'
+                      : '✓ ปกติ'}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={sbpStr}
+                    onChange={(e) => setSbpStr(e.target.value)}
+                    placeholder="120"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-base font-mono font-bold text-slate-900 text-center focus:bg-white focus:border-brand-500 focus:outline-none"
+                  />
+                  <span className="text-slate-400 font-mono font-bold">/</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={dbpStr}
+                    onChange={(e) => setDbpStr(e.target.value)}
+                    placeholder="80"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-base font-mono font-bold text-slate-900 text-center focus:bg-white focus:border-brand-500 focus:outline-none"
+                  />
+                  <span className="text-[10px] text-slate-400 font-mono whitespace-nowrap">mmHg</span>
+                </div>
               </div>
 
-              <div>
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
-                  BP ตัวล่าง (DBP)
-                </label>
-                <input
-                  type="number"
-                  value={dbp}
-                  onChange={(e) => setDbp(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-900 font-mono"
-                />
+              {/* PR */}
+              <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-slate-700">ชีพจร (PR)</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold bg-emerald-50 text-emerald-700">
+                    {(parseInt(prStr, 10) || 0) > 100 ? 'เต้นเร็ว' : (parseInt(prStr, 10) || 0) < 60 ? 'เต้นช้า' : '✓ ปกติ'}
+                  </span>
+                </div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={prStr}
+                    onChange={(e) => setPrStr(e.target.value)}
+                    placeholder="74"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-base font-mono font-bold text-slate-900 focus:bg-white focus:border-brand-500 focus:outline-none"
+                  />
+                  <span className="absolute right-2.5 top-2 text-xs font-semibold text-slate-400 pointer-events-none">
+                    bpm
+                  </span>
+                </div>
               </div>
 
-              <div>
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
-                  ชีพจร (PR bpm)
-                </label>
-                <input
-                  type="number"
-                  value={pr}
-                  onChange={(e) => setPr(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-900 font-mono"
-                />
+              {/* RR */}
+              <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-2xs space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-slate-700">การหายใจ (RR)</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-md font-bold bg-emerald-50 text-emerald-700">
+                    ✓ ปกติ
+                  </span>
+                </div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={rrStr}
+                    onChange={(e) => setRrStr(e.target.value)}
+                    placeholder="18"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-base font-mono font-bold text-slate-900 focus:bg-white focus:border-brand-500 focus:outline-none"
+                  />
+                  <span className="absolute right-2.5 top-2 text-xs font-semibold text-slate-400 pointer-events-none">
+                    /นาที
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-              <div>
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
-                  อัตราหายใจ (RR)
-                </label>
-                <input
-                  type="number"
-                  value={rr}
-                  onChange={(e) => setRr(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-900 font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
-                  น้ำหนัก (กก.)
-                </label>
-                <input
-                  type="number"
-                  step="0.5"
-                  value={weightKg}
-                  onChange={(e) => setWeightKg(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-900 font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
-                  ส่วนสูง (ซม.)
-                </label>
-                <input
-                  type="number"
-                  value={heightCm}
-                  onChange={(e) => setHeightCm(Number(e.target.value))}
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-slate-900 font-mono"
-                />
-              </div>
-
-              <div>
-                <label className="text-[11px] font-semibold text-slate-600 block mb-1">
-                  BMI (คำนวณอัตโนมัติ)
-                </label>
-                <div className="bg-slate-100 rounded-xl px-3 py-1.5 font-bold font-mono text-slate-800">
-                  {heightCm > 0
-                    ? (weightKg / Math.pow(heightCm / 100, 2)).toFixed(1)
-                    : '-'}
+            {/* Secondary Vitals: Weight, Height, BMI */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              <div className="bg-white p-2.5 rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-slate-500 block">น้ำหนัก (กก.)</span>
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    value={weightKgStr}
+                    onChange={(e) => setWeightKgStr(e.target.value)}
+                    className="w-24 bg-transparent font-mono font-bold text-sm text-slate-900 focus:outline-none"
+                  />
                 </div>
+                <span className="text-xs text-slate-400 font-mono">kg</span>
+              </div>
+
+              <div className="bg-white p-2.5 rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-slate-500 block">ส่วนสูง (ซม.)</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={heightCmStr}
+                    onChange={(e) => setHeightCmStr(e.target.value)}
+                    className="w-24 bg-transparent font-mono font-bold text-sm text-slate-900 focus:outline-none"
+                  />
+                </div>
+                <span className="text-xs text-slate-400 font-mono">cm</span>
+              </div>
+
+              <div className="bg-slate-100/80 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-slate-500 block">BMI คำนวณอัตโนมัติ</span>
+                  <span className="font-mono font-bold text-sm text-slate-800">
+                    {(parseFloat(heightCmStr) || 0) > 0
+                      ? ((parseFloat(weightKgStr) || 0) / Math.pow((parseFloat(heightCmStr) || 0) / 100, 2)).toFixed(1)
+                      : '-'}
+                  </span>
+                </div>
+                <span className="text-[10px] px-2 py-0.5 rounded-md font-bold bg-teal-100 text-teal-800">
+                  สมส่วน
+                </span>
               </div>
             </div>
           </div>
@@ -837,58 +1040,176 @@ export const PatientIntakeModal: React.FC<PatientIntakeModalProps> = ({
               </div>
             </div>
 
-            {/* Medications Selector */}
-            <div className="space-y-2 pt-1 border-t border-slate-200/60">
-              <label className="text-[11px] font-semibold text-slate-700 block">
-                เพิ่มยาแผนปัจจุบันที่กำลังใช้อยู่ (นำไปตรวจสอบอันตรกิริยา HDI):
-              </label>
-              <div className="flex gap-2">
-                <select
-                  value={selectedMedTemplate}
-                  onChange={(e) => setSelectedMedTemplate(e.target.value)}
-                  className="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none"
-                >
-                  <option value="">-- เลือกยาเคมีจากฐานข้อมูลมาตรฐาน NLEM 2569 --</option>
-                  {COMMON_DRUGS.map((d) => (
-                    <option key={d.generic} value={d.generic}>
-                      {d.generic} ({d.brand}) - {d.timing}
-                    </option>
-                  ))}
-                </select>
+            {/* Medications Search & History Integration */}
+            <div className="space-y-3 pt-1 border-t border-slate-200/60">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <label className="text-[11px] font-semibold text-slate-700 block">
+                  ยาแผนปัจจุบันในประวัติ / ที่กำลังใช้อยู่ (นำไปตรวจสอบอันตรกิริยา HDI):
+                </label>
                 <button
                   type="button"
-                  onClick={handleAddMedication}
-                  disabled={!selectedMedTemplate}
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-xl transition disabled:opacity-50"
+                  onClick={handleAutoPopulateFromHistory}
+                  className="text-[11px] bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold px-2.5 py-1 rounded-lg border border-purple-200 flex items-center gap-1.5 transition self-start sm:self-auto cursor-pointer"
                 >
-                  + เพิ่มยา
+                  <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                  <span>📋 ดึงยาตามโรคประจำตัวอัตโนมัติ</span>
                 </button>
               </div>
 
+              {/* Quick Preset Chips */}
+              <div className="space-y-1">
+                <span className="text-[10px] text-slate-500 block font-medium">
+                  คลิกเพิ่มยาด่วนจากประวัติการรักษายอดนิยม:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    { label: '+ Warfarin 3mg', generic: 'Warfarin sodium' },
+                    { label: '+ Aspirin 81mg', generic: 'Aspirin' },
+                    { label: '+ Metformin 500mg', generic: 'Metformin hydrochloride' },
+                    { label: '+ Amlodipine 5mg', generic: 'Amlodipine besylate' },
+                    { label: '+ Omeprazole 20mg', generic: 'Omeprazole' },
+                    { label: '+ Losartan 50mg', generic: 'Losartan potassium' },
+                    { label: '+ Simvastatin 20mg', generic: 'Simvastatin' },
+                  ].map((preset) => {
+                    const isAdded = activeMeds.some((m) => m.generic_name.toLowerCase().includes(preset.generic.toLowerCase()));
+                    return (
+                      <button
+                        key={preset.generic}
+                        type="button"
+                        onClick={() => {
+                          const master = allConventionalDrugs.find((d: any) => d.generic_name.toLowerCase().includes(preset.generic.toLowerCase()));
+                          if (master) handleAddConventionalDrug(master);
+                          else handleAddMedication(preset.generic);
+                        }}
+                        disabled={isAdded}
+                        className={`text-[10px] px-2 py-0.5 rounded-lg border font-medium transition cursor-pointer ${
+                          isAdded
+                            ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
+                            : 'bg-white text-purple-700 border-purple-200 hover:bg-purple-50 hover:border-purple-300'
+                        }`}
+                      >
+                        {isAdded ? `✓ ${preset.label.replace('+ ', '')}` : preset.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Searchable Autocomplete Input */}
+              <div className="relative">
+                <div className="relative">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={drugSearchQuery}
+                    onChange={(e) => {
+                      setDrugSearchQuery(e.target.value);
+                      setIsDrugDropdownOpen(true);
+                    }}
+                    onFocus={() => setIsDrugDropdownOpen(true)}
+                    placeholder="พิมพ์ค้นหายาเคมี/ยาแผนปัจจุบัน (เช่น Warfarin, Metformin, ยาลดความดัน, Aspirin)..."
+                    className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-8 py-2 text-xs text-slate-900 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 focus:outline-none"
+                  />
+                  {drugSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setDrugSearchQuery('')}
+                      className="absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 text-xs p-0.5"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                {/* Dropdown Results */}
+                {isDrugDropdownOpen && filteredDrugs.length > 0 && (
+                  <div className="absolute z-20 left-0 right-0 mt-1 max-h-56 overflow-y-auto bg-white rounded-xl border border-slate-200 shadow-xl divide-y divide-slate-100">
+                    {filteredDrugs.map((d: any) => {
+                      const isAdded = activeMeds.some((m) => m.generic_name.toLowerCase() === d.generic_name.toLowerCase());
+                      return (
+                        <div
+                          key={d.drug_id}
+                          onClick={() => {
+                            if (!isAdded) handleAddConventionalDrug(d);
+                          }}
+                          className={`p-2.5 hover:bg-purple-50/70 transition flex items-center justify-between cursor-pointer ${
+                            isAdded ? 'opacity-50 cursor-not-allowed bg-slate-50' : ''
+                          }`}
+                        >
+                          <div className="flex-1 pr-2">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-xs text-slate-900">{d.generic_name}</span>
+                              {d.brand_names && d.brand_names.length > 0 && (
+                                <span className="text-[11px] text-purple-700 font-mono">
+                                  ({d.brand_names[0]})
+                                </span>
+                              )}
+                              <span className="text-[9px] font-mono px-1 py-0.2 bg-slate-100 text-slate-600 rounded">
+                                {d.atc_code}
+                              </span>
+                            </div>
+                            <div className="text-[10px] text-slate-500 truncate mt-0.5">
+                              {d.indications} • {d.dosage_forms?.[0]?.form} {d.standard_regimen?.dose_mg}mg ({d.standard_regimen?.timing})
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            disabled={isAdded}
+                            className={`text-[10px] px-2.5 py-1 rounded-lg font-semibold shrink-0 ${
+                              isAdded
+                                ? 'bg-slate-200 text-slate-500'
+                                : 'bg-purple-600 text-white hover:bg-purple-700'
+                            }`}
+                          >
+                            {isAdded ? 'เลือกแล้ว' : '+ เพิ่ม'}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
               {/* Added Meds List */}
-              {activeMeds.length > 0 && (
-                <div className="space-y-1.5 pt-2">
+              {activeMeds.length > 0 ? (
+                <div className="space-y-1.5 pt-1">
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                    <span>ยาในประวัติปัจจุบัน ({activeMeds.length} รายการ):</span>
+                    <span className="text-[10px] text-purple-700 font-semibold">
+                      ✓ พร้อมตรวจสอบอันตรกิริยา HDI
+                    </span>
+                  </div>
                   {activeMeds.map((med) => (
                     <div
                       key={med.generic_name}
-                      className="bg-white p-2.5 rounded-xl border border-slate-200 flex items-center justify-between text-xs"
+                      className="bg-white p-2.5 rounded-xl border border-purple-100 shadow-2xs flex items-center justify-between text-xs"
                     >
                       <div>
-                        <span className="font-bold text-slate-900">{med.generic_name}</span>
-                        <span className="text-slate-500 font-mono ml-1">({med.brand_name})</span>
-                        <span className="text-slate-400 block text-[11px]">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold text-slate-900">{med.generic_name}</span>
+                          <span className="text-purple-700 font-mono text-[11px]">({med.brand_name})</span>
+                          <span className="text-[9px] bg-purple-50 text-purple-700 border border-purple-200 px-1.5 py-0.2 rounded font-mono">
+                            {med.dosage_form}
+                          </span>
+                        </div>
+                        <span className="text-slate-500 block text-[11px] mt-0.5">
                           ขนาด {med.strength_mg} มก. วันละ {med.frequency_per_day} ครั้ง ({med.timing})
                         </span>
                       </div>
                       <button
                         type="button"
                         onClick={() => handleRemoveMedication(med.generic_name)}
-                        className="text-slate-400 hover:text-rose-600 p-1"
+                        className="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition cursor-pointer"
+                        title="ลบยานี้"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   ))}
+                </div>
+              ) : (
+                <div className="p-3 bg-white/70 rounded-xl border border-dashed border-slate-300 text-center text-xs text-slate-400">
+                  ยังไม่ได้ระบุยาแผนปัจจุบัน — สามารถพิมพ์ค้นหาหรือคลิก "ดึงยาตามโรคประจำตัวอัตโนมัติ" ด้านบน
                 </div>
               )}
             </div>

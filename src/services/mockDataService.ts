@@ -8,6 +8,7 @@ import rawCases from '../../data/synthetic/cases.json';
 import rawFormulary from '../../data/formulary/thai-formulary.json';
 import rawInteractions from '../../data/hdi/herb-drug-interactions.json';
 import rawIcd10tm from '../../data/master/icd10tm-master.json';
+import rawConventionalDrugs from '../../data/master/conventional-drugs.json';
 
 const STORAGE_KEY_CASES = 'ttm_synthetic_cases_v1';
 const STORAGE_KEY_PRESCRIPTIONS = 'ttm_prescriptions_v1';
@@ -138,6 +139,51 @@ export class MockDataService {
       }
       this.saveCases();
     }
+  }
+
+  public static updateCaseMedications(
+    caseId: string,
+    medications: SyntheticCase['current_medications']
+  ): void {
+    const c = this.getCaseById(caseId);
+    if (c) {
+      c.current_medications = medications;
+      this.saveCases();
+    }
+  }
+
+  public static updateCaseIntendedHerb(
+    caseId: string,
+    drugCode24: string
+  ): void {
+    const c = this.getCaseById(caseId);
+    if (c) {
+      const herb = this.getFormulary().find((h) => h.drug_code_24 === drugCode24);
+      if (herb) {
+        const dose = herb.standard_dosing?.adult?.dose_per_admin || 2;
+        const freq = herb.standard_dosing?.adult?.frequency_per_day || 3;
+        const days = 7;
+        c.intended_ttm_prescription = {
+          drug_code_24: herb.drug_code_24,
+          herb_name: herb.thai_name,
+          dose_per_admin: dose,
+          unit: herb.unit,
+          frequency_per_day: freq,
+          timing: herb.standard_dosing?.adult?.timing || 'หลังอาหาร 3 มื้อ',
+          days: days,
+          total_dispensed: dose * freq * days,
+          calculated_daily_dose_units: dose * freq,
+          calculated_daily_dose_mg: dose * freq * 500,
+          instruction: `รับประทานครั้งละ ${dose} ${herb.unit} วันละ ${freq} ครั้ง (${herb.standard_dosing?.adult?.timing || 'หลังอาหาร'})`,
+          is_overdose_demo: false,
+        };
+        this.saveCases();
+      }
+    }
+  }
+
+  public static getConventionalDrugs(): any[] {
+    return rawConventionalDrugs;
   }
 
   public static getFormulary(): ThaiHerbFormularyItem[] {

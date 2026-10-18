@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SyntheticCase } from '../types/patient';
+import { SyntheticCase, CurrentMedication } from '../types/patient';
 import { ThaiHerbFormularyItem, PrescribedItem, DrugWarning } from '../types/drug';
 import { MatchedInteractionResult } from '../types/hdi';
 import { MockDataService } from '../services/mockDataService';
 import { checkHerbDrugInteractions } from '../services/interactionMatcher';
 import { validateDosageAndSafety } from '../services/dosageValidator';
+import { calculateSmutthan } from '../services/smutthanEngine';
+import { HerbRecommendationService, HerbRecommendationResult } from '../services/herbRecommendationService';
 import { PatientActiveMeds } from '../components/prescribing/PatientActiveMeds';
 import { FormularySearch } from '../components/prescribing/FormularySearch';
 import { PrescriptionForm } from '../components/prescribing/PrescriptionForm';
 import { InteractionAlerts } from '../components/prescribing/InteractionAlerts';
 import { PrescriptionCart } from '../components/prescribing/PrescriptionCart';
-import { ArrowLeft, ArrowRight, Pill, ShieldAlert, Sparkles } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Pill,
+  ShieldAlert,
+  Sparkles,
+  ShieldCheck,
+  AlertTriangle,
+  Compass,
+  CheckCircle2,
+  Check,
+} from 'lucide-react';
 
 interface PrescribePageProps {
   currentCase: SyntheticCase;
@@ -21,8 +34,39 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
   const navigate = useNavigate();
   const formulary = MockDataService.getFormulary();
 
-  // Find initial herb from intended case prescription
+  // 1. Calculate Smutthan live to get dominant element & recommended tastes
+  const smutthan = calculateSmutthan(
+    currentCase.patient_info,
+    currentCase.current_encounter.vitals,
+    currentCase.current_encounter.symptoms,
+    currentCase.current_encounter.ambient_context
+  );
+
+  // 2. Active medications state (synced with case, allows editing/adding on Prescribe page)
+  const [activeMeds, setActiveMeds] = useState<CurrentMedication[]>([...currentCase.current_medications]);
+
+  useEffect(() => {
+    setActiveMeds([...currentCase.current_medications]);
+  }, [currentCase.case_id]);
+
+  const handleUpdateActiveMeds = (newMeds: CurrentMedication[]) => {
+    setActiveMeds(newMeds);
+    MockDataService.updateCaseMedications(currentCase.case_id, newMeds);
+  };
+
+  // 3. AI Herb Recommendations tailored to symptoms & element balance with live HDI
+  const recommendations: HerbRecommendationResult[] = HerbRecommendationService.recommendHerbs(
+    formulary,
+    currentCase.current_encounter.symptoms,
+    currentCase.current_encounter.chief_complaint,
+    smutthan.dominant_element,
+    smutthan.recommended_taste,
+    activeMeds
+  );
+
+  // Find initial herb (prefer top AI recommendation, fallback to intended prescription)
   const defaultHerb =
+    recommendations[0]?.herb ||
     formulary.find((h: ThaiHerbFormularyItem) => h.drug_code_24 === currentCase.intended_ttm_prescription.drug_code_24) ||
     formulary[0];
 
@@ -30,9 +74,6 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
   const [cartItems, setCartItems] = useState<PrescribedItem[]>(() => {
     return MockDataService.getPrescriptions(currentCase.case_id);
   });
-
-  // Calculate live matched interactions for the currently selected herb or cart items
-  const activeMeds = currentCase.current_medications;
 
   // Real-time matched interactions for the currently focused herb
   const liveInteractions: MatchedInteractionResult[] = checkHerbDrugInteractions(
@@ -113,7 +154,7 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/smutthan')}
-            className="flex items-center gap-1 text-slate-500 hover:text-slate-800 transition"
+            className="flex items-center gap-1 text-slate-500 hover:text-slate-800 transition cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>1. ประเมินสมุฏฐาน</span>
@@ -132,7 +173,7 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
         {cartItems.length > 0 && (
           <button
             onClick={handleConfirmPrescription}
-            className="bg-brand-700 hover:bg-brand-800 text-white font-semibold px-4 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm"
+            className="bg-brand-700 hover:bg-brand-800 text-white font-semibold px-4 py-1.5 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer"
           >
             <span>พิมพ์ใบสั่งยา ({cartItems.length})</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -146,13 +187,98 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
         <div className="lg:col-span-3 space-y-4">
           <PatientActiveMeds
             patient={currentCase.patient_info}
-            medications={currentCase.current_medications}
+            medications={activeMeds}
             chronicDiseases={currentCase.chronic_diseases}
+            onUpdateMedications={handleUpdateActiveMeds}
           />
         </div>
 
         {/* Column 2 (Middle 5 cols): Formulary Catalog & Prescribing Form */}
         <div className="lg:col-span-5 space-y-4">
+          {/* AI Recommended Herbs for Element Balance & Symptoms */}
+          <div className="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950 text-white rounded-2xl p-4 border border-teal-500/40 shadow-soft space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-teal-500/20">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-teal-500/20 text-teal-300 border border-teal-400/30">
+                  <Sparkles className="w-4 h-4 text-amber-300" />
+                </div>
+                <div>
+                  <h4 className="font-extrabold text-xs text-white flex items-center gap-1.5">
+                    <span>ยาแผนไทยแนะนำตามอาการและสมดุลธาตุ (AI Prescribe Guide)</span>
+                  </h4>
+                  <p className="text-[10px] text-teal-200/80">
+                    ธาตุที่มีแนวโน้มแปรปรวน: <b className="text-white">{smutthan.dominant_element_th}</b> • รสยาปรับสมดุล:{' '}
+                    <b className="text-amber-300">{smutthan.recommended_taste.join(', ')}</b>
+                  </p>
+                </div>
+              </div>
+              <span className="text-[9px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase">
+                AI MATCHED
+              </span>
+            </div>
+
+            {/* Top 2 Recommended Herb Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {recommendations.slice(0, 2).map((rec) => {
+                const isFocused = selectedHerb.drug_code_24 === rec.herb.drug_code_24;
+                return (
+                  <div
+                    key={rec.herb.drug_code_24}
+                    className={`p-2.5 rounded-xl border transition cursor-pointer flex flex-col justify-between ${
+                      isFocused
+                        ? 'bg-teal-500/20 border-teal-400 ring-1 ring-teal-400'
+                        : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-teal-400/50'
+                    }`}
+                    onClick={() => setSelectedHerb(rec.herb)}
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-xs text-white truncate">{rec.herb.thai_name}</span>
+                        <span className="text-[10px] bg-teal-400/20 text-teal-200 border border-teal-400/40 px-1.5 py-0.2 rounded font-mono font-bold">
+                          {rec.matchScore}%
+                        </span>
+                      </div>
+                      <p className="text-[10px] text-slate-300 line-clamp-2">
+                        {rec.elementRationale}
+                      </p>
+                    </div>
+
+                    <div className="pt-2 mt-1 border-t border-white/10 flex items-center justify-between text-[10px]">
+                      {rec.hdiRisk === 'HIGH' ? (
+                        <span className="text-rose-300 font-bold flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3 text-rose-400" /> เสี่ยง HDI สูง
+                        </span>
+                      ) : rec.hdiRisk === 'MODERATE' ? (
+                        <span className="text-amber-300 font-bold flex items-center gap-1">
+                          <ShieldAlert className="w-3 h-3 text-amber-400" /> เฝ้าระวัง HDI
+                        </span>
+                      ) : (
+                        <span className="text-emerald-300 font-bold flex items-center gap-1">
+                          <ShieldCheck className="w-3 h-3 text-emerald-400" /> ปลอดภัย ไม่พบ HDI
+                        </span>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedHerb(rec.herb);
+                        }}
+                        className={`px-2 py-0.5 rounded text-[10px] font-semibold transition cursor-pointer ${
+                          isFocused
+                            ? 'bg-teal-400 text-slate-950 font-bold'
+                            : 'bg-white/10 hover:bg-white/20 text-white'
+                        }`}
+                      >
+                        {isFocused ? '✓ เลือกอยู่' : 'เลือกยานี้'}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
             <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
               <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
@@ -167,6 +293,7 @@ export const PrescribePage: React.FC<PrescribePageProps> = ({ currentCase }) => 
               formulary={formulary}
               selectedHerb={selectedHerb}
               onSelectHerb={setSelectedHerb}
+              recommendations={recommendations}
             />
           </div>
 
