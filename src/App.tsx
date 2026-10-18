@@ -4,6 +4,8 @@ import { DisclaimerBanner } from './components/common/DisclaimerBanner';
 import { Navbar } from './components/common/Navbar';
 import { Sidebar } from './components/common/Sidebar';
 import { PatientIntakeModal } from './components/patient/PatientIntakeModal';
+import { VoiceAssistantModal } from './components/common/VoiceAssistantModal';
+import { FloatingVoiceButton } from './components/common/FloatingVoiceButton';
 import { MockDataService } from './services/mockDataService';
 import { SyntheticCase, Vitals } from './types/patient';
 
@@ -27,6 +29,7 @@ export const App: React.FC = () => {
   const [selectedCaseId, setSelectedCaseId] = useState<string>('C01');
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
   const [isIntakeOpen, setIsIntakeOpen] = useState<boolean>(false);
+  const [isVoiceModalOpen, setIsVoiceModalOpen] = useState<boolean>(false);
 
   const currentCase = cases.find((c) => c.case_id === selectedCaseId) || cases[0];
 
@@ -78,6 +81,7 @@ export const App: React.FC = () => {
             currentCase={currentCase}
             onSelectCaseClick={() => navigate('/patients')}
             onOpenIntake={() => setIsIntakeOpen(true)}
+            onOpenVoiceAssistant={() => setIsVoiceModalOpen(true)}
           />
 
           {/* Page Routing */}
@@ -138,6 +142,20 @@ export const App: React.FC = () => {
         onClose={() => setIsIntakeOpen(false)}
         onSaveCase={handleSaveNewCase}
       />
+
+      {/* 5. Global Speech-to-Text Voice Intake Modal */}
+      <VoiceAssistantModal
+        isOpen={isVoiceModalOpen}
+        onClose={() => setIsVoiceModalOpen(false)}
+        currentCase={currentCase}
+        onApplySymptomsToCase={(newSymptoms) => {
+          handleUpdateVitals(currentCase.current_encounter.vitals, newSymptoms);
+          navigate('/smutthan');
+        }}
+      />
+
+      {/* 6. Prominent Floating Voice AI Trigger */}
+      <FloatingVoiceButton onClick={() => setIsVoiceModalOpen(true)} />
     </div>
   );
 };

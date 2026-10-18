@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Activity, AlertCircle, FileText, ChevronRight, UserPlus, Sparkles } from 'lucide-react';
+import { User, Activity, AlertCircle, FileText, ChevronRight, UserPlus, Sparkles, Mic } from 'lucide-react';
 import { SyntheticCase } from '../../types/patient';
 import { WeatherWidget } from './WeatherWidget';
 import teamLogo from '@/assets/team-logo.png';
@@ -8,6 +8,7 @@ interface NavbarProps {
   currentCase: SyntheticCase;
   onSelectCaseClick: () => void;
   onOpenIntake?: () => void;
+  onOpenVoiceAssistant?: () => void;
   onWeatherUpdate?: (weather: any) => void;
 }
 
@@ -15,6 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   currentCase,
   onSelectCaseClick,
   onOpenIntake,
+  onOpenVoiceAssistant,
   onWeatherUpdate,
 }) => {
   const p = currentCase.patient_info;
@@ -67,12 +69,30 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Right: New Patient CTA + Weather & Team Branding */}
+        {/* Right: Voice STT + New Patient CTA + Weather & Team Branding */}
         <div className="flex items-center gap-2.5 shrink-0">
+          {onOpenVoiceAssistant && (
+            <button
+              onClick={onOpenVoiceAssistant}
+              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-teal-900 via-slate-900 to-indigo-950 border border-teal-400/80 hover:border-teal-300 text-teal-200 hover:text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-sm hover:shadow-teal-500/25 transition active:scale-95 group cursor-pointer"
+              title="เปิดระบบดักจับเสียงคนไข้บอกอาการ (Speech-to-Text Model)"
+            >
+              <div className="relative flex items-center justify-center">
+                <span className="w-2 h-2 rounded-full bg-teal-400 animate-ping absolute"></span>
+                <Mic className="w-3.5 h-3.5 text-teal-300 group-hover:scale-110 transition" />
+              </div>
+              <span className="hidden sm:inline font-black text-white">🎙️ Speech-to-Text</span>
+              <span className="sm:hidden font-black text-white">🎙️ เสียง</span>
+              <span className="hidden xl:inline text-[9px] bg-teal-500/30 text-teal-300 border border-teal-400/40 px-1 py-0.2 rounded font-mono font-bold">
+                AI NLP
+              </span>
+            </button>
+          )}
+
           {onOpenIntake && (
             <button
               onClick={onOpenIntake}
-              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-600 to-teal-600 hover:from-brand-700 hover:to-teal-700 text-white font-medium px-3 py-1.5 rounded-xl text-xs shadow-sm hover:shadow-md transition active:scale-95"
+              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-600 to-teal-600 hover:from-brand-700 hover:to-teal-700 text-white font-medium px-3 py-1.5 rounded-xl text-xs shadow-sm hover:shadow-md transition active:scale-95 cursor-pointer"
               title="ลงทะเบียนผู้ป่วยรายใหม่และทดสอบทันที"
             >
               <UserPlus className="w-3.5 h-3.5 text-amber-200" />

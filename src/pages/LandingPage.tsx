@@ -18,6 +18,7 @@ import {
   Film,
   X,
   Download,
+  Mic,
 } from 'lucide-react';
 import teamLogo from '@/assets/team-logo.png';
 
@@ -64,6 +65,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenIntake }) => {
 
         {/* Prototype Status Badges */}
         <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs">
+          <span className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-black px-3 py-1 rounded-full border border-teal-400 shadow-sm flex items-center gap-1.5 animate-pulse">
+            <Mic className="w-3.5 h-3.5 text-amber-300" /> Speech-to-Text Model (จับเสียงคนไข้)
+          </span>
           <span className="bg-emerald-100 text-emerald-900 font-bold px-3 py-1 rounded-full flex items-center gap-1.5 border border-emerald-200 shadow-2xs">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" /> Functional Prototype (ระดับ 1.3)
           </span>
@@ -86,6 +90,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenIntake }) => {
           >
             <span>เริ่มสาธิตระบบห้องตรวจ (30 เคสจำลอง)</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
+          </button>
+
+          <button
+            onClick={() => navigate('/smutthan')}
+            className="bg-gradient-to-r from-teal-900 via-slate-900 to-indigo-950 border border-teal-400/80 hover:border-teal-300 text-teal-200 hover:text-white font-bold px-5 py-3.5 rounded-2xl shadow-lg hover:shadow-teal-500/25 transition-all transform active:scale-95 flex items-center gap-2 text-sm group cursor-pointer"
+          >
+            <Mic className="w-4 h-4 text-teal-300 group-hover:scale-110 transition" />
+            <span>🎙️ ทดสอบ Speech-to-Text เสียงคนไข้</span>
           </button>
 
           <button
@@ -120,6 +132,68 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onOpenIntake }) => {
           >
             สถานะความพร้อมระบบ (Status Matrix)
           </button>
+        </div>
+      </div>
+
+      {/* Speech-to-Text Innovation Showcase Card */}
+      <div className="max-w-4xl mx-auto rounded-3xl bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950 p-6 sm:p-7 border-2 border-teal-500/50 shadow-2xl text-white space-y-4 relative overflow-hidden">
+        <div className="absolute -top-16 -right-16 w-48 h-48 bg-teal-500/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-teal-500/20 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-teal-500/40 shrink-0">
+              <Mic className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                  NEW AI MODEL
+                </span>
+                <h3 className="text-base sm:text-lg font-black text-white">
+                  Model Speech-to-Text: ระบบดักจับเสียงคนไข้บอกอาการ
+                </h3>
+              </div>
+              <p className="text-xs text-teal-200/90 mt-0.5">
+                เปลี่ยนเสียงคำบ่นหรืออาการของผู้ป่วยภาษาไทย เป็นคำค้นพบทางคลินิกและเชื่อมโยงสมุฏฐาน 4 ธาตุสดทันที
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => navigate('/smutthan')}
+            className="bg-gradient-to-r from-teal-400 to-emerald-400 hover:brightness-110 text-slate-950 font-black px-4 py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition cursor-pointer shrink-0"
+          >
+            <span>ทดลองใช้ในห้องตรวจ</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-1">
+            <div className="font-bold text-teal-300 flex items-center gap-1.5">
+              <span>1. Real-time Voice (th-TH)</span>
+            </div>
+            <p className="text-slate-300 text-[11px] leading-relaxed">
+              รับฟังเสียงคนไข้สดผ่าน Web Speech API พร้อมคลื่นเสียง Audio Waveform แบบเรียลไทม์
+            </p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-1">
+            <div className="font-bold text-emerald-300 flex items-center gap-1.5">
+              <span>2. Thai NLP Symptom Extractor</span>
+            </div>
+            <p className="text-slate-300 text-[11px] leading-relaxed">
+              อัลกอริทึมสกัดคำบ่งชี้อาการทางคลินิกอัตโนมัติ ครอบคลุม 5 ระบบโรคหลักและคำบอกเล่าภาษาไทย
+            </p>
+          </div>
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-1">
+            <div className="font-bold text-amber-300 flex items-center gap-1.5">
+              <span>3. Instant Smutthan & ICD Mapping</span>
+            </div>
+            <p className="text-slate-300 text-[11px] leading-relaxed">
+              เชื่อมผลการถอดเสียงเข้าสู่ Smutthan Radar Chart และแนะนำรหัส ICD-10 / ICD-10-TM ทันที
+            </p>
+          </div>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { generateClinicalExplanation } from '../services/aiExplainerService';
 import { ElementRadarChart } from '../components/smutthan/ElementRadarChart';
 import { ExplainableFactors } from '../components/smutthan/ExplainableFactors';
 import { VitalsInputForm } from '../components/smutthan/VitalsInputForm';
+import { VoiceSymptomRecorder } from '../components/common/VoiceSymptomRecorder';
 import { MockDataService } from '../services/mockDataService';
 import { DualDiagnosisService } from '../services/dualDiagnosisService';
 import {
@@ -290,6 +291,18 @@ export const SmutthanPage: React.FC<SmutthanPageProps> = ({
 
         {/* Right Column (5 cols): Vitals & Patient Context */}
         <div className="lg:col-span-5 space-y-4">
+          {/* Spotlight Hero: AI Speech-to-Text Model */}
+          <VoiceSymptomRecorder
+            variant="hero"
+            title="AI Speech-to-Text: รับฟังเสียงคนไข้บอกอาการ"
+            subtitle="ระบบถอดเสียงภาษาไทยและสกัดคำบอกอาการ เพื่อคำนวณสมุฏฐาน 4 ธาตุสดทันที"
+            onSymptomsExtracted={(extracted) => {
+              if (extracted.length === 0) return;
+              const combined = Array.from(new Set([...symptoms, ...extracted]));
+              handleVitalsUpdate(vitals, combined);
+            }}
+          />
+
           {/* Live Editable Vitals & Symptoms Form */}
           <VitalsInputForm
             initialVitals={vitals}
